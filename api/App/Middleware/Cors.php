@@ -5,7 +5,6 @@ namespace Taberu\Middleware;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
-use Taberu\Validator\JWT;
 
 class Cors
 {
