@@ -1,0 +1,24 @@
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+  "username": "test@test.io",
+  "password": "1234",
+  "first_name": "Test",
+  "last_name": "Tester"
+}
+
+###
+
+POST http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+  "username": "test@test.io",
+  "password": "1234"
+}
+
+###
+
+POST http://localhost:8080/user/logout
+Content-Type: application/json
