@@ -17,7 +17,7 @@ class UserController
         $registerInformation = $request->getParsedBody();
 
         $pdo = Database::getDB();
-        $stm = $pdo->prepare('SELECT count(*) FROM user WHERE username = ?');
+        $stm = $pdo->prepare('SELECT count(*) FROM users WHERE username = ?');
         $stm->execute([$registerInformation['username']]);
         $existingUsers = $stm->fetch(\PDO::FETCH_ASSOC);
 
@@ -27,11 +27,12 @@ class UserController
 
         $salt = md5(json_encode($registerInformation) . (new \DateTime())->getTimestamp());
 
-        $stmt = $pdo->prepare("INSERT INTO user (username, password, salt, first_name) VALUES (?, ?, ?, ?)");
+        $stmt = $pdo->prepare("INSERT INTO users (username, password, password_salt, first_name, last_name) VALUES (?, ?, ?, ?, ?)");
         $stmt->bindValue(1, $registerInformation['username']);
         $stmt->bindValue(2, md5($registerInformation['password'] . $salt));
         $stmt->bindValue(3, $salt);
         $stmt->bindValue(4, $registerInformation['first_name']);
+        $stmt->bindValue(5, $registerInformation['last_name']);
         $stmt->execute();
 
         return $response;
@@ -42,12 +43,13 @@ class UserController
         $loginInformation = $request->getParsedBody();
 
         $pdo = Database::getDB();
-        $stm = $pdo->prepare('SELECT id, username, password, salt FROM user WHERE username = ? LIMIT 1');
+        $stm = $pdo->prepare('SELECT id, username, password, password_salt FROM users WHERE username = ? LIMIT 1');
         $stm->execute([$loginInformation['username']]);
         $userInformation = $stm->fetch(\PDO::FETCH_ASSOC);
 
-        $inputPassword = md5($loginInformation['password'] . $userInformation['salt']);
+        $inputPassword = md5($loginInformation['password'] . $userInformation['password_salt']);
         $actualPassword = $userInformation['password'];
+
         if ($inputPassword !== $actualPassword) {
             return $response->withStatus(401);
         }
@@ -60,10 +62,6 @@ class UserController
 
     public function logout(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-
-        return $response;
-
-
         // go back to header based requests
         $token = $request->getCookieParams('token');
 
