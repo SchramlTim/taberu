@@ -49,12 +49,53 @@ $app->group('/v1', function (RouteCollectorProxyInterface $group) use ($app) {
         $app->delete('/{departmentId}/users[/]', DeparmentController::class.':getAllDepartmentUser');
     })->add(new JsonTokenAuthentication());
 
+    $app->group('/bowls', function (RouteCollectorProxyInterface $group) use ($app) {
+        $app->get('[/]', BowlsController::class.':getAllBowls');
+        $app->post('[/]', BowlsController::class.':createBowl');
+        $app->get('/{bowlId}[/]', BowlsController::class.':getSpecificBowl');
+        $app->patch('/{bowlId}[/]', BowlsController::class.':updateBowl');
+        $app->delete('/{bowlId}[/]', BowlsController::class.':deleteBowl');
+
+        $app->get('/{bowlId}/orders[/]', BowlsController::class.':getAllBowlOrders');
+        $app->post('/{bowlId}/orders[/]', BowlsController::class.':createBowlOrder');
+        $app->patch('/{bowlId}/orders/{orderId}[/]', BowlsController::class.':updateBowlOrder');
+        $app->delete('/{bowlId}/orders/{orderId}[/]', BowlsController::class.':deleteBowlOrder');
+
+        $app->get('/{bowlId}/users[/]', BowlsController::class.':getAllBowlUser');
+        $app->post('/{bowlId}/users[/]', BowlsController::class.':addBowlUser');
+        $app->delete('/{bowlId}/users/{userId}[/]', BowlsController::class.':deleteBowlUser');
+        
+    })->add(new JsonTokenAuthentication());
+
     $app->group('/orders', function (RouteCollectorProxyInterface $group) use ($app) {
         $app->get('/{orderId}[/]', DeparmentController::class.':getSpecificOrder');
     })->add(new JsonTokenAuthentication());
+
+    $app->group('/menus', function (RouteCollectorProxyInterface $group) use ($app) {
+        $app->get('[/]', MenuController::class.':getAllMenus');
+        $app->post('[/]', MenuController::class.':createMenu');
+        $app->get('/{menuId}[/]', MenuController::class.':getSpecificMenu');
+        $app->patch('/{menuId}[/]', MenuController::class.':updateMenu');
+        $app->delete('/{menuId}[/]', MenuController::class.':deleteMenu');
+        $app->get('/{menuId}/items[/]', MenuController::class.':getAllMenuItems');
+        $app->post('/{menuId}/items[/]', MenuController::class.':createMenuItem');
+        $app->post('/{menuId}/items/{itemId}[/]', MenuController::class.':updateMenuItem');
+        $app->delete('/{menuId}/items/{itemId}[/]', MenuController::class.':deleteMenuItem');
+    })->add(new JsonTokenAuthentication());
+
+    $app->group('/categories', function (RouteCollectorProxyInterface $group) use ($app) {
+        $app->get('[/]', CategoryController::class.':getAllCategories');
+        $app->post('[/]', CategoryController::class.':createCategory');
+        $app->get('/{categoryId}[/]', CategoryController::class.':getSpecificCategory');
+    })->add(new JsonTokenAuthentication());
+
+    $app->group('/restaurants', function (RouteCollectorProxyInterface $group) use ($app) {
+        $app->get('[/]', RestaurantController::class.':getAllRestaurants');
+        $app->post('[/]', RestaurantController::class.':createRestaurant');
+        $app->get('/{restaurantId}[/]', RestaurantController::class.':getSpecificRestaurant');
+        $app->patch('/{restaurantId}[/]', RestaurantController::class.':updateRestaurant');
+    })->add(new JsonTokenAuthentication());
 });
-
-
 
 
 

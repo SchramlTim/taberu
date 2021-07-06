@@ -28,6 +28,7 @@
 - /v1/bowls/{id}/orders/{id} [PATCH]
 - /v1/bowls/{id}/orders/{id} [DELETE]
 - /v1/bowls/{id}/users [GET]
+- /v1/bowls/{id}/users [POST]
 - /v1/bowls/{id}/users/{userId} [DELETE]
 
 ## Orders
@@ -38,9 +39,11 @@
 - /v1/menus/{id} [GET]
 - /v1/menus [POST]
 - /v1/menus/{id} [PATCH]
+- /v1/menus/{id} [DELETE]
 - /v1/menus/{id}/items [GET]
 - /v1/menus/{id}/items [POST]
 - /v1/menus/{id}/items/{itemId} [PATCH]
+- /v1/menus/{id}/items/{itemId} [DELETE]
 
 ## Categories
 - /v1/categories [GET]
