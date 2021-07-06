@@ -74,4 +74,34 @@ class UserController
 
         return $response->withHeader('Set-Cookie', $cookies->toHeaders());
     }
+
+    public function getSpecificUser(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+        return $response;
+    }
+
+    public function updateUser(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+        return $response;
+    }
+
+    public function getAllUsers(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+        return $response;
+    }
+
+    public function getUserOrders(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+        return $response;
+    }
+
+    public function getUserMenus(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+        return $response;
+    }
 }
