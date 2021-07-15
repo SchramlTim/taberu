@@ -7,10 +7,12 @@ use Taberu\Validator\JWT;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
+use RuntimeException;
 use Slim\Psr7\Cookies;
 use Slim\Psr7\UploadedFile;
 use Taberu\Exception\ResponseException;
 use Taberu\Model\User;
+use Taberu\Transformer\Token;
 use Taberu\Transformer\User as TransformerUser;
 use Taberu\Transformer\UserList;
 
@@ -18,49 +20,51 @@ class UserController
 {
     public function register(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $registerInformation = $request->getParsedBody();
+        $parsedBody = $request->getParsedBody();
 
-        $pdo = Database::getDB();
-        $stm = $pdo->prepare('SELECT count(*) FROM users WHERE username = ?');
-        $stm->execute([$registerInformation['username']]);
-        $existingUsers = $stm->fetch(\PDO::FETCH_ASSOC);
+        try {
+            $user = new User();
+            $user->setUsername($parsedBody['username'])
+                ->setFirstName($parsedBody['firstName'])
+                ->setLastName($parsedBody['lastName'])
+                ->setNewPassword($parsedBody['password'])
+                ->setPhoneNumber($parsedBody['phoneNumber'] ?? '')
+                ->setPaypalUsername($parsedBody['paypalUsername'] ?? '');
+            $user->create();
 
-        if ($existingUsers['count']) {
-            return $response->withStatus(422);
+            $user = User::findFirstOrFail([
+                [User::USERNAME, '=', $parsedBody['username']]
+            ]);
+
+            $transformer = new TransformerUser($user);
+            $response->getBody()->write($transformer->getJson());
+        } catch (\RuntimeException $e) {
+            throw new ResponseException(409, $e->getMessage());
         }
-
-        $salt = md5(json_encode($registerInformation) . (new \DateTime())->getTimestamp());
-
-        $stmt = $pdo->prepare("INSERT INTO users (username, password, password_salt, first_name, last_name) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bindValue(1, $registerInformation['username']);
-        $stmt->bindValue(2, md5($registerInformation['password'] . $salt));
-        $stmt->bindValue(3, $salt);
-        $stmt->bindValue(4, $registerInformation['first_name']);
-        $stmt->bindValue(5, $registerInformation['last_name']);
-        $stmt->execute();
 
         return $response;
     }
 
     public function login(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $loginInformation = $request->getParsedBody();
+        $parsedBody = $request->getParsedBody();
 
-        $pdo = Database::getDB();
-        $stm = $pdo->prepare('SELECT id, username, password, password_salt FROM users WHERE username = ? LIMIT 1');
-        $stm->execute([$loginInformation['username']]);
-        $userInformation = $stm->fetch(\PDO::FETCH_ASSOC);
+        try {
+            $user = User::findFirstOrFail([
+                [User::USERNAME, '=', $parsedBody['username']]
+            ]);
 
-        $inputPassword = md5($loginInformation['password'] . $userInformation['password_salt']);
-        $actualPassword = $userInformation['password'];
+            if(!$user->checkPassword($parsedBody['password'])) {
+                throw new RuntimeException('Wrong username or password222');
+            }
 
-        if ($inputPassword !== $actualPassword) {
-            return $response->withStatus(401);
+            $token = JWT::generate($user->getId());
+            $transformer = new Token($token);
+            $response->getBody()->write($transformer->getJson());
+        } catch (\RuntimeException $e) {
+            throw new ResponseException(401, $e->getMessage());
         }
 
-        $token = JWT::generate($userInformation['id']);
-
-        $response->getBody()->write(json_encode(["token" => $token]));
         return $response;
     }
 
@@ -91,7 +95,7 @@ class UserController
         $parsedBody = $request->getParsedBody();
 
         try {
-            $user = User::findOrFail([
+            $user = User::findFirstOrFail([
                 [User::ID, '=', (int)$args['userId']]
             ]);
 
@@ -108,7 +112,7 @@ class UserController
                 $user->setPaypalUsername($parsedBody['paypalUsername']);
             }
 
-            $user->save();
+            $user->update();
 
             $transformer = new TransformerUser($user);
             $response->getBody()->write($transformer->getJson());

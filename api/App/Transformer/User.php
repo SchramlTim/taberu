@@ -21,7 +21,7 @@ class User extends JsonTransformer
             'firstName' => $this->user->getFirstName(),
             'lastName' => $this->user->getLastName(),
             'phoneNumber' => $this->user->getPhoneNumber(),
-            'paypalUsername' => $this->user->getPaypalUsername(),
+            'paypalUsername' => $this->user->getPaypalUsername()
         ];
 
         return $data;

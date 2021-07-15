@@ -2,6 +2,7 @@
 
 namespace Taberu\Model;
 
+use RuntimeException;
 use Taberu\Utils\Database;
 
 abstract class BaseModel 
@@ -11,7 +12,7 @@ abstract class BaseModel
     protected ?int $id = null;
     protected ?string $table = null;
 
-    public function save(?array $valuesToSave = null): bool
+    public function update(?array $valuesToSave = null): bool
     {
         $db = Database::getDB();
 
@@ -28,6 +29,37 @@ abstract class BaseModel
         $stmt= $db->prepare($sql);
         
         return $stmt->execute(array_merge([self::ID => $this->getId()], $valuesToSave));
+    }
+
+    public function create(?array $valuesToSave = null): bool
+    {
+        $db = Database::getDB();
+
+        array_filter($valuesToSave, function($value) {
+            return !is_null($value) && strlen((string)$value);
+        });
+
+        $setQuery = array_map(function ($fieldName) {
+            return ':' . $fieldName;
+        }, array_keys($valuesToSave));
+
+        $sql = "INSERT INTO " . $this->getTable() . " (".implode(', ',array_keys($valuesToSave)).") VALUES (".implode(', ', $setQuery).")";
+
+        $stmt= $db->prepare($sql);
+
+        $executed = false;
+        try {
+            $executed = $stmt->execute($valuesToSave);
+        } catch (\PDOException $exception) {
+            //duplicate entry
+            if ((int)$exception->getCode() === 23505) {
+                throw new RuntimeException('Already exist');
+            }
+
+            throw $exception;
+        }
+        
+        return $executed;
     }
 
 
@@ -48,6 +80,8 @@ abstract class BaseModel
     }
 
     abstract public static function findFirstOrFail(array $whereParams);
+
+    abstract public static function all(array $whereParams);
 
     abstract public function getLink();
 }

@@ -13,6 +13,8 @@ class User extends BaseModel
     const LAST_NAME = 'last_name';
     const PHONE_NUMBER = 'phone_number';
     const PAYPAL_USERNAME = 'paypal_username';
+    const PASSWORD = 'password';
+    const PASSWORD_SALT = 'password_salt';
 
     private static array $_loadedFields = [
         self::ID,
@@ -21,6 +23,8 @@ class User extends BaseModel
         self::LAST_NAME,
         self::PHONE_NUMBER,
         self::PAYPAL_USERNAME,
+        self::PASSWORD,
+        self::PASSWORD_SALT,
     ];
 
     protected static string $_table = 'users';
@@ -30,6 +34,8 @@ class User extends BaseModel
     private string $lastName = '';
     private string $phoneNumber = '';
     private string $paypalUsername = '';
+    private string $passwordSalt = '';
+    private string $password = '';
 
     public function __construct()
     {
@@ -50,7 +56,6 @@ class User extends BaseModel
 
         return self::createUserObjectFromDatabase($userInformations[0]);
     }
-
 
     public static function all(array $whereParams = []): array
     {
@@ -97,24 +102,43 @@ class User extends BaseModel
             ->setFirstName($userInformations[self::FIRST_NAME] ?? '')
             ->setLastName($userInformations[self::LAST_NAME] ?? '')
             ->setPhoneNumber($userInformations[self::PHONE_NUMBER] ?? '')
-            ->setPaypalUsername($userInformations[self::PAYPAL_USERNAME] ?? '');
+            ->setPaypalUsername($userInformations[self::PAYPAL_USERNAME] ?? '')
+            ->setPassword($userInformations[self::PASSWORD] ?? '')
+            ->setPasswordSalt($userInformations[self::PASSWORD_SALT] ?? '');
 
         return $user;
     }
 
-    public function save(?array $valuesToSave = null): bool
+    public function update(?array $valuesToSave = null): bool
     {
         if (!$valuesToSave) {
             $valuesToSave = [
-                self::USERNAME => $this->username,
-                self::FIRST_NAME => $this->firstName,
-                self::LAST_NAME => $this->lastName,
-                self::PHONE_NUMBER => $this->phoneNumber,
-                self::PAYPAL_USERNAME => $this->paypalUsername,
+                self::USERNAME => $this->getUsername(),
+                self::FIRST_NAME => $this->getFirstName(),
+                self::LAST_NAME => $this->getLastName(),
+                self::PHONE_NUMBER => $this->getPhoneNumber(),
+                self::PAYPAL_USERNAME => $this->getPaypalUsername(),
             ];
         }
 
-        return parent::save($valuesToSave);
+        return parent::update($valuesToSave);
+    }
+
+    public function create(?array $valuesToSave = null): bool
+    {
+        if (!$valuesToSave) {
+            $valuesToSave = [
+                self::USERNAME => $this->getUsername(),
+                self::FIRST_NAME => $this->getFirstName(),
+                self::LAST_NAME => $this->getLastName(),
+                self::PHONE_NUMBER => $this->getPhoneNumber(),
+                self::PAYPAL_USERNAME => $this->getPaypalUsername(),
+                self::PASSWORD => $this->getPassword(),
+                self::PASSWORD_SALT => $this->getPasswordSalt(),
+            ];
+        }
+
+        return parent::create($valuesToSave);
     }
 
     public function setUsername(string $username): self
@@ -170,6 +194,63 @@ class User extends BaseModel
     public function getPaypalUsername(): string
     {
         return $this->paypalUsername;
+    }
+
+    protected function createNewPasswordSalt(): string
+    {
+        return hash('sha256', (json_encode([
+            self::USERNAME => $this->getUsername(),
+            self::FIRST_NAME => $this->getFirstName(),
+            self::LAST_NAME => $this->getLastName(),
+            self::PHONE_NUMBER => $this->getPhoneNumber(),
+            self::PAYPAL_USERNAME => $this->getPaypalUsername(),
+        ]) . (new \DateTime())->getTimestamp()));
+    }
+
+    protected function setPasswordSalt(string $passwordSalt): self
+    {
+        $this->passwordSalt = $passwordSalt;
+        return $this;
+    }
+
+    public function getPasswordSalt(): string
+    {
+        return $this->passwordSalt;
+    }
+
+    protected function setPassword(string $password): self
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    protected function setNewPassword(string $password): self
+    {
+        $salt = $this->getPasswordSalt();
+        if (!strlen($salt)) {
+            $salt = $this->createNewPasswordSalt();
+            $this->setPasswordSalt($salt);
+        }
+        
+        $this->setPassword($this->hashPassword($password, $salt));
+
+        return $this;
+    }
+
+    protected function hashPassword(string $password, string $salt): string 
+    {
+        return hash('sha256', $password . $salt);
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function checkPassword(string $inputPassword): bool
+    {
+        $inputPasswordHash = $this->hashPassword($inputPassword, $this->getPasswordSalt());
+        return $inputPasswordHash === $this->getPassword();
     }
 
     public function getLink()
