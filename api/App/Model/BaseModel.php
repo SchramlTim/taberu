@@ -11,8 +11,6 @@ abstract class BaseModel
     protected ?int $id = null;
     protected ?string $table = null;
 
-    abstract public static function findOrFail(array $whereParams);
-
     public function save(?array $valuesToSave = null): bool
     {
         $db = Database::getDB();
@@ -48,4 +46,8 @@ abstract class BaseModel
     {
         return $this->table;
     }
+
+    abstract public static function findFirstOrFail(array $whereParams);
+
+    abstract public function getLink();
 }

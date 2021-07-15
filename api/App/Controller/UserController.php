@@ -9,7 +9,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Slim\Psr7\Cookies;
 use Slim\Psr7\UploadedFile;
+use Taberu\Exception\ResponseException;
 use Taberu\Model\User;
+use Taberu\Transformer\User as TransformerUser;
+use Taberu\Transformer\UserList;
 
 class UserController
 {
@@ -61,34 +64,23 @@ class UserController
         return $response;
     }
 
-    public function logout(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        // go back to header based requests
-        $token = $request->getCookieParams('token');
-
-        if (!$token) {
-            return $response->withStatus(400);
-        }
-
-        $cookies = new Cookies();
-        $cookies->set('token', ['value' => '', 'expires' => time() + strtotime("-1 day", time()), 'path' => '/', 'samesite' => 'None', 'secure' => '0']);
-
-        return $response->withHeader('Set-Cookie', $cookies->toHeaders());
-    }
-
     public function getSpecificUser(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $parsedBody = $request->getParsedBody();
 
         try {
-            $user = User::findOrFail([
+            $user = User::findFirstOrFail([
                 [User::ID, '=', (int)$args['userId']]
             ]);
-            var_dump($user);
-            $response->getBody()->write(json_encode($user));
+
+            $transformer = new TransformerUser($user);
+            $response->getBody()->write($transformer->getJson());
+        } catch (\RuntimeException $e) {
+            throw new ResponseException(404, $e->getMessage());
+        } catch (\LogicException $e) {
+            throw new ResponseException(400, $e->getMessage());
         } catch (\Exception $e) {
-            $response->withStatus(404);
-            $response->getBody()->write($e->getMessage());
+            throw new ResponseException(500, $e->getMessage());
         }
 
         return $response;
@@ -117,10 +109,13 @@ class UserController
             }
 
             $user->save();
-            $response->getBody()->write('');
+
+            $transformer = new TransformerUser($user);
+            $response->getBody()->write($transformer->getJson());
+        } catch (\RuntimeException $e) {
+            throw new ResponseException(409, $e->getMessage());
         } catch (\Exception $e) {
-            $response->withStatus(404);
-            $response->getBody()->write($e->getMessage());
+            throw new ResponseException(500, $e->getMessage());
         }
 
         return $response;
@@ -128,7 +123,9 @@ class UserController
 
     public function getAllUsers(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+        $users = User::all();
+        $transformer = new UserList($users);
+        $response->getBody()->write($transformer->getJson());
         return $response;
     }
 

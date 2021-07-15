@@ -1,27 +1,30 @@
 <?php
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Log\LoggerInterface;
 use Slim\Factory\AppFactory;
 use Slim\Interfaces\RouteCollectorProxyInterface;
 use Taberu\Middleware\Cors;
 use Taberu\Middleware\JsonTokenAuthentication;
 use Taberu\Controller\UserController;
+use Taberu\Exception\ResponseException;
 use Taberu\Utils\JsonErrorHandler;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
-$container = $app->getContainer();
-$container['errorHandler'] = function ($c) {
-    return new JsonErrorHandler();
-};
-
-
+$app->addRoutingMiddleware();
 $app->addBodyParsingMiddleware();
 $app->add(new Cors());
 
+$errorMiddleware = $app->addErrorMiddleware(true, true, true);
+$errorMiddleware->setDefaultErrorHandler(new JsonErrorHandler($app));
+
 /*
+DISABLED CAUSE: problems with grouping routing
+
 $app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
 });
@@ -37,7 +40,6 @@ $app->group('/v1', function (RouteCollectorProxyInterface $group) use ($app) {
     $group->group('/users', function (RouteCollectorProxyInterface $group) use ($app) {
         $group->post('/register[/]', UserController::class.':register');
         $group->post('/login[/]', UserController::class.':login');
-        $group->post('/logout[/]', UserController::class.':logout')->add(new JsonTokenAuthentication());
 
         $group->get('/{userId}[/]', UserController::class.':getSpecificUser')->add(new JsonTokenAuthentication());
         $group->patch('/{userId}[/]', UserController::class.':updateUser')->add(new JsonTokenAuthentication());
