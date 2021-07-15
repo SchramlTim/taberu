@@ -2,11 +2,13 @@
 
 namespace Taberu\Utils;
 
+use PDO;
+
 class Database
 {
     static $database = null;
 
-    public static function getDB()
+    public static function getDB(): PDO
     {
         if (!self::$database) {
 

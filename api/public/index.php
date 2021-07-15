@@ -5,20 +5,27 @@ use Slim\Factory\AppFactory;
 use Slim\Interfaces\RouteCollectorProxyInterface;
 use Taberu\Middleware\Cors;
 use Taberu\Middleware\JsonTokenAuthentication;
-use Taberu\Controller\DefaultController;
 use Taberu\Controller\UserController;
-
+use Taberu\Utils\JsonErrorHandler;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
+$container = $app->getContainer();
+$container['errorHandler'] = function ($c) {
+    return new JsonErrorHandler();
+};
+
+
 $app->addBodyParsingMiddleware();
 $app->add(new Cors());
 
+/*
 $app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
 });
+*/
 
 $app->get('[/]', function (Request $request, Response $response, array $args) {
     $response->getBody()->write("Nothing here");

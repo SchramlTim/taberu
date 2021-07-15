@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Slim\Psr7\Cookies;
 use Slim\Psr7\UploadedFile;
+use Taberu\Model\User;
 
 class UserController
 {
@@ -77,13 +78,51 @@ class UserController
 
     public function getSpecificUser(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+        $parsedBody = $request->getParsedBody();
+
+        try {
+            $user = User::findOrFail([
+                [User::ID, '=', (int)$args['userId']]
+            ]);
+            var_dump($user);
+            $response->getBody()->write(json_encode($user));
+        } catch (\Exception $e) {
+            $response->withStatus(404);
+            $response->getBody()->write($e->getMessage());
+        }
+
         return $response;
     }
 
     public function updateUser(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+        $parsedBody = $request->getParsedBody();
+
+        try {
+            $user = User::findOrFail([
+                [User::ID, '=', (int)$args['userId']]
+            ]);
+
+            if (isset($parsedBody['firstName'])) {
+                $user->setFirstName($parsedBody['firstName']);
+            }
+            if (isset($parsedBody['lastName'])) {
+                $user->setLastName($parsedBody['lastName']);
+            }
+            if (isset($parsedBody['phoneNumber'])) {
+                $user->setPhoneNumber($parsedBody['phoneNumber']);
+            }
+            if (isset($parsedBody['paypalUsername'])) {
+                $user->setPaypalUsername($parsedBody['paypalUsername']);
+            }
+
+            $user->save();
+            $response->getBody()->write('');
+        } catch (\Exception $e) {
+            $response->withStatus(404);
+            $response->getBody()->write($e->getMessage());
+        }
+
         return $response;
     }
 
