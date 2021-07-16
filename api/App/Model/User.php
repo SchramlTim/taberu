@@ -4,6 +4,8 @@ namespace Taberu\Model;
 
 use LogicException;
 use RuntimeException;
+use Taberu\Exception\MutipleEntriesFoundException;
+use Taberu\Exception\NotFoundException;
 use Taberu\Utils\Database;
 
 class User extends BaseModel
@@ -47,11 +49,11 @@ class User extends BaseModel
         $userInformations = self::fetchDataFromDatabase($whereParams);
     
         if (!$userInformations) {
-            throw new RuntimeException('User not found');
+            throw new NotFoundException('User not found');
         }
 
         if (is_array($userInformations) && count($userInformations) > 1) {
-            throw new LogicException('Mutiple users are found');
+            throw new MutipleEntriesFoundException('Mutiple users are found');
         }
 
         return self::createUserObjectFromDatabase($userInformations[0]);
@@ -62,7 +64,7 @@ class User extends BaseModel
         $allUsers = self::fetchDataFromDatabase($whereParams);
     
         if (!$allUsers) {
-            throw new RuntimeException('There are no users');
+            throw new NotFoundException('There are no users');
         }
 
         $users = [];
@@ -224,7 +226,7 @@ class User extends BaseModel
         return $this;
     }
 
-    protected function setNewPassword(string $password): self
+    public function setNewPassword(string $password): self
     {
         $salt = $this->getPasswordSalt();
         if (!strlen($salt)) {

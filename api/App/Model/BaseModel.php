@@ -3,6 +3,7 @@
 namespace Taberu\Model;
 
 use RuntimeException;
+use Taberu\Exception\AlreadyExistException;
 use Taberu\Utils\Database;
 
 abstract class BaseModel 
@@ -53,7 +54,7 @@ abstract class BaseModel
         } catch (\PDOException $exception) {
             //duplicate entry
             if ((int)$exception->getCode() === 23505) {
-                throw new RuntimeException('Already exist');
+                throw new AlreadyExistException('Already exist');
             }
 
             throw $exception;

@@ -2,14 +2,10 @@
 
 namespace Taberu\Controller;
 
-use Taberu\Utils\Database;
 use Taberu\Validator\JWT;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamInterface;
-use RuntimeException;
-use Slim\Psr7\Cookies;
-use Slim\Psr7\UploadedFile;
+use Taberu\Exception\LoginFailedException;
 use Taberu\Exception\ResponseException;
 use Taberu\Model\User;
 use Taberu\Transformer\Token;
@@ -38,8 +34,10 @@ class UserController
 
             $transformer = new TransformerUser($user);
             $response->getBody()->write($transformer->getJson());
-        } catch (\RuntimeException $e) {
+        } catch (\Taberu\Exception\AlreadyExistException $e) {
             throw new ResponseException(409, $e->getMessage());
+        } catch (\Taberu\Exception\NotFoundException $e) {
+            throw new ResponseException(404, $e->getMessage());
         }
 
         return $response;
@@ -55,14 +53,16 @@ class UserController
             ]);
 
             if(!$user->checkPassword($parsedBody['password'])) {
-                throw new RuntimeException('Wrong username or password222');
+                throw new LoginFailedException('Wrong username or password');
             }
 
             $token = JWT::generate($user->getId());
             $transformer = new Token($token);
             $response->getBody()->write($transformer->getJson());
-        } catch (\RuntimeException $e) {
+        } catch (\Taberu\Exception\LoginFailedException $e) {
             throw new ResponseException(401, $e->getMessage());
+        } catch (\Taberu\Exception\NotFoundException $e) {
+            throw new ResponseException(404, $e->getMessage());
         }
 
         return $response;
@@ -79,12 +79,10 @@ class UserController
 
             $transformer = new TransformerUser($user);
             $response->getBody()->write($transformer->getJson());
-        } catch (\RuntimeException $e) {
+        } catch (\Taberu\Exception\AlreadyExistException $e) {
             throw new ResponseException(404, $e->getMessage());
-        } catch (\LogicException $e) {
+        } catch (\Taberu\Exception\MutipleEntriesFoundException $e) {
             throw new ResponseException(400, $e->getMessage());
-        } catch (\Exception $e) {
-            throw new ResponseException(500, $e->getMessage());
         }
 
         return $response;
@@ -116,10 +114,8 @@ class UserController
 
             $transformer = new TransformerUser($user);
             $response->getBody()->write($transformer->getJson());
-        } catch (\RuntimeException $e) {
+        } catch (\Taberu\Exception\NotFoundException $e) {
             throw new ResponseException(409, $e->getMessage());
-        } catch (\Exception $e) {
-            throw new ResponseException(500, $e->getMessage());
         }
 
         return $response;
@@ -127,9 +123,14 @@ class UserController
 
     public function getAllUsers(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $users = User::all();
-        $transformer = new UserList($users);
-        $response->getBody()->write($transformer->getJson());
+        try {
+            $users = User::all();
+            $transformer = new UserList($users);
+            $response->getBody()->write($transformer->getJson());
+        } catch (\Taberu\Exception\NotFoundException $e) {
+            throw new ResponseException(404, $e->getMessage());
+        }
+
         return $response;
     }
 

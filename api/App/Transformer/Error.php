@@ -14,6 +14,20 @@ class Error extends JsonTransformer
         $this->error = $error;
     }
 
+    public function getArray(bool $withMeta = true): array
+    {
+        $structure = [];
+        $data = $this->transformData();
+        $structure = $data;
+
+        if ($withMeta) {
+            $structure = $this->metaInformations;
+            $structure['error'] = $data;
+        }
+
+        return $structure;
+    }
+
     protected function transformData(): array
     {
         $statusCode = 500;
