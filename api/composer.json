@@ -8,11 +8,15 @@
         "http-interop/http-factory-guzzle": "^1.0",
         "laminas/laminas-diactoros": "^2.5",
         "vlucas/phpdotenv": "^5.3",
-        "robmorgan/phinx": "^0.12.7"
+        "robmorgan/phinx": "^0.12.7",
+        "squizlabs/php_codesniffer": "*"
     },
     "autoload": {
         "psr-4": {
             "Taberu\\": "App/"
         }
+    },
+    "scripts": {
+        "phpcs": "phpcs --standard=rules/phpcs_rules.xml ./App/"
     }
 }

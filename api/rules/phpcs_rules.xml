@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="PSR2-Taberu">
+    <description>Taberu coding standards</description>
+
+    <!-- Include the whole PSR-1 standard -->
+    <rule ref="PSR1">
+        <exclude name="PSR1.Classes.ClassDeclaration"/>
+    </rule>
+
+    <!-- Include the whole PSR-2 standard -->
+    <rule ref="PSR2">
+        <exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
+        <exclude name="PSR2.Classes.PropertyDeclaration.Underscore"/>
+        <exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody"/>
+    </rule>
+
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="520"/>
+            <property name="absoluteLineLimit" value="0"/>
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps"></rule>
+</ruleset>
