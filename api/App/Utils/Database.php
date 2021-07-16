@@ -6,12 +6,11 @@ use PDO;
 
 class Database
 {
-    static $database = null;
+    private static $database = null;
 
     public static function getDB(): PDO
     {
         if (!self::$database) {
-
             $db = parse_url(getenv("DATABASE_URL"));
 
             self::$database = new \PDO("pgsql:" . sprintf(
@@ -22,8 +21,6 @@ class Database
                 $db["pass"],
                 ltrim($db["path"], "/")
             ));
-
-            //self::$database = new \PDO($_ENV['DB_CONNECTION_STRING'], $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
         }
 
         self::$database->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);

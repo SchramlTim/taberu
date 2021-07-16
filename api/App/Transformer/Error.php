@@ -6,7 +6,7 @@ use Taberu\Exception\ResponseException;
 use Throwable;
 
 class Error extends JsonTransformer
-{  
+{
     private Throwable $error;
 
     public function __construct(Throwable $error)

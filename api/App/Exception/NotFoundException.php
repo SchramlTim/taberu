@@ -2,4 +2,7 @@
 
 namespace Taberu\Exception;
 
-class NotFoundException extends \RuntimeException {}
+class NotFoundException extends \RuntimeException
+{
+
+}

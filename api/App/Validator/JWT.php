@@ -35,7 +35,7 @@ class JWT
 
         $headerEncoded = base64_encode(json_encode($token[self::HEADER]));
         $payloadEncoded = base64_encode(json_encode($token[self::PAYLOAD]));
-        $signature = hash_hmac('sha256',  $headerEncoded . '.' .  $payloadEncoded, $_ENV['JWT_SECRET'], true);
+        $signature = hash_hmac('sha256', $headerEncoded . '.' .  $payloadEncoded, $_ENV['JWT_SECRET'], true);
         $signatureEncoded = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
 
         return $headerEncoded . '.' . $payloadEncoded . '.' . $signatureEncoded;
@@ -47,7 +47,7 @@ class JWT
             return false;
         }
 
-        $expectedSignature = hash_hmac('sha256',  $this->getPartEncoded(self::HEADER) . '.' .  $this->getPartEncoded(self::PAYLOAD), $_ENV['JWT_SECRET'], true);
+        $expectedSignature = hash_hmac('sha256', $this->getPartEncoded(self::HEADER) . '.' .  $this->getPartEncoded(self::PAYLOAD), $_ENV['JWT_SECRET'], true);
         $encodedSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($expectedSignature));
 
         return hash_equals($encodedSignature, $this->getPartEncoded(self::SECRET));

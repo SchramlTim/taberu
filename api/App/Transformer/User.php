@@ -5,7 +5,7 @@ namespace Taberu\Transformer;
 use Taberu\Model\User as ModelUser;
 
 class User extends JsonTransformer
-{  
+{
     private ModelUser $user;
 
     public function __construct(ModelUser $user)

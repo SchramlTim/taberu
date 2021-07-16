@@ -239,7 +239,7 @@ class User extends BaseModel
         return $this;
     }
 
-    protected function hashPassword(string $password, string $salt): string 
+    protected function hashPassword(string $password, string $salt): string
     {
         return hash('sha256', $password . $salt);
     }

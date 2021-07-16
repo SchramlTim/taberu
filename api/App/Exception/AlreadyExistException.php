@@ -2,4 +2,7 @@
 
 namespace Taberu\Exception;
 
-class AlreadyExistException extends \RuntimeException {}
+class AlreadyExistException extends \RuntimeException
+{
+
+}

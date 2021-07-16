@@ -6,7 +6,7 @@ use RuntimeException;
 use Taberu\Exception\AlreadyExistException;
 use Taberu\Utils\Database;
 
-abstract class BaseModel 
+abstract class BaseModel
 {
     const ID = 'id';
 
@@ -17,7 +17,7 @@ abstract class BaseModel
     {
         $db = Database::getDB();
 
-        array_filter($valuesToSave, function($value) {
+        array_filter($valuesToSave, function ($value) {
             return !is_null($value) && strlen((string)$value);
         });
 
@@ -36,7 +36,7 @@ abstract class BaseModel
     {
         $db = Database::getDB();
 
-        array_filter($valuesToSave, function($value) {
+        array_filter($valuesToSave, function ($value) {
             return !is_null($value) && strlen((string)$value);
         });
 
@@ -44,7 +44,7 @@ abstract class BaseModel
             return ':' . $fieldName;
         }, array_keys($valuesToSave));
 
-        $sql = "INSERT INTO " . $this->getTable() . " (".implode(', ',array_keys($valuesToSave)).") VALUES (".implode(', ', $setQuery).")";
+        $sql = "INSERT INTO " . $this->getTable() . " (".implode(', ', array_keys($valuesToSave)).") VALUES (".implode(', ', $setQuery).")";
 
         $stmt= $db->prepare($sql);
 

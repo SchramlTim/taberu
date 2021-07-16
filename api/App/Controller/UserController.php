@@ -52,7 +52,7 @@ class UserController
                 [User::USERNAME, '=', $parsedBody['username']]
             ]);
 
-            if(!$user->checkPassword($parsedBody['password'])) {
+            if (!$user->checkPassword($parsedBody['password'])) {
                 throw new LoginFailedException('Wrong username or password');
             }
 

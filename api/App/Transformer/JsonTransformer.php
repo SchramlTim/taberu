@@ -3,8 +3,8 @@
 namespace Taberu\Transformer;
 
 abstract class JsonTransformer
-{  
-    protected array $metaInformations = [        
+{
+    protected array $metaInformations = [
         'apiVersion' => '1.0.0',
         'context' => 'NOT_IMPLEMENTED',
         'method' => 'NOT_IMPLEMENTED',
@@ -20,7 +20,7 @@ abstract class JsonTransformer
     {
         $structure = [];
         $data = $this->transformData();
-        $structure = $data;        
+        $structure = $data;
 
         if ($withMeta) {
             $structure = $this->metaInformations;
@@ -30,5 +30,5 @@ abstract class JsonTransformer
         return $structure;
     }
 
-    protected abstract function transformData(): array;
+    abstract protected function transformData(): array;
 }

@@ -2,4 +2,7 @@
 
 namespace Taberu\Exception;
 
-class LoginFailedException extends \RuntimeException {}
+class LoginFailedException extends \RuntimeException
+{
+
+}

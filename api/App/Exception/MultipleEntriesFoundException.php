@@ -2,4 +2,7 @@
 
 namespace Taberu\Exception;
 
-class MutipleEntriesFoundException extends \RuntimeException {}
+class MutipleEntriesFoundException extends \RuntimeException
+{
+
+}

@@ -11,7 +11,7 @@ use Slim\Interfaces\ErrorRendererInterface;
 use Taberu\Transformer\Error;
 use Throwable;
 
-class JsonErrorHandler 
+class JsonErrorHandler
 {
     private App $app;
 
@@ -27,8 +27,7 @@ class JsonErrorHandler
         bool $logErrors,
         bool $logErrorDetails,
         ?LoggerInterface $logger = null
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $statusCode = 500;
         if ($exception instanceof ResponseException) {
             $statusCode = $exception->getStatusCode();

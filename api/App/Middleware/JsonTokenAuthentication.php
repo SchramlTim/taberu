@@ -36,8 +36,8 @@ class JsonTokenAuthentication
             $request = $request->withQueryParams(array_merge($request->getQueryParams(), $validator->getPayload()));
             $response = $handler->handle($request);
             return $response;
-        }       
-    
+        }
+            
         $response = new Response();
         return $response->withStatus(401);
     }
