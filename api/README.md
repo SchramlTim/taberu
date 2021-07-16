@@ -2,7 +2,6 @@
 ## User
 - /v1/users/register [POST]
 - /v1/users/login [POST]
-- /v1/users/logout [POST]
 - /v1/users/{id} [GET]
 - /v1/users/{id} [PATCH]
 - /v1/users [GET]
