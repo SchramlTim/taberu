@@ -44,59 +44,7 @@ class User extends BaseModel
         $this->table = self::$_table;
     }
 
-    public static function findFirstOrFail(array $whereParams = [])
-    {
-        $userInformations = self::fetchDataFromDatabase($whereParams);
-    
-        if (!$userInformations) {
-            throw new NotFoundException('User not found');
-        }
-
-        if (is_array($userInformations) && count($userInformations) > 1) {
-            throw new MutipleEntriesFoundException('Mutiple users are found');
-        }
-
-        return self::createUserObjectFromDatabase($userInformations[0]);
-    }
-
-    public static function all(array $whereParams = []): array
-    {
-        $allUsers = self::fetchDataFromDatabase($whereParams);
-    
-        if (!$allUsers) {
-            throw new NotFoundException('There are no users');
-        }
-
-        $users = [];
-
-        foreach ($allUsers as $userData) {
-            $users[] = self::createUserObjectFromDatabase($userData);
-        }
-
-         return $users;
-    }
-
-    protected static function fetchDataFromDatabase(array $whereParams)
-    {
-        $database = Database::getDB();
-
-        $where = [];
-
-        array_walk($whereParams, function ($v) use (&$where) {
-            $where[] = $v[0] . ' ' . $v[1] . ' ' . (is_string($v[2]) ? "'$v[2]'" : $v[2]);
-        });
-
-        $sql = 'SELECT ' . implode(',', self::$_loadedFields) . ' FROM ' . self::$_table;
-
-        if (count($where)) {
-            $sql .= ' WHERE ' . implode(' AND ', $where);
-        }
-
-        $stmt = $database->query($sql);
-        return $stmt->fetchAll();
-    }
-
-    protected static function createUserObjectFromDatabase(array $userInformations)
+    protected static function createObjectFromDatabase(array $userInformations): self
     {
         $user = new self();
         $user->setId($userInformations[self::ID])

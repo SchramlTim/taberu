@@ -10,7 +10,7 @@ use Psr\Http\Message\StreamInterface;
 use Slim\Psr7\Cookies;
 use Slim\Psr7\UploadedFile;
 
-class CategoryController
+class RestaurantController
 {
 
     public function getAllCategories(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface

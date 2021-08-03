@@ -43,7 +43,7 @@ final class DatabaseSetup extends AbstractMigration
         $bowls->addColumn('creator_id', 'integer')
             ->addColumn('name', 'string')
             ->addColumn('description', 'string')
-            ->addColumn('order_dealine', 'datetime')
+            ->addColumn('order_deadline', 'datetime')
             ->addColumn('arrive_date', 'datetime')
             ->addColumn('menu_id', 'integer')
             ->addColumn('created', 'datetime', ['timezone' => true, 'default' => \Phinx\Util\Literal::from('now()')])
