@@ -25,7 +25,7 @@ final class DatabaseSetup extends AbstractMigration
             ->addColumn('password', 'string', ['limit' => 100])
             ->addColumn('password_salt', 'string', ['limit' => 100])
             ->addColumn('phone_number', 'string', ['limit' => 20, 'null' => true])
-            ->addColumn('paypal_username', 'string', ['limit' => 20, 'null' => true])
+            ->addColumn('paypal_username', 'string', ['limit' => 40, 'null' => true])
             ->addColumn('created', 'datetime', ['timezone' => true, 'default' => \Phinx\Util\Literal::from('now()')])
             ->addColumn('updated', 'datetime', ['null' => true])
             ->addIndex(['username'], ['unique' => true])
@@ -70,7 +70,7 @@ final class DatabaseSetup extends AbstractMigration
 
         $orderItems = $this->table('order_items');
         $orderItems->addColumn('order_id', 'integer')
-            ->addColumn('name', 'integer')
+            ->addColumn('name', 'string')
             ->addColumn('price', 'float')
             ->addColumn('count', 'integer')
             ->addColumn('additional_information', 'string', ['limit' => 200])
@@ -103,13 +103,13 @@ final class DatabaseSetup extends AbstractMigration
             ->addColumn('updated', 'datetime', ['null' => true])
             ->create();
 
-        $category = $this->table('category');
+        $category = $this->table('categories');
         $category->addColumn('name', 'string')
             ->addColumn('created', 'datetime', ['timezone' => true, 'default' => \Phinx\Util\Literal::from('now()')])
             ->addColumn('updated', 'datetime', ['null' => true])
             ->create();
 
-        $restaurant = $this->table('restaurant');
+        $restaurant = $this->table('restaurants');
         $restaurant->addColumn('name', 'string')
             ->addColumn('street', 'string')
             ->addColumn('street_nr', 'string')
