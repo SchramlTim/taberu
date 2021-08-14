@@ -64,7 +64,7 @@ trait ORMTrait
      * @param array|null $valuesToSave
      * @return bool
      */
-    public function create(?array $valuesToSave = null): bool
+    public function createEntity(?array $valuesToSave = null): bool
     {
         $db = Database::getDB();
 

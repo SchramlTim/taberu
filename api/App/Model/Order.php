@@ -81,7 +81,7 @@ class Order extends BaseModel
             ];
         }
 
-        return parent::update($valuesToSave);
+        return self::updateEntity($valuesToSave);
     }
 
     /**
@@ -101,7 +101,7 @@ class Order extends BaseModel
             ];
         }
 
-        return parent::create($valuesToSave);
+        return self::createEntity($valuesToSave);
     }
 
     /**

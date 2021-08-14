@@ -74,7 +74,7 @@ class OrderItem extends BaseModel
             ];
         }
 
-        return parent::update($valuesToSave);
+        return self::updateEntity($valuesToSave);
     }
 
     /**
@@ -93,7 +93,7 @@ class OrderItem extends BaseModel
             ];
         }
 
-        return parent::create($valuesToSave);
+        return self::createEntity($valuesToSave);
     }
 
     /**

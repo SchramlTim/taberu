@@ -86,7 +86,7 @@ class Restaurant extends BaseModel
             ];
         }
 
-        return parent::update($valuesToSave);
+        return self::updateEntity($valuesToSave);
     }
 
     /**
@@ -107,7 +107,7 @@ class Restaurant extends BaseModel
             ];
         }
 
-        return parent::create($valuesToSave);
+        return self::createEntity($valuesToSave);
     }
 
     /**
