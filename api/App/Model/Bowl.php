@@ -39,7 +39,7 @@ class Bowl extends BaseModel
 
 
     /**
-     * Order constructor.
+     * Bowl constructor.
      */
     public function __construct()
     {
@@ -52,8 +52,8 @@ class Bowl extends BaseModel
      */
     protected static function createObjectFromDatabase(array $data): self
     {
-        $department = new self();
-        $department->setId($data[self::ID])
+        $object = new self();
+        $object->setId($data[self::ID])
             ->setCreatorID($data[self::CREATOR_ID])
             ->setName($data[self::NAME])
             ->setDescription($data[self::DESCRIPTION])
@@ -61,7 +61,7 @@ class Bowl extends BaseModel
             ->setArriveDate($data[self::ARRIVE_DATE])
             ->setMenuId($data[self::MENU_ID]);
 
-        return $department;
+        return $object;
     }
 
     /**
@@ -114,6 +114,7 @@ class Bowl extends BaseModel
 
     /**
      * @param int $creatorID
+     * @return $this
      */
     public function setCreatorID(int $creatorID): self
     {
@@ -131,6 +132,7 @@ class Bowl extends BaseModel
 
     /**
      * @param string $name
+     * @return $this
      */
     public function setName(string $name): self
     {
@@ -148,6 +150,7 @@ class Bowl extends BaseModel
 
     /**
      * @param string $description
+     * @return $this
      */
     public function setDescription(string $description): self
     {
@@ -165,6 +168,7 @@ class Bowl extends BaseModel
 
     /**
      * @param DateTime $orderDeadline
+     * @return $this
      */
     public function setOrderDeadline(DateTime $orderDeadline): self
     {
@@ -182,6 +186,7 @@ class Bowl extends BaseModel
 
     /**
      * @param DateTime $arriveDate
+     * @return $this
      */
     public function setArriveDate(DateTime $arriveDate): self
     {
@@ -199,6 +204,7 @@ class Bowl extends BaseModel
 
     /**
      * @param int $menuId
+     * @return $this
      */
     public function setMenuId(int $menuId): self
     {
@@ -206,6 +212,9 @@ class Bowl extends BaseModel
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getLink(): string
     {
         return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/v1/bowls/' . $this->getId();

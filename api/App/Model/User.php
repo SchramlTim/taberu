@@ -39,26 +39,37 @@ class User extends BaseModel
     private string $passwordSalt = '';
     private string $password = '';
 
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         $this->table = self::$_table;
     }
 
-    protected static function createObjectFromDatabase(array $userInformations): self
+    /**
+     * @param array $data
+     * @return static
+     */
+    protected static function createObjectFromDatabase(array $data): self
     {
-        $user = new self();
-        $user->setId($userInformations[self::ID])
-            ->setUsername($userInformations[self::USERNAME] ?? '')
-            ->setFirstName($userInformations[self::FIRST_NAME] ?? '')
-            ->setLastName($userInformations[self::LAST_NAME] ?? '')
-            ->setPhoneNumber($userInformations[self::PHONE_NUMBER] ?? '')
-            ->setPaypalUsername($userInformations[self::PAYPAL_USERNAME] ?? '')
-            ->setPassword($userInformations[self::PASSWORD] ?? '')
-            ->setPasswordSalt($userInformations[self::PASSWORD_SALT] ?? '');
+        $object = new self();
+        $object->setId($data[self::ID])
+            ->setUsername($data[self::USERNAME] ?? '')
+            ->setFirstName($data[self::FIRST_NAME] ?? '')
+            ->setLastName($data[self::LAST_NAME] ?? '')
+            ->setPhoneNumber($data[self::PHONE_NUMBER] ?? '')
+            ->setPaypalUsername($data[self::PAYPAL_USERNAME] ?? '')
+            ->setPassword($data[self::PASSWORD] ?? '')
+            ->setPasswordSalt($data[self::PASSWORD_SALT] ?? '');
 
-        return $user;
+        return $object;
     }
 
+    /**
+     * @param array|null $valuesToSave
+     * @return bool
+     */
     public function update(?array $valuesToSave = null): bool
     {
         if (!$valuesToSave) {
@@ -74,6 +85,10 @@ class User extends BaseModel
         return parent::update($valuesToSave);
     }
 
+    /**
+     * @param array|null $valuesToSave
+     * @return bool
+     */
     public function create(?array $valuesToSave = null): bool
     {
         if (!$valuesToSave) {
@@ -91,61 +106,99 @@ class User extends BaseModel
         return parent::create($valuesToSave);
     }
 
+    /**
+     * @param string $username
+     * @return $this
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
+    /**
+     * @param string $firstName
+     * @return $this
+     */
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getFirstName(): string
     {
         return $this->firstName;
     }
 
+    /**
+     * @param string $lastName
+     * @return $this
+     */
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getLastName(): string
     {
         return $this->lastName;
     }
 
+    /**
+     * @param string $phoneNumber
+     * @return $this
+     */
     public function setPhoneNumber(string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getPhoneNumber(): string
     {
         return $this->phoneNumber;
     }
 
+    /**
+     * @param string $paypalUsername
+     * @return $this
+     */
     public function setPaypalUsername(string $paypalUsername): self
     {
         $this->paypalUsername = $paypalUsername;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getPaypalUsername(): string
     {
         return $this->paypalUsername;
     }
 
+    /**
+     * @return string
+     */
     protected function createNewPasswordSalt(): string
     {
         return hash('sha256', (json_encode([
@@ -157,23 +210,38 @@ class User extends BaseModel
         ]) . (new \DateTime())->getTimestamp()));
     }
 
+    /**
+     * @param string $passwordSalt
+     * @return $this
+     */
     protected function setPasswordSalt(string $passwordSalt): self
     {
         $this->passwordSalt = $passwordSalt;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getPasswordSalt(): string
     {
         return $this->passwordSalt;
     }
 
+    /**
+     * @param string $password
+     * @return $this
+     */
     protected function setPassword(string $password): self
     {
         $this->password = $password;
         return $this;
     }
 
+    /**
+     * @param string $password
+     * @return $this
+     */
     public function setNewPassword(string $password): self
     {
         $salt = $this->getPasswordSalt();
@@ -187,23 +255,38 @@ class User extends BaseModel
         return $this;
     }
 
+    /**
+     * @param string $password
+     * @param string $salt
+     * @return string
+     */
     protected function hashPassword(string $password, string $salt): string
     {
         return hash('sha256', $password . $salt);
     }
 
+    /**
+     * @return string
+     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
+    /**
+     * @param string $inputPassword
+     * @return bool
+     */
     public function checkPassword(string $inputPassword): bool
     {
         $inputPasswordHash = $this->hashPassword($inputPassword, $this->getPasswordSalt());
         return $inputPasswordHash === $this->getPassword();
     }
 
-    public function getLink()
+    /**
+     * @return string
+     */
+    public function getLink(): string
     {
         return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/v1/users/' . $this->getId();
     }

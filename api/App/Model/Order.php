@@ -50,8 +50,8 @@ class Order extends BaseModel
      */
     protected static function createObjectFromDatabase(array $data): self
     {
-        $order = new self();
-        $order->setId($data[self::ID])
+        $object = new self();
+        $object->setId($data[self::ID])
             ->setBowlId($data[self::BOWL_ID])
             ->setUserId($data[self::USER_ID])
             ->setFinalPrice($data[self::FINAL_PRICE])
@@ -59,7 +59,7 @@ class Order extends BaseModel
             ->setPaymentStatus($data[self::PAYMENT_STATUS])
             ->setOrderStatus($data[self::ORDER_STATUS]);
 
-        return $order;
+        return $object;
     }
 
     /**
@@ -112,6 +112,7 @@ class Order extends BaseModel
 
     /**
      * @param int $bowlId
+     * @return $this
      */
     public function setBowlId(int $bowlId): self
     {
@@ -129,6 +130,7 @@ class Order extends BaseModel
 
     /**
      * @param int $userId
+     * @return $this
      */
     public function setUserId(int $userId): self
     {
@@ -146,6 +148,7 @@ class Order extends BaseModel
 
     /**
      * @param float $finalPrice
+     * @return $this
      */
     public function setFinalPrice(float $finalPrice): self
     {
@@ -163,6 +166,7 @@ class Order extends BaseModel
 
     /**
      * @param string $paymentMethod
+     * @return $this
      */
     public function setPaymentMethod(string $paymentMethod): self
     {
@@ -180,6 +184,7 @@ class Order extends BaseModel
 
     /**
      * @param string $paymentStatus
+     * @return $this
      */
     public function setPaymentStatus(string $paymentStatus): self
     {
@@ -197,6 +202,7 @@ class Order extends BaseModel
 
     /**
      * @param string $orderStatus
+     * @return $this
      */
     public function setOrderStatus(string $orderStatus): self
     {
@@ -204,6 +210,9 @@ class Order extends BaseModel
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getLink(): string
     {
         return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/v1/orders/' . $this->getId();

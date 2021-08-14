@@ -13,19 +13,25 @@ use Slim\Psr7\UploadedFile;
 class RestaurantController
 {
 
-    public function getAllCategories(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function getAllRestaurants(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
         return $response;
     }
 
-    public function createCategory(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function createRestaurant(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
         return $response;
     }
 
-    public function getSpecificCategory(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function getSpecificRestaurant(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+        return $response;
+    }
+
+    public function updateRestaurant(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
         return $response;

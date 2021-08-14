@@ -34,7 +34,7 @@ class OrderItem extends BaseModel
     private string $additionalInformation = '';
 
     /**
-     * Order constructor.
+     * OrderItem constructor.
      */
     public function __construct()
     {
@@ -47,15 +47,15 @@ class OrderItem extends BaseModel
      */
     protected static function createObjectFromDatabase(array $data): self
     {
-        $department = new self();
-        $department->setId($data[self::ID])
+        $object = new self();
+        $object->setId($data[self::ID])
             ->setOrderId($data[self::ORDER_ID])
             ->setName($data[self::NAME])
             ->setPrice($data[self::PRICE])
             ->setCount($data[self::COUNT])
             ->setAdditionalInformation($data[self::ADDITIONAL_INFORMATION]);
 
-        return $department;
+        return $object;
     }
 
     /**

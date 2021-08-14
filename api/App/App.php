@@ -7,6 +7,12 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use Slim\Interfaces\RouteCollectorProxyInterface;
+use Taberu\Controller\BowlController;
+use Taberu\Controller\CategoryController;
+use Taberu\Controller\DepartmentController;
+use Taberu\Controller\MenuController;
+use Taberu\Controller\OrderController;
+use Taberu\Controller\RestaurantController;
 use Taberu\Middleware\Cors;
 use Taberu\Middleware\JsonTokenAuthentication;
 use Taberu\Controller\UserController;
@@ -53,29 +59,29 @@ class App
             
 
             $group->group('/departments', function (RouteCollectorProxyInterface $group) use ($app) {
-                $group->get('[/]', DeparmentController::class.':getAllDepartments');
-                $group->post('[/]', DeparmentController::class.':createDepartment');
-                $group->get('/{departmentId}[/]', DeparmentController::class.':getSpecificDepartment');
-                $group->patch('/{departmentId}[/]', DeparmentController::class.':updateDepartment');
-                $group->delete('/{departmentId}[/]', DeparmentController::class.':deleteDepartment');
-                $group->delete('/{departmentId}/users[/]', DeparmentController::class.':getAllDepartmentUser');
+                $group->get('[/]', DepartmentController::class.':getAllDepartments');
+                $group->post('[/]', DepartmentController::class.':createDepartment');
+                $group->get('/{departmentId}[/]', DepartmentController::class.':getSpecificDepartment');
+                $group->patch('/{departmentId}[/]', DepartmentController::class.':updateDepartment');
+                $group->delete('/{departmentId}[/]', DepartmentController::class.':deleteDepartment');
+                $group->delete('/{departmentId}/users[/]', DepartmentController::class.':getAllDepartmentUser');
             })->add(new JsonTokenAuthentication());
 
             $group->group('/bowls', function (RouteCollectorProxyInterface $group) use ($app) {
-                $group->get('[/]', BowlsController::class.':getAllBowls');
-                $group->post('[/]', BowlsController::class.':createBowl');
-                $group->get('/{bowlId}[/]', BowlsController::class.':getSpecificBowl');
-                $group->patch('/{bowlId}[/]', BowlsController::class.':updateBowl');
-                $group->delete('/{bowlId}[/]', BowlsController::class.':deleteBowl');
+                $group->get('[/]', BowlController::class.':getAllBowls');
+                $group->post('[/]', BowlController::class.':createBowl');
+                $group->get('/{bowlId}[/]', BowlController::class.':getSpecificBowl');
+                $group->patch('/{bowlId}[/]', BowlController::class.':updateBowl');
+                $group->delete('/{bowlId}[/]', BowlController::class.':deleteBowl');
 
-                $group->get('/{bowlId}/orders[/]', BowlsController::class.':getAllBowlOrders');
-                $group->post('/{bowlId}/orders[/]', BowlsController::class.':createBowlOrder');
-                $group->patch('/{bowlId}/orders/{orderId}[/]', BowlsController::class.':updateBowlOrder');
-                $group->delete('/{bowlId}/orders/{orderId}[/]', BowlsController::class.':deleteBowlOrder');
+                $group->get('/{bowlId}/orders[/]', BowlController::class.':getAllBowlOrders');
+                $group->post('/{bowlId}/orders[/]', BowlController::class.':createBowlOrder');
+                $group->patch('/{bowlId}/orders/{orderId}[/]', BowlController::class.':updateBowlOrder');
+                $group->delete('/{bowlId}/orders/{orderId}[/]', BowlController::class.':deleteBowlOrder');
 
-                $group->get('/{bowlId}/users[/]', BowlsController::class.':getAllBowlUser');
-                $group->post('/{bowlId}/users[/]', BowlsController::class.':addBowlUser');
-                $group->delete('/{bowlId}/users/{userId}[/]', BowlsController::class.':deleteBowlUser');
+                $group->get('/{bowlId}/users[/]', BowlController::class.':getAllBowlUser');
+                $group->post('/{bowlId}/users[/]', BowlController::class.':addBowlUser');
+                $group->delete('/{bowlId}/users/{userId}[/]', BowlController::class.':deleteBowlUser');
             })->add(new JsonTokenAuthentication());
 
             $group->group('/orders', function (RouteCollectorProxyInterface $group) use ($app) {

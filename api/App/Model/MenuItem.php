@@ -8,27 +8,30 @@ use Taberu\Exception\MutipleEntriesFoundException;
 use Taberu\Exception\NotFoundException;
 use Taberu\Utils\Database;
 
-class Department extends BaseModel
+class MenuItem extends BaseModel
 {
     const NAME = 'name';
+    const MENU_ID = 'menu_id';
     const DESCRIPTION = 'description';
-    const LOCATION = 'location';
+    const PRICE = 'price';
 
     private static array $_loadedFields = [
         self::ID,
         self::NAME,
+        self::MENU_ID,
         self::DESCRIPTION,
-        self::LOCATION,
+        self::PRICE,
     ];
 
-    protected static string $_table = 'departments';
+    protected static string $_table = 'menu_items';
 
+    private int $menuId = 0;
     private string $name = '';
     private string $description = '';
-    private string $location = '';
+    private float $price = 0.0;
 
     /**
-     * Department constructor.
+     * MenuItem constructor.
      */
     public function __construct()
     {
@@ -44,8 +47,9 @@ class Department extends BaseModel
         $object = new self();
         $object->setId($data[self::ID])
             ->setName($data[self::NAME])
+            ->setMenuId($data[self::MENU_ID])
             ->setDescription($data[self::DESCRIPTION])
-            ->setLocation($data[self::LOCATION]);
+            ->setPrice($data[self::PRICE]);
 
         return $object;
     }
@@ -59,8 +63,9 @@ class Department extends BaseModel
         if (!$valuesToSave) {
             $valuesToSave = [
                 self::NAME => $this->getName(),
+                self::MENU_ID => $this->getMenuId(),
                 self::DESCRIPTION => $this->getDescription(),
-                self::LOCATION => $this->getLocation(),
+                self::PRICE => $this->getPrice(),
             ];
         }
 
@@ -76,8 +81,9 @@ class Department extends BaseModel
         if (!$valuesToSave) {
             $valuesToSave = [
                 self::NAME => $this->getName(),
+                self::MENU_ID => $this->getMenuId(),
                 self::DESCRIPTION => $this->getDescription(),
-                self::LOCATION => $this->getLocation(),
+                self::PRICE => $this->getPrice(),
             ];
         }
 
@@ -85,19 +91,20 @@ class Department extends BaseModel
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getName(): string
+    public function getMenuId(): int
     {
-        return $this->name;
+        return $this->menuId;
     }
 
     /**
-     * @param string $name
+     * @param int $menuId
+     * @return $this
      */
-    public function setName(string $name): self
+    public function setMenuId(int $menuId): self
     {
-        $this->name = $name;
+        $this->menuId = $menuId;
         return $this;
     }
 
@@ -111,6 +118,7 @@ class Department extends BaseModel
 
     /**
      * @param string $description
+     * @return $this
      */
     public function setDescription(string $description): self
     {
@@ -119,19 +127,38 @@ class Department extends BaseModel
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getLocation(): string
+    public function getPrice(): float
     {
-        return $this->location;
+        return $this->price;
     }
 
     /**
-     * @param string $location
+     * @param float $price
+     * @return $this
      */
-    public function setLocation(string $location): self
+    public function setPrice(float $price): self
     {
-        $this->location = $location;
+        $this->price = $price;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
         return $this;
     }
 
@@ -140,6 +167,6 @@ class Department extends BaseModel
      */
     public function getLink(): string
     {
-        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/v1/departments/' . $this->getId();
+        return '';
     }
 }

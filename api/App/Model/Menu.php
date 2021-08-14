@@ -8,27 +8,30 @@ use Taberu\Exception\MutipleEntriesFoundException;
 use Taberu\Exception\NotFoundException;
 use Taberu\Utils\Database;
 
-class Department extends BaseModel
+class Menu extends BaseModel
 {
     const NAME = 'name';
     const DESCRIPTION = 'description';
-    const LOCATION = 'location';
+    const CREATOR_ID = 'creator_id';
+    const RESTAURANT_ID = 'restaurant_id';
 
     private static array $_loadedFields = [
         self::ID,
         self::NAME,
         self::DESCRIPTION,
-        self::LOCATION,
+        self::CREATOR_ID,
+        self::RESTAURANT_ID,
     ];
 
-    protected static string $_table = 'departments';
+    protected static string $_table = 'menus';
 
     private string $name = '';
     private string $description = '';
-    private string $location = '';
+    private int $creatorId = 0;
+    private int $restaurantId = 0;
 
     /**
-     * Department constructor.
+     * Menu constructor.
      */
     public function __construct()
     {
@@ -45,7 +48,8 @@ class Department extends BaseModel
         $object->setId($data[self::ID])
             ->setName($data[self::NAME])
             ->setDescription($data[self::DESCRIPTION])
-            ->setLocation($data[self::LOCATION]);
+            ->setCreatorId($data[self::CREATOR_ID])
+            ->setRestaurantId($data[self::RESTAURANT_ID]);
 
         return $object;
     }
@@ -60,7 +64,8 @@ class Department extends BaseModel
             $valuesToSave = [
                 self::NAME => $this->getName(),
                 self::DESCRIPTION => $this->getDescription(),
-                self::LOCATION => $this->getLocation(),
+                self::CREATOR_ID => $this->getCreatorId(),
+                self::RESTAURANT_ID => $this->getRestaurantId(),
             ];
         }
 
@@ -77,7 +82,8 @@ class Department extends BaseModel
             $valuesToSave = [
                 self::NAME => $this->getName(),
                 self::DESCRIPTION => $this->getDescription(),
-                self::LOCATION => $this->getLocation(),
+                self::CREATOR_ID => $this->getCreatorId(),
+                self::RESTAURANT_ID => $this->getRestaurantId(),
             ];
         }
 
@@ -85,19 +91,38 @@ class Department extends BaseModel
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getName(): string
+    public function getCreatorId(): int
     {
-        return $this->name;
+        return $this->creatorId;
     }
 
     /**
-     * @param string $name
+     * @param int $creatorId
+     * @return $this
      */
-    public function setName(string $name): self
+    public function setCreatorId(int $creatorId): self
     {
-        $this->name = $name;
+        $this->creatorId = $creatorId;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRestaurantId(): int
+    {
+        return $this->restaurantId;
+    }
+
+    /**
+     * @param int $restaurantId
+     * @return $this
+     */
+    public function setRestaurantId(int $restaurantId): self
+    {
+        $this->restaurantId = $restaurantId;
         return $this;
     }
 
@@ -111,6 +136,7 @@ class Department extends BaseModel
 
     /**
      * @param string $description
+     * @return $this
      */
     public function setDescription(string $description): self
     {
@@ -121,17 +147,18 @@ class Department extends BaseModel
     /**
      * @return string
      */
-    public function getLocation(): string
+    public function getName(): string
     {
-        return $this->location;
+        return $this->name;
     }
 
     /**
-     * @param string $location
+     * @param string $name
+     * @return $this
      */
-    public function setLocation(string $location): self
+    public function setName(string $name): self
     {
-        $this->location = $location;
+        $this->name = $name;
         return $this;
     }
 
@@ -140,6 +167,6 @@ class Department extends BaseModel
      */
     public function getLink(): string
     {
-        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/v1/departments/' . $this->getId();
+        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/v1/menus/' . $this->getId();
     }
 }
