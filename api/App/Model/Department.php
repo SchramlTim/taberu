@@ -10,6 +10,8 @@ use Taberu\Utils\Database;
 
 class Department extends BaseModel
 {
+    use ORMTrait;
+
     const NAME = 'name';
     const DESCRIPTION = 'description';
     const LOCATION = 'location';
@@ -21,7 +23,7 @@ class Department extends BaseModel
         self::LOCATION,
     ];
 
-    protected static string $_table = 'departments';
+    public static string $_table = 'departments';
 
     private string $name = '';
     private string $description = '';
@@ -133,6 +135,14 @@ class Department extends BaseModel
     {
         $this->location = $location;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getTable(): string
+    {
+        return self::$_table;
     }
 
     /**

@@ -10,6 +10,8 @@ use Taberu\Utils\Database;
 
 class Menu extends BaseModel
 {
+    use ORMTrait;
+
     const NAME = 'name';
     const DESCRIPTION = 'description';
     const CREATOR_ID = 'creator_id';
@@ -23,7 +25,7 @@ class Menu extends BaseModel
         self::RESTAURANT_ID,
     ];
 
-    protected static string $_table = 'menus';
+    public static string $_table = 'menus';
 
     private string $name = '';
     private string $description = '';
@@ -160,6 +162,23 @@ class Menu extends BaseModel
     {
         $this->name = $name;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getTable(): string
+    {
+        return self::$_table;
+    }
+
+    public function getMenuItems($whereParams = []): array
+    {
+        $items = MenuItem::all([
+            [MenuItem::MENU_ID, '=', $this->getId()],
+        ]);
+
+        return $items;
     }
 
     /**

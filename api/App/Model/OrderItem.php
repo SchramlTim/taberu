@@ -25,7 +25,7 @@ class OrderItem extends BaseModel
         self::ADDITIONAL_INFORMATION,
     ];
 
-    protected static string $_table = 'order_items';
+    public static string $_table = 'order_items';
 
     private int $orderId;
     private string $name = '';
@@ -179,6 +179,14 @@ class OrderItem extends BaseModel
     {
         $this->additionalInformation = $additionalInformation;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getTable(): string
+    {
+        return self::$_table;
     }
 
     public function getLink(): string

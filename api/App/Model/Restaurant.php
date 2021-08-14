@@ -10,6 +10,8 @@ use Taberu\Utils\Database;
 
 class Restaurant extends BaseModel
 {
+    use ORMTrait;
+
     const NAME = 'name';
     const STREET = 'street';
     const STREET_NUMBER = 'street_nr';
@@ -18,7 +20,8 @@ class Restaurant extends BaseModel
     const DESCRIPTION = 'description';
     const PHONE_NUMBER = 'phone_number';
 
-    private static array $_loadedFields = [
+    protected static array $_loadedFields = [
+        self::ID,
         self::NAME,
         self::STREET,
         self::STREET_NUMBER,
@@ -28,7 +31,8 @@ class Restaurant extends BaseModel
         self::PHONE_NUMBER,
     ];
 
-    protected static string $_table = 'users';
+    public static string $_table = 'restaurants';
+
     private string $name = '';
     private string $street = '';
     private string $streetNumber = '';
@@ -230,6 +234,19 @@ class Restaurant extends BaseModel
     {
         $this->phoneNumber = $phoneNumber;
         return $this;
+    }
+
+    public static function getLoadedFields(): array
+    {
+        return self::$_loadedFields;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getTable(): string
+    {
+        return self::$_table;
     }
 
     /**

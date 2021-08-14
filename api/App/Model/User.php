@@ -10,6 +10,8 @@ use Taberu\Utils\Database;
 
 class User extends BaseModel
 {
+    use ORMTrait;
+
     const USERNAME = 'username';
     const FIRST_NAME = 'first_name';
     const LAST_NAME = 'last_name';
@@ -18,7 +20,7 @@ class User extends BaseModel
     const PASSWORD = 'password';
     const PASSWORD_SALT = 'password_salt';
 
-    private static array $_loadedFields = [
+    protected static array $_loadedFields = [
         self::ID,
         self::USERNAME,
         self::FIRST_NAME,
@@ -29,7 +31,7 @@ class User extends BaseModel
         self::PASSWORD_SALT,
     ];
 
-    protected static string $_table = 'users';
+    public static string $_table = 'users';
 
     private string $username = '';
     private string $firstName = '';
@@ -281,6 +283,14 @@ class User extends BaseModel
     {
         $inputPasswordHash = $this->hashPassword($inputPassword, $this->getPasswordSalt());
         return $inputPasswordHash === $this->getPassword();
+    }
+
+    /**
+     * @return string
+     */
+    public static function getTable(): string
+    {
+        return self::$_table;
     }
 
     /**

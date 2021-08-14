@@ -14,7 +14,9 @@ use Taberu\Controller\MenuController;
 use Taberu\Controller\OrderController;
 use Taberu\Controller\RestaurantController;
 use Taberu\Middleware\Cors;
-use Taberu\Middleware\JsonTokenAuthentication;
+use Taberu\Middleware\CorsMiddleware;
+use Taberu\Middleware\JsonResponseMiddleware;
+use Taberu\Middleware\JWTAuthMiddleware;
 use Taberu\Controller\UserController;
 use Taberu\Utils\JsonErrorHandler;
 
@@ -27,7 +29,8 @@ class App
         $app = AppFactory::create();
         $app->addRoutingMiddleware();
         $app->addBodyParsingMiddleware();
-        $app->add(new Cors());
+        $app->add(new CorsMiddleware());
+        $app->add(new JsonResponseMiddleware());
 
         $errorMiddleware = $app->addErrorMiddleware(true, true, true);
         $errorMiddleware->setDefaultErrorHandler(new JsonErrorHandler($app));
@@ -50,11 +53,11 @@ class App
                 $group->post('/register[/]', UserController::class.':register');
                 $group->post('/login[/]', UserController::class.':login');
 
-                $group->get('/{userId}[/]', UserController::class.':getSpecificUser')->add(new JsonTokenAuthentication());
-                $group->patch('/{userId}[/]', UserController::class.':updateUser')->add(new JsonTokenAuthentication());
-                $group->get('[/]', UserController::class.':getAllUsers')->add(new JsonTokenAuthentication());
-                $group->get('/{userId}/orders[/]', UserController::class.':getUserOrders')->add(new JsonTokenAuthentication());
-                $group->get('/{userId}/menus[/]', UserController::class.':getUserMenus')->add(new JsonTokenAuthentication());
+                $group->get('/{userId}[/]', UserController::class.':getSpecificUser')->add(new JWTAuthMiddleware());
+                $group->patch('/{userId}[/]', UserController::class.':updateUser')->add(new JWTAuthMiddleware());
+                $group->get('[/]', UserController::class.':getAllUsers')->add(new JWTAuthMiddleware());
+                $group->get('/{userId}/orders[/]', UserController::class.':getUserOrders')->add(new JWTAuthMiddleware());
+                $group->get('/{userId}/menus[/]', UserController::class.':getUserMenus')->add(new JWTAuthMiddleware());
             });
             
 
@@ -65,7 +68,7 @@ class App
                 $group->patch('/{departmentId}[/]', DepartmentController::class.':updateDepartment');
                 $group->delete('/{departmentId}[/]', DepartmentController::class.':deleteDepartment');
                 $group->delete('/{departmentId}/users[/]', DepartmentController::class.':getAllDepartmentUser');
-            })->add(new JsonTokenAuthentication());
+            })->add(new JWTAuthMiddleware());
 
             $group->group('/bowls', function (RouteCollectorProxyInterface $group) use ($app) {
                 $group->get('[/]', BowlController::class.':getAllBowls');
@@ -82,11 +85,11 @@ class App
                 $group->get('/{bowlId}/users[/]', BowlController::class.':getAllBowlUser');
                 $group->post('/{bowlId}/users[/]', BowlController::class.':addBowlUser');
                 $group->delete('/{bowlId}/users/{userId}[/]', BowlController::class.':deleteBowlUser');
-            })->add(new JsonTokenAuthentication());
+            })->add(new JWTAuthMiddleware());
 
             $group->group('/orders', function (RouteCollectorProxyInterface $group) use ($app) {
                 $group->get('/{orderId}[/]', OrderController::class.':getSpecificOrder');
-            })->add(new JsonTokenAuthentication());
+            })->add(new JWTAuthMiddleware());
 
             $group->group('/menus', function (RouteCollectorProxyInterface $group) use ($app) {
                 $group->get('[/]', MenuController::class.':getAllMenus');
@@ -96,22 +99,22 @@ class App
                 $group->delete('/{menuId}[/]', MenuController::class.':deleteMenu');
                 $group->get('/{menuId}/items[/]', MenuController::class.':getAllMenuItems');
                 $group->post('/{menuId}/items[/]', MenuController::class.':createMenuItem');
-                $group->post('/{menuId}/items/{itemId}[/]', MenuController::class.':updateMenuItem');
+                $group->patch('/{menuId}/items/{itemId}[/]', MenuController::class.':updateMenuItem');
                 $group->delete('/{menuId}/items/{itemId}[/]', MenuController::class.':deleteMenuItem');
-            })->add(new JsonTokenAuthentication());
+            })->add(new JWTAuthMiddleware());
 
             $group->group('/categories', function (RouteCollectorProxyInterface $group) use ($app) {
                 $group->get('[/]', CategoryController::class.':getAllCategories');
                 $group->post('[/]', CategoryController::class.':createCategory');
                 $group->get('/{categoryId}[/]', CategoryController::class.':getSpecificCategory');
-            })->add(new JsonTokenAuthentication());
+            })->add(new JWTAuthMiddleware());
 
             $group->group('/restaurants', function (RouteCollectorProxyInterface $group) use ($app) {
                 $group->get('[/]', RestaurantController::class.':getAllRestaurants');
                 $group->post('[/]', RestaurantController::class.':createRestaurant');
                 $group->get('/{restaurantId}[/]', RestaurantController::class.':getSpecificRestaurant');
                 $group->patch('/{restaurantId}[/]', RestaurantController::class.':updateRestaurant');
-            })->add(new JsonTokenAuthentication());
+            })->add(new JWTAuthMiddleware());
         });
 
         $this->app = $app;

@@ -4,6 +4,7 @@ namespace Taberu\Model;
 
 use LogicException;
 use RuntimeException;
+use Taberu\Exception\AlreadyExistException;
 use Taberu\Exception\MutipleEntriesFoundException;
 use Taberu\Exception\NotFoundException;
 use Taberu\Utils\Database;
@@ -11,6 +12,8 @@ use \DateTime;
 
 class Bowl extends BaseModel
 {
+    use ORMTrait;
+
     const CREATOR_ID = 'creator_id';
     const NAME = 'name';
     const DESCRIPTION = 'description';
@@ -28,7 +31,7 @@ class Bowl extends BaseModel
         self::MENU_ID,
     ];
 
-    protected static string $_table = 'bowls';
+    public static string $_table = 'bowls';
 
     private int $creatorID;
     private string $name = '';
@@ -57,8 +60,8 @@ class Bowl extends BaseModel
             ->setCreatorID($data[self::CREATOR_ID])
             ->setName($data[self::NAME])
             ->setDescription($data[self::DESCRIPTION])
-            ->setOrderDeadline($data[self::ORDER_DEADLINE])
-            ->setArriveDate($data[self::ARRIVE_DATE])
+            ->setOrderDeadline(new DateTime($data[self::ORDER_DEADLINE]))
+            ->setArriveDate(new DateTime($data[self::ARRIVE_DATE]))
             ->setMenuId($data[self::MENU_ID]);
 
         return $object;
@@ -210,6 +213,73 @@ class Bowl extends BaseModel
     {
         $this->menuId = $menuId;
         return $this;
+    }
+
+    public function getOrders(): array
+    {
+        $orders = Order::all([
+            [Bowl::ID, '=', $this->getId()],
+        ]);
+
+        return $orders;
+    }
+
+    public function addUser(User $user): void
+    {
+        $user2bowl = new User2Bowl();
+        $user2bowl->setUserId($user->getId())
+            ->setBowlId($this->getId());
+        $user2bowl->create();
+    }
+
+    public function getUsers($whereParams = []): array
+    {
+        $userMapping = User2Bowl::all(array_merge([
+            [User2Bowl::BOWL_ID, '=', $this->getId()],
+        ], $whereParams));
+
+        $userIds = [];
+        array_map(function(User2Bowl $user2bowl) use (&$userIds) {
+            $userIds[] = $user2bowl->getUserId();
+        }, $userMapping);
+
+        $users = User::all([
+            [User::ID, 'IN', '('.implode(',', $userIds).')'],
+        ]);
+
+        return $users;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderLink(): string
+    {
+        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/v1/bowls/' . $this->getId() . '/orders';
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsersLink(): string
+    {
+        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/v1/bowls/' . $this->getId() . '/users';
+    }
+
+    /**
+     * @return array
+     */
+    public static function getLoadedFields(): array
+    {
+        return self::$_loadedFields;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getTable(): string
+    {
+        return self::$_table;
     }
 
     /**

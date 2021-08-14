@@ -2,38 +2,67 @@
 
 namespace Taberu\Controller;
 
-use Taberu\Utils\Database;
-use Taberu\Validator\JWT;
+use Taberu\Exception\ResponseException;
+use Taberu\Model\Category;
+use Taberu\Transformer\CategoryList;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamInterface;
-use Slim\Psr7\Cookies;
-use Slim\Psr7\UploadedFile;
 
 class CategoryController
 {
 
-    public function getAllRestaurants(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function getAllCategories(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+        try {
+            $categories = Category::all();
+            $transformer = new CategoryList($categories);
+            $response->getBody()->write($transformer->getJson());
+        } catch (\Taberu\Exception\NotFoundException $e) {
+            throw new ResponseException(404, $e->getMessage());
+        }
+
         return $response;
     }
 
-    public function createRestaurant(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function createCategory(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+        $parsedBody = $request->getParsedBody();
+
+        try {
+            $category = new Category();
+            $category->setName($parsedBody['name']);
+            $category->create();
+
+            $category = Category::findFirstOrFail([
+                [Category::ID, '=', $category->getId()]
+            ]);
+
+            $transformer = new \Taberu\Transformer\Category($category);
+            $response->getBody()->write($transformer->getJson());
+        } catch (\Taberu\Exception\AlreadyExistException $e) {
+            throw new ResponseException(409, $e->getMessage());
+        } catch (\Taberu\Exception\NotFoundException $e) {
+            throw new ResponseException(404, $e->getMessage());
+        }
+
         return $response;
     }
 
-    public function getSpecificRestaurant(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function getSpecificCategory(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
-        return $response;
-    }
+        try {
+            $category = Category::findFirstOrFail([
+                [Category::ID, '=', (int)$args['categoryId']]
+            ]);
 
-    public function updateRestaurant(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
-    {
-        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+            $transformer = new \Taberu\Transformer\Category($category);
+            $response->getBody()->write($transformer->getJson());
+        } catch (\Taberu\Exception\AlreadyExistException $e) {
+            throw new ResponseException(404, $e->getMessage());
+        } catch (\Taberu\Exception\MutipleEntriesFoundException $e) {
+            throw new ResponseException(400, $e->getMessage());
+        }
+
         return $response;
     }
 }

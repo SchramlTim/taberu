@@ -10,6 +10,8 @@ use Taberu\Utils\Database;
 
 class Order extends BaseModel
 {
+    use ORMTrait;
+
     const BOWL_ID = 'bowl_id';
     const USER_ID = 'user_id';
     const FINAL_PRICE = 'final_price';
@@ -27,14 +29,14 @@ class Order extends BaseModel
         self::ORDER_STATUS,
     ];
 
-    protected static string $_table = 'orders';
+    public static string $_table = 'orders';
 
     private int $bowlId;
     private int $userId;
     private float $finalPrice;
     private string $paymentMethod = '';
-    private string $paymentStatus = '';
-    private string $orderStatus = '';
+    private string $paymentStatus = 'NOT_PAID';
+    private string $orderStatus = 'OPEN';
 
     /**
      * Order constructor.
@@ -208,6 +210,14 @@ class Order extends BaseModel
     {
         $this->orderStatus = $orderStatus;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getTable(): string
+    {
+        return self::$_table;
     }
 
     /**

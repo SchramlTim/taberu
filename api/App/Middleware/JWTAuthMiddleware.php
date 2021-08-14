@@ -7,7 +7,7 @@ use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
 use Taberu\Validator\JWT;
 
-class JsonTokenAuthentication
+class JWTAuthMiddleware
 {
     /**
      * Example middleware invokable class
@@ -19,7 +19,8 @@ class JsonTokenAuthentication
      */
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
-        //$token = $request->getCookieParams()['token'];
+        return $handler->handle($request);
+
         $token = null;
         $lowerHeaders = array_change_key_case($request->getHeaders());
         if (array_key_exists('x-token', $lowerHeaders)) {
@@ -32,13 +33,12 @@ class JsonTokenAuthentication
         }
              
         $validator = new JWT($token);
-        if ($validator->validate()) {
-            $request = $request->withQueryParams(array_merge($request->getQueryParams(), $validator->getPayload()));
-            $response = $handler->handle($request);
-            return $response;
+        if (!$validator->validate()) {
+            $response = new Response();
+            return $response->withStatus(401);
         }
-            
-        $response = new Response();
-        return $response->withStatus(401);
+
+        $request = $request->withQueryParams(array_merge($request->getQueryParams(), $validator->getPayload()));
+        return $handler->handle($request);
     }
 }

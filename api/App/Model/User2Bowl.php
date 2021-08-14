@@ -8,20 +8,23 @@ use Taberu\Exception\MutipleEntriesFoundException;
 use Taberu\Exception\NotFoundException;
 use Taberu\Utils\Database;
 
-class Category extends BaseModel
+class User2Bowl extends BaseModel
 {
     use ORMTrait;
 
-    const NAME = 'name';
+    const BOWL_ID = 'bowl_id';
+    const USER_ID = 'user_id';
 
     private static array $_loadedFields = [
         self::ID,
-        self::NAME
+        self::BOWL_ID,
+        self::USER_ID
     ];
 
-    public static string $_table = 'categories';
+    public static string $_table = 'user2bowl';
 
-    private string $name = '';
+    private int $bowlId;
+    private int $userId;
 
     /**
      * Category constructor.
@@ -38,8 +41,8 @@ class Category extends BaseModel
     protected static function createObjectFromDatabase(array $data): self
     {
         $object = new self();
-        $object->setId($data[self::ID])
-            ->setName($data[self::NAME]);
+        $object->setUserId($data[self::USER_ID])
+            ->setBowlId($data[self::BOWL_ID]);
 
         return $object;
     }
@@ -52,7 +55,8 @@ class Category extends BaseModel
     {
         if (!$valuesToSave) {
             $valuesToSave = [
-                self::NAME => $this->getName()
+                self::BOWL_ID => $this->getBowlId(),
+                self::USER_ID => $this->getUserId(),
             ];
         }
 
@@ -67,7 +71,8 @@ class Category extends BaseModel
     {
         if (!$valuesToSave) {
             $valuesToSave = [
-                self::NAME => $this->getName()
+                self::BOWL_ID => $this->getBowlId(),
+                self::USER_ID => $this->getUserId(),
             ];
         }
 
@@ -75,22 +80,41 @@ class Category extends BaseModel
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getName(): string
+    public function getBowlId(): int
     {
-        return $this->name;
+        return $this->bowlId;
     }
 
     /**
-     * @param string $name
+     * @param int $bowlId
      * @return $this
      */
-    public function setName(string $name): self
+    public function setBowlId(int $bowlId): self
     {
-        $this->name = $name;
+        $this->bowlId = $bowlId;
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->userId;
+    }
+
+    /**
+     * @param int $userId
+     * @return $this
+     */
+    public function setUserId(int $userId): self
+    {
+        $this->userId = $userId;
+        return $this;
+    }
+
     /**
      * @return string
      */
@@ -104,6 +128,6 @@ class Category extends BaseModel
      */
     public function getLink(): string
     {
-        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/v1/categories/' . $this->getId();
+        return '';
     }
 }
