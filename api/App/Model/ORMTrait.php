@@ -17,11 +17,7 @@ trait ORMTrait
     {
         $database = Database::getDB();
 
-        $where = [];
-
-        array_walk($whereParams, function ($v) use (&$where) {
-            $where[] = $v[0] . ' ' . $v[1] . ' ' . ((is_string($v[2]) && (strpos($v[2], '(') !== 0 && strpos($v[2], ')') !== strlen($v[2])-1)) ? "'$v[2]'" : $v[2]);
-        });
+        $where = self::prepareWhereConditions($whereParams);
 
         $sql = 'SELECT ' . implode(',', self::$_loadedFields) . ' FROM ' . self::$_table;
 
@@ -29,19 +25,29 @@ trait ORMTrait
             $sql .= ' WHERE ' . implode(' AND ', $where);
         }
 
-        if (self::$_table === 'users') {
-            //print_r($sql);
-            //die();
-        }
-
         $stmt = $database->query($sql);
         return $stmt->fetchAll();
     }
+
+    /**
+     * @param array $whereParams
+     * @return array[]
+     */
+    protected static function prepareWhereConditions(array $whereParams): array
+    {
+        $where = [];
+
+        array_walk($whereParams, function ($v) use (&$where) {
+            $where[] = $v[0] . ' ' . $v[1] . ' ' . ((is_string($v[2]) && (strpos($v[2], '(') !== 0 && strpos($v[2], ')') !== strlen($v[2]) - 1)) ? "'$v[2]'" : $v[2]);
+        });
+        return $where;
+    }
+
     /**
      * @param array|null $valuesToSave
      * @return bool
      */
-    public function update(?array $valuesToSave = null): bool
+    public function updateEntity(?array $valuesToSave = null): bool
     {
         $db = Database::getDB();
 
@@ -135,6 +141,26 @@ trait ORMTrait
         }
 
         return $entries;
+    }
+
+    /**
+     * @param array $whereParams
+     * @return array
+     */
+    public static function delete(array $whereParams = []): bool
+    {
+        $database = Database::getDB();
+
+        $where = self::prepareWhereConditions($whereParams);
+
+        $sql = 'DELETE FROM ' . self::$_table;
+
+        if (count($where)) {
+            $sql .= ' WHERE ' . implode(' AND ', $where);
+        }
+
+        $stmt = $database->query($sql);
+        return $stmt->execute();
     }
 
 }

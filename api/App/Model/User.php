@@ -84,7 +84,7 @@ class User extends BaseModel
             ];
         }
 
-        return self::updateEntity($valuesToSave);
+        return $this->updateEntity($valuesToSave);
     }
 
     /**
@@ -105,7 +105,7 @@ class User extends BaseModel
             ];
         }
 
-        return self::createEntity($valuesToSave);
+        return $this->createEntity($valuesToSave);
     }
 
     /**
@@ -291,6 +291,31 @@ class User extends BaseModel
     public static function getTable(): string
     {
         return self::$_table;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOrders(): array
+    {
+        return Order::all([
+            [Order::USER_ID, '=', $this->getId()]
+        ]);
+    }
+
+    /**
+     * @return array
+     */
+    public function getMenus(): array
+    {
+        return Menu::all([
+            [Menu::CREATOR_ID, '=', $this->getId()]
+        ]);
+    }
+
+    public function delete(): void
+    {
+
     }
 
     /**

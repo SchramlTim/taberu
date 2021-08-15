@@ -2,6 +2,8 @@
 
 namespace Taberu\Controller;
 
+use Taberu\Transformer\MenuList;
+use Taberu\Transformer\OrderList;
 use Taberu\Validator\JWT;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -70,8 +72,6 @@ class UserController
 
     public function getSpecificUser(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $parsedBody = $request->getParsedBody();
-
         try {
             $user = User::findFirstOrFail([
                 [User::ID, '=', (int)$args['userId']]
@@ -136,13 +136,35 @@ class UserController
 
     public function getUserOrders(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+        try {
+            $user = User::findFirstOrFail([
+                [User::ID, '=', (int)$args['userId']]
+            ]);
+            $orders = $user->getOrders();
+
+            $transformer = new OrderList($orders);
+            $response->getBody()->write($transformer->getJson());
+        } catch (\Taberu\Exception\NotFoundException $e) {
+            throw new ResponseException(404, $e->getMessage());
+        }
+
         return $response;
     }
 
     public function getUserMenus(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");
+        try {
+            $user = User::findFirstOrFail([
+                [User::ID, '=', (int)$args['userId']]
+            ]);
+            $menus = $user->getMenus();
+
+            $transformer = new MenuList($menus);
+            $response->getBody()->write($transformer->getJson());
+        } catch (\Taberu\Exception\NotFoundException $e) {
+            throw new ResponseException(404, $e->getMessage());
+        }
+
         return $response;
     }
 }

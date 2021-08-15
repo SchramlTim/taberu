@@ -58,6 +58,8 @@ class App
                 $group->get('[/]', UserController::class.':getAllUsers')->add(new JWTAuthMiddleware());
                 $group->get('/{userId}/orders[/]', UserController::class.':getUserOrders')->add(new JWTAuthMiddleware());
                 $group->get('/{userId}/menus[/]', UserController::class.':getUserMenus')->add(new JWTAuthMiddleware());
+
+                $group->delete('/{userId}[/]', UserController::class.':deleteUser')->add(new JWTAuthMiddleware());
             });
             
 
