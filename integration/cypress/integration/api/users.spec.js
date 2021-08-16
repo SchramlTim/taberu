@@ -2,9 +2,9 @@
 
 context('Users', () => {
 
-  it('register User',()=>{
-    let user = {
-      username: 'cypress@integration.test',
+  it('register user', () => {
+    let userRegister = {
+      username: 'cypress@integration.yolo',
       firstName: 'Cy',
       lastName: 'Press',
       password: 'integrationtest',
@@ -12,19 +12,50 @@ context('Users', () => {
       paypalUsername: 'cypress@integration.paypal',
     }
 
-    cy.request('POST','/v1/users/register', user).then((response)=>{
-      expect(response.status).equal(201)
-      expect(response.body.name).equal(user.name)
-      expect(response.body.job).equal(user.job)
+    cy.request('POST', '/v1/users/register', userRegister).then((response) => {
+      expect(response.status).equal(200);
+      expect(response.body).to.not.be.null;
+      expect(response.body.data.id).is.not.null;
 
+      cy.request('DELETE', '/v1/users/' + response.body.data.id).then((response) => {
+        expect(response.status).equal(202);
+      });
+    });
+  })
+
+  it('get a list of all registered users', () => {
+    cy.registerUserIfNotExist({
+      username: 'cypress@integration.GETLIST',
+      firstName: 'Cy',
+      lastName: 'Press',
+      password: 'integrationtest',
+      phoneNumber: '000000000',
+      paypalUsername: 'cypress@integration.paypal',
+    }).then((user) => {
+      console.log(user);
+      cy.request('GET', '/v1/users').then(async (response) => {
+        expect(response.status).equal(200)
+        expect(response.body).to.not.be.null
+        expect(response.body.data.length).to.have.at.least(1);
+        cy.request('DELETE', '/v1/users/' + user.id).then((response) => {
+          expect(response.status).equal(202);
+        });
+      })
     })
   })
 
-  it('GET-list user',()=>{
-    cy.request('GET','/v1/users').then((response)=>{
-      expect(response.status).equal(200)
-      expect(response.body).to.not.be.null
-      expect(response.body.data.length).to.have.at.least(1);
-    })
+  it('delete user',()=>{
+    cy.registerUserIfNotExist({
+      username: 'cypress@integration.DELETEUSER',
+      firstName: 'Cy',
+      lastName: 'Press',
+      password: 'integrationtest',
+      phoneNumber: '000000000',
+      paypalUsername: 'cypress@integration.paypal',
+    }).then((user) => {
+      cy.request('DELETE', '/v1/users/' + user.id).then((response) => {
+        expect(response.status).equal(202);
+      });
+    });
   })
 })

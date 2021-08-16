@@ -59,8 +59,9 @@ class UserController
             }
 
             $token = JWT::generate($user->getId());
-            $transformer = new Token($token);
-            $response->getBody()->write($transformer->getJson());
+            $userTransformer = new TransformerUser($user);
+            $tokenTransformer = new Token($token);
+            $response->getBody()->write($tokenTransformer->mergeJson(['user' => $userTransformer->getJson()]));
         } catch (\Taberu\Exception\LoginFailedException $e) {
             throw new ResponseException(401, $e->getMessage());
         } catch (\Taberu\Exception\NotFoundException $e) {
@@ -166,5 +167,23 @@ class UserController
         }
 
         return $response;
+    }
+
+    public function deleteUser(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        try {
+            $user = User::findFirstOrFail([
+                [User::ID, '=', (int)$args['userId']]
+            ]);
+            if ($user) {
+                User::delete([
+                    [User::ID, '=', (int)$args['userId']]
+                ]);
+            }
+        } catch (\Taberu\Exception\NotFoundException $e) {
+            throw new ResponseException(404, $e->getMessage());
+        }
+
+        return $response->withStatus(202);
     }
 }

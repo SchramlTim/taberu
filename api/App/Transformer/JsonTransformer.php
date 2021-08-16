@@ -30,8 +30,8 @@ abstract class JsonTransformer
         return $structure;
     }
 
-    public function mergeJson(...$jsons) {
-        $merged = $this->getJson();
+    public function mergeJson($jsons) {
+        $merged = json_decode($this->getJson(), true);
 
         foreach ($jsons as $model => $json) {
             $merged['data'][$model] = json_decode($json, true)['data'];

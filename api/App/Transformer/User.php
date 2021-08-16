@@ -17,6 +17,7 @@ class User extends JsonTransformer
     {
         $data = [
             'self' => $this->user->getLink(),
+            'id' => $this->user->getId(),
             'username' => $this->user->getUsername(),
             'firstName' => $this->user->getFirstName(),
             'lastName' => $this->user->getLastName(),

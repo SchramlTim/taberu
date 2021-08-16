@@ -313,11 +313,6 @@ class User extends BaseModel
         ]);
     }
 
-    public function delete(): void
-    {
-
-    }
-
     /**
      * @return string
      */

@@ -17,6 +17,7 @@ class Bowl extends JsonTransformer
     {
         $data = [
             'self' => $this->bowl->getLink(),
+            'id' => $this->bowl->getId(),
             'creatorId' => $this->bowl->getCreatorID(),
             'name' => $this->bowl->getName(),
             'description' => $this->bowl->getDescription(),

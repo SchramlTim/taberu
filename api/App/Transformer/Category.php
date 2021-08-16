@@ -17,6 +17,7 @@ class Category extends JsonTransformer
     {
         $data = [
             'self' => $this->category->getLink(),
+            'id' => $this->category->getId(),
             'name' => $this->category->getName()
         ];
 

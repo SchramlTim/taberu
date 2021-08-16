@@ -147,7 +147,7 @@ trait ORMTrait
      * @param array $whereParams
      * @return array
      */
-    public static function delete(array $whereParams = []): bool
+    public static function delete(array $whereParams = []): void
     {
         $database = Database::getDB();
 
@@ -159,8 +159,14 @@ trait ORMTrait
             $sql .= ' WHERE ' . implode(' AND ', $where);
         }
 
+
+
         $stmt = $database->query($sql);
-        return $stmt->execute();
+        $success = $stmt->execute();
+
+        if (!$success) {
+            throw new NotFoundException('There are no entries');
+        }
     }
 
 }

@@ -17,6 +17,7 @@ class Department extends JsonTransformer
     {
         $data = [
             'self' => $this->department->getLink(),
+            'id' => $this->department->getId(),
             'name' => $this->department->getName(),
             'description' => $this->department->getDescription(),
             'location' => $this->department->getLocation(),

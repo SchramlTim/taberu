@@ -17,6 +17,7 @@ class Order extends JsonTransformer
     {
         $data = [
             'self' => $this->order->getLink(),
+            'id' => $this->order->getId(),
             'bowlId' => $this->order->getBowlId(),
             'userId' => $this->order->getUserId(),
             'finalPrice' => $this->order->getFinalPrice(),

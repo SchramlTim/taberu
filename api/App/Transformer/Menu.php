@@ -17,6 +17,7 @@ class Menu extends JsonTransformer
     {
         $data = [
             'self' => $this->menu->getLink(),
+            'id' => $this->menu->getId(),
             'name' => $this->menu->getName(),
             'description' => $this->menu->getDescription(),
             'restaurantId' => $this->menu->getRestaurantId(),

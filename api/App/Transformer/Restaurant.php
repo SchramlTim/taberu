@@ -17,6 +17,7 @@ class Restaurant extends JsonTransformer
     {
         $data = [
             'self' => $this->restaurant->getLink(),
+            'id' => $this->restaurant->getId(),
             'name' => $this->restaurant->getName(),
             'description' => $this->restaurant->getDescription(),
             'street' => $this->restaurant->getStreet(),

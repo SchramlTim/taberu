@@ -23,3 +23,60 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+
+Cypress.Commands.add('registerUser', (user) => {
+    let userLogin = {
+        username: user.username,
+        password: user.password,
+    }
+
+    return cy.request({
+        method: 'POST',
+        url: '/v1/users/register',
+        body: user,
+        failOnStatusCode: true
+    }).then((response) => {
+        return response.body.data;
+    });
+})
+
+Cypress.Commands.add('loginUser', (user) => {
+    let userLogin = {
+        username: user.username,
+        password: user.password,
+    }
+
+    return cy.request({
+        method: 'POST',
+        url: '/v1/users/login',
+        body: userLogin,
+        failOnStatusCode: true
+    });
+})
+
+Cypress.Commands.add('registerUserIfNotExist', (user) => {
+    let userLogin = {
+        username: user.username,
+        password: user.password,
+    }
+
+    return cy.request({
+        method: 'POST',
+        url: '/v1/users/login',
+        body: userLogin,
+        failOnStatusCode: false
+    }).then((response) => {
+        if (response.status === 200) {
+            return response.body.data.user;
+        }
+        return cy.request({
+            method: 'POST',
+            url: '/v1/users/register',
+            body: user,
+            failOnStatusCode: false
+        }).then((response) => {
+            return response.body.data;
+        });
+    })
+})
