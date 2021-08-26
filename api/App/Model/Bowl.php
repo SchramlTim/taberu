@@ -78,8 +78,8 @@ class Bowl extends BaseModel
                 self::CREATOR_ID => $this->getCreatorID(),
                 self::NAME => $this->getName(),
                 self::DESCRIPTION => $this->getDescription(),
-                self::ORDER_DEADLINE => $this->getOrderDeadline(),
-                self::ARRIVE_DATE => $this->getArriveDate(),
+                self::ORDER_DEADLINE => $this->getOrderDeadline()->format('Y-m-d H:i:s'),
+                self::ARRIVE_DATE => $this->getArriveDate()->format('Y-m-d H:i:s'),
                 self::MENU_ID => $this->getMenuId(),
             ];
         }
@@ -98,8 +98,8 @@ class Bowl extends BaseModel
                 self::CREATOR_ID => $this->getCreatorID(),
                 self::NAME => $this->getName(),
                 self::DESCRIPTION => $this->getDescription(),
-                self::ORDER_DEADLINE => $this->getOrderDeadline(),
-                self::ARRIVE_DATE => $this->getArriveDate(),
+                self::ORDER_DEADLINE => $this->getOrderDeadline()->format('Y-m-d H:i:s'),
+                self::ARRIVE_DATE => $this->getArriveDate()->format('Y-m-d H:i:s'),
                 self::MENU_ID => $this->getMenuId(),
             ];
         }

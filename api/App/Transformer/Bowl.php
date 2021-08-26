@@ -21,8 +21,8 @@ class Bowl extends JsonTransformer
             'creatorId' => $this->bowl->getCreatorID(),
             'name' => $this->bowl->getName(),
             'description' => $this->bowl->getDescription(),
-            'orderDeadline' => $this->bowl->getOrderDeadline(),
-            'arriveDate' => $this->bowl->getArriveDate(),
+            'orderDeadline' => $this->bowl->getOrderDeadline()->format('Y-m-d H:i:s'),
+            'arriveDate' => $this->bowl->getArriveDate()->format('Y-m-d H:i:s'),
             'menuId' => $this->bowl->getMenuId(),
             'orders' => $this->bowl->getOrderLink(),
         ];

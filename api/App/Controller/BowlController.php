@@ -39,10 +39,11 @@ class BowlController
         try {
             $bowl = new Bowl();
             $bowl->setCreatorID($parsedBody['creatorId'])
-                ->setDescription($parsedBody['name'])
-                ->setOrderDeadline(new DateTime($parsedBody['name']))
-                ->setArriveDate(new DateTime($parsedBody['name']))
-                ->setMenuId($parsedBody['name']);
+                ->setName($parsedBody['name'])
+                ->setDescription($parsedBody['description'])
+                ->setOrderDeadline(new DateTime($parsedBody['orderDeadline']))
+                ->setArriveDate(new DateTime($parsedBody['arriveDate']))
+                ->setMenuId($parsedBody['menuId']);
             $bowl->create();
 
             $bowl = Bowl::findFirstOrFail([

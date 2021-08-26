@@ -24,7 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-
 Cypress.Commands.add('registerUser', (user) => {
     let userLogin = {
         username: user.username,
@@ -55,7 +54,7 @@ Cypress.Commands.add('loginUser', (user) => {
     });
 })
 
-Cypress.Commands.add('registerUserIfNotExist', (user) => {
+Cypress.Commands.add('registerAndLoginUser', (user) => {
     let userLogin = {
         username: user.username,
         password: user.password,
@@ -67,16 +66,25 @@ Cypress.Commands.add('registerUserIfNotExist', (user) => {
         body: userLogin,
         failOnStatusCode: false
     }).then((response) => {
+
         if (response.status === 200) {
-            return response.body.data.user;
+            return response.body.data;
         }
+
         return cy.request({
             method: 'POST',
             url: '/v1/users/register',
             body: user,
             failOnStatusCode: false
         }).then((response) => {
-            return response.body.data;
+            return cy.request({
+                method: 'POST',
+                url: '/v1/users/login',
+                body: userLogin,
+                failOnStatusCode: true
+            }).then((response) => {
+                return response.body.data;
+            })
         });
     })
 })

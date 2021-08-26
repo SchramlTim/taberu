@@ -2,7 +2,7 @@
 
 context('Users', () => {
 
-    it('register user', () => {
+    it.skip('register user', () => {
         let userRegister = {
             username: 'cypress@integration.yolo',
             firstName: 'Cy',
@@ -24,20 +24,33 @@ context('Users', () => {
     })
 
     it('get a list of all registered users', () => {
-        cy.registerUserIfNotExist({
+        cy.registerAndLoginUser({
             username: 'cypress@integration.GETLIST',
             firstName: 'Cy',
             lastName: 'Press',
             password: 'integrationtest',
             phoneNumber: '000000000',
             paypalUsername: 'cypress@integration.paypal',
-        }).then((user) => {
-            console.log(user);
-            cy.request('GET', '/v1/users').then(async(response) => {
+        }).then((loginData) => {
+            cy.request({
+                method: 'GET',
+                url: '/v1/users/',
+                headers: {
+                    'x-token': loginData.token
+                },
+                failOnStatusCode: false
+            }).then(async(response) => {
                 expect(response.status).equal(200)
                 expect(response.body).to.not.be.null
                 expect(response.body.data.length).to.have.at.least(1);
-                cy.request('DELETE', '/v1/users/' + user.id).then((response) => {
+                cy.request({
+                    method: 'DELETE',
+                    url: '/v1/users/' + loginData.user.id,
+                    headers: {
+                        'x-token': loginData.token
+                    },
+                    failOnStatusCode: false
+                }).then(async(response) => {
                     expect(response.status).equal(202);
                 });
             })
@@ -45,20 +58,34 @@ context('Users', () => {
     })
 
     it('get specific user from list registered users', () => {
-        cy.registerUserIfNotExist({
+        cy.registerAndLoginUser({
             username: 'cypress@integration.SPECIFIC',
             firstName: 'Cy',
             lastName: 'Press',
             password: 'integrationtest',
             phoneNumber: '000000000',
             paypalUsername: 'cypress@integration.paypal',
-        }).then((user) => {
-            cy.request('GET', '/v1/users/' + user.id).then(async(response) => {
+        }).then((loginData) => {
+            cy.request({
+                method: 'GET',
+                url: '/v1/users/' + loginData.user.id,
+                headers: {
+                    'x-token': loginData.token
+                },
+                failOnStatusCode: false
+            }).then(async(response) => {
                 expect(response.status).equal(200);
                 expect(response.body).to.not.be.null;
-                expect(response.body.data.username).eq(user.username);
+                expect(response.body.data.username).eq(loginData.user.username);
 
-                cy.request('DELETE', '/v1/users/' + user.id).then((response) => {
+                cy.request({
+                    method: 'DELETE',
+                    url: '/v1/users/' + loginData.user.id,
+                    headers: {
+                        'x-token': loginData.token
+                    },
+                    failOnStatusCode: false
+                }).then(async(response) => {
                     expect(response.status).equal(202);
                 });
             })
@@ -66,15 +93,22 @@ context('Users', () => {
     })
 
     it('delete user', () => {
-        cy.registerUserIfNotExist({
+        cy.registerAndLoginUser({
             username: 'cypress@integration.DELETEUSER',
             firstName: 'Cy',
             lastName: 'Press',
             password: 'integrationtest',
             phoneNumber: '000000000',
             paypalUsername: 'cypress@integration.paypal',
-        }).then((user) => {
-            cy.request('DELETE', '/v1/users/' + user.id).then((response) => {
+        }).then((loginData) => {
+            cy.request({
+                method: 'DELETE',
+                url: '/v1/users/' + loginData.user.id,
+                headers: {
+                    'x-token': loginData.token
+                },
+                failOnStatusCode: false
+            }).then(async(response) => {
                 expect(response.status).equal(202);
             });
         });

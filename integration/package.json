@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "cypress": "^8.2.0"
+  },
+  "devDependencies": {
+    "@cypress/snapshot": "^2.1.7"
   }
 }

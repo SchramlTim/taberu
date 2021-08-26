@@ -19,8 +19,6 @@ class JWTAuthMiddleware
      */
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
-        return $handler->handle($request);
-
         $token = null;
         $lowerHeaders = array_change_key_case($request->getHeaders());
         if (array_key_exists('x-token', $lowerHeaders)) {
