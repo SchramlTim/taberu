@@ -153,12 +153,12 @@ class BowlController
             $order = new Order();
             $order->setBowlId($bowl->getId())
                 ->setUserId($parsedBody['userId'])
-                ->setPaymentMethod($parsedBody['userId'])
+                ->setPaymentMethod($parsedBody['paymentMethod'])
                 ->setFinalPrice($parsedBody['finalPrice']);
             $order->create();
 
-            $order = Bowl::findFirstOrFail([
-                [Bowl::ID, '=', $order->getId()]
+            $order = Order::findFirstOrFail([
+                [Order::ID, '=', $order->getId()]
             ]);
 
             $transformer = new \Taberu\Transformer\Order($order);
