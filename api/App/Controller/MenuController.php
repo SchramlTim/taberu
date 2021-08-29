@@ -39,8 +39,11 @@ class MenuController
             $menu = new Menu();
             $menu->setName($parsedBody['name'])
                 ->setDescription($parsedBody['description'])
-                ->setCreatorID($parsedBody['creatorId'])
-                ->setRestaurantId($parsedBody['restaurantId']);
+                ->setCreatorID($parsedBody['creatorId']);
+
+            if (isset($parsedBody['restaurantId'])) {
+                $menu->setRestaurantId($parsedBody['restaurantId']);
+            }
 
             $menu->create();
 
@@ -153,7 +156,7 @@ class MenuController
                 [MenuItem::ID, '=', $item->getId()]
             ]);
 
-            $transformer = new \Taberu\Transformer\Order($item);
+            $transformer = new \Taberu\Transformer\MenuItem($item);
             $response->getBody()->write($transformer->getJson());
         } catch (\Taberu\Exception\AlreadyExistException $e) {
             throw new ResponseException(409, $e->getMessage());

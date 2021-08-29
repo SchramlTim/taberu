@@ -2,9 +2,10 @@
 
 context('Users', () => {
 
-    it.skip('register user', () => {
+    it('register & login user', () => {
+
         let userRegister = {
-            username: 'cypress@integration.yolo',
+            username: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5) + 'cypress@integration.yolo',
             firstName: 'Cy',
             lastName: 'Press',
             password: 'integrationtest',
@@ -17,8 +18,13 @@ context('Users', () => {
             expect(response.body).to.not.be.null;
             expect(response.body.data.id).is.not.null;
 
-            cy.request('DELETE', '/v1/users/' + response.body.data.id).then((response) => {
-                expect(response.status).equal(202);
+            cy.request('POST', '/v1/users/login', {
+                username: userRegister.username,
+                password: userRegister.password,
+            }).then((loginData) => {
+                expect(loginData.status).equal(200);
+                expect(loginData.body.data.token).not.to.be.undefined;
+                expect(loginData.body.data.user).not.to.be.undefined;
             });
         });
     })
@@ -39,7 +45,7 @@ context('Users', () => {
                     'x-token': loginData.token
                 },
                 failOnStatusCode: false
-            }).then(async(response) => {
+            }).then((response) => {
                 expect(response.status).equal(200)
                 expect(response.body).to.not.be.null
                 expect(response.body.data.length).to.have.at.least(1);
@@ -50,7 +56,7 @@ context('Users', () => {
                         'x-token': loginData.token
                     },
                     failOnStatusCode: false
-                }).then(async(response) => {
+                }).then((response) => {
                     expect(response.status).equal(202);
                 });
             })
@@ -73,7 +79,7 @@ context('Users', () => {
                     'x-token': loginData.token
                 },
                 failOnStatusCode: false
-            }).then(async(response) => {
+            }).then((response) => {
                 expect(response.status).equal(200);
                 expect(response.body).to.not.be.null;
                 expect(response.body.data.username).eq(loginData.user.username);
@@ -85,7 +91,7 @@ context('Users', () => {
                         'x-token': loginData.token
                     },
                     failOnStatusCode: false
-                }).then(async(response) => {
+                }).then((response) => {
                     expect(response.status).equal(202);
                 });
             })
@@ -108,7 +114,7 @@ context('Users', () => {
                     'x-token': loginData.token
                 },
                 failOnStatusCode: false
-            }).then(async(response) => {
+            }).then((response) => {
                 expect(response.status).equal(202);
             });
         });

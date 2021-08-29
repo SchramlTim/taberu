@@ -69,7 +69,8 @@ class App
                 $group->get('/{departmentId}[/]', DepartmentController::class.':getSpecificDepartment');
                 $group->patch('/{departmentId}[/]', DepartmentController::class.':updateDepartment');
                 $group->delete('/{departmentId}[/]', DepartmentController::class.':deleteDepartment');
-                $group->delete('/{departmentId}/users[/]', DepartmentController::class.':getAllDepartmentUser');
+                
+                $group->get('/{departmentId}/users[/]', DepartmentController::class.':getAllDepartmentUser');
             })->add(new JWTAuthMiddleware());
 
             $group->group('/bowls', function (RouteCollectorProxyInterface $group) use ($app) {
@@ -99,6 +100,7 @@ class App
                 $group->get('/{menuId}[/]', MenuController::class.':getSpecificMenu');
                 $group->patch('/{menuId}[/]', MenuController::class.':updateMenu');
                 $group->delete('/{menuId}[/]', MenuController::class.':deleteMenu');
+                
                 $group->get('/{menuId}/items[/]', MenuController::class.':getAllMenuItems');
                 $group->post('/{menuId}/items[/]', MenuController::class.':createMenuItem');
                 $group->patch('/{menuId}/items/{itemId}[/]', MenuController::class.':updateMenuItem');
