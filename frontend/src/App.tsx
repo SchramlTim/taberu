@@ -1,24 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Route, Switch } from "react-router-dom";
+import { DefaultLayout } from './Layout/DefaultLayout/DefaultLayout';
+import Login from './Routes/Login/Login';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          onClick={() => {
-            Notification.requestPermission();
-          }}
-        >
-          Trigger Push API
-        </a>
-      </header>
-    </div>
+  return (    
+    <>
+      <DefaultLayout>
+        <Switch>
+          <Route exact path="/"><p>Home</p></Route>
+          <Route exact path="/login"><Login></Login></Route>
+          <Route exact path="/register"><p>Register</p></Route>
+        </Switch>
+      </DefaultLayout>
+    </>
   );
 }
 

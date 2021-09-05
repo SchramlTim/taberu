@@ -33,6 +33,8 @@ class JsonErrorHandler
             $statusCode = $exception->getStatusCode();
         }
 
+        error_log($exception->getMessage());
+
         $transformer = new Error($exception);
         $response = $this->app->getResponseFactory()->createResponse();
         $response->getBody()->write($transformer->getJson());
