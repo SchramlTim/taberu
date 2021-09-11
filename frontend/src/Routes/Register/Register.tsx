@@ -1,18 +1,26 @@
 import React from 'react';
-import styles from './Login.module.css';
+import styles from './Register.module.css';
 //import { Link } from "react-router-dom";
 
-class Login extends React.Component {
+class Register extends React.Component {
 
     state = {
         username: '',
+        firstName: '',
+        lastName: '',
         password: '',
+        phoneNumber: '',
+        paypalUsername: '',
     };
 
     constructor(props: any) {
       super(props);  
       this.handleChangeUsername = this.handleChangeUsername.bind(this);
       this.handleChangePassword = this.handleChangePassword.bind(this);
+      this.handleChangeFirstName = this.handleChangeFirstName.bind(this);
+      this.handleChangeLastName = this.handleChangeLastName.bind(this);
+      this.handleChangePhoneNumber = this.handleChangePhoneNumber.bind(this);
+      this.handleChangePaypalUsername = this.handleChangePaypalUsername.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
     }
   
@@ -22,12 +30,32 @@ class Login extends React.Component {
 
     handleChangePassword(event: any) {
         this.setState({password: event.target.value});
-      }
+    }
+
+    handleChangeFirstName(event: any) {
+      this.setState({firstName: event.target.value});
+    }
+
+    handleChangeLastName(event: any) {
+        this.setState({lastName: event.target.value});
+    }
+
+    handleChangePhoneNumber(event: any) {
+      this.setState({phoneNumber: event.target.value});
+    }
+
+    handleChangePaypalUsername(event: any) {
+        this.setState({paypalUsername: event.target.value});
+    }
   
     handleSubmit(event: any) {
-      this.postData("https://taberu.localhost/v1/users/login", { 
+      this.postData("https://taberu.localhost/v1/users/register", { 
           username: this.state.username,
+          firstName: this.state.username,
+          lastName: this.state.username,
           password: this.state.password,
+          phoneNumber: this.state.password,
+          paypalUsername: this.state.password,
         })
         .then(data => {
             console.log(data); // JSON data parsed by `data.json()` call
@@ -61,8 +89,20 @@ class Login extends React.Component {
           <label htmlFor="username">Name:</label>
           <input name="username" type="text" onChange={this.handleChangeUsername} />
 
+          <label htmlFor="firstName">First Name:</label>
+          <input name="firstName" type="text" onChange={this.handleChangeFirstName} />
+
+          <label htmlFor="lastName">Last Name:</label>
+          <input name="lastName" type="text" onChange={this.handleChangeLastName} />
+
           <label htmlFor="password">Password:</label>
           <input name="password" type="password" onChange={this.handleChangePassword} />
+
+          <label htmlFor="phoneNumber">Phone Number:</label>
+          <input name="phoneNumber" type="text" onChange={this.handleChangePhoneNumber} />
+
+          <label htmlFor="paypalUsername">Paypal Username:</label>
+          <input name="paypalUsername" type="text" onChange={this.handleChangePaypalUsername} />
           
           <input type="submit" value="Submit" />
         </form>
@@ -71,4 +111,4 @@ class Login extends React.Component {
   }
 
 
-export default Login;
+export default Register;
