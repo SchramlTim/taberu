@@ -51,11 +51,11 @@ class Register extends React.Component {
     handleSubmit(event: any) {
       this.postData("https://taberu.localhost/v1/users/register", { 
           username: this.state.username,
-          firstName: this.state.username,
-          lastName: this.state.username,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
           password: this.state.password,
-          phoneNumber: this.state.password,
-          paypalUsername: this.state.password,
+          phoneNumber: this.state.phoneNumber,
+          paypalUsername: this.state.paypalUsername,
         })
         .then(data => {
             console.log(data); // JSON data parsed by `data.json()` call

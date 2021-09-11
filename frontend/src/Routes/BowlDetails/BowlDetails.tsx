@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router';
+import { Redirect, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import styles from './User.module.css';
 //import { Link } from "react-router-dom";
 
-function User() {
+function BowlDetails() {
 
-    const [user, setUser] = useState([]);
+    let { id } = useParams<any>();
+    const [bowl, setBowls] = useState<any>([]);
+    const [orders, setOrders] = useState<any>([]);
+    
 
     // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
-        getData("https://taberu.localhost/v1/users/")
+        getData("https://taberu.localhost/v1/bowls/" + id)
             .then(response => {
-                setUser(response.data)
-            });
-    });
+                setBowls(response.data)
+        });
+
+        getData("https://taberu.localhost/v1/bowls/" + id + '/orders')
+            .then(response => {
+                setOrders(response.data)
+        });
+    }, []);
 
     const getData = async (url = '', data = {}) => {
         // Default options are marked with *
@@ -24,6 +33,7 @@ function User() {
             credentials: 'same-origin', // include, *same-origin, omit
             headers: {
                 'Content-Type': 'application/json',
+                //'Content-Type': 'application/x-www-form-urlencoded',
                 'Accept': 'application/json',
                 'x-token': sessionStorage.getItem('token')
             },
@@ -34,16 +44,21 @@ function User() {
     }
 
       return (
-          <ul>
-              {
-                  user.map((userObject) => (
-                  <li key={userObject.id}>
-                      {JSON.stringify(userObject)}
-                  </li>
-              ))}
-          </ul>
-
+        <>
+            <div>
+                <p>{bowl.name}</p>
+                <p>{bowl.description}</p>
+                <p>{bowl.orderDeadline}</p>
+                <p>{bowl.arriveDate}</p>
+            </div>
+            <div>
+                {
+                    orders.map((order) => (
+                        <p>{JSON.stringify(order)}</p>
+                ))}
+            </div>
+        </>
       );
   }
 
-export default User;
+export default BowlDetails;
