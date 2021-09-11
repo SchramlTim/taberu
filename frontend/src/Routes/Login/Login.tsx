@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import styles from './Login.module.css';
 //import { Link } from "react-router-dom";
 
@@ -7,6 +8,7 @@ class Login extends React.Component {
     state = {
         username: '',
         password: '',
+        afterLogin: false
     };
 
     constructor(props: any) {
@@ -29,8 +31,9 @@ class Login extends React.Component {
           username: this.state.username,
           password: this.state.password,
         })
-        .then(data => {
-            console.log(data); // JSON data parsed by `data.json()` call
+        .then(response => {
+            sessionStorage.setItem('token', response.data.token);
+            this.setState({afterLogin: true});
         });
  
         event.preventDefault();
@@ -56,6 +59,11 @@ class Login extends React.Component {
     }
   
     render() {
+
+      if (this.state.afterLogin) {
+        return (<Redirect to="/"/>);
+      }
+
       return (
         <form onSubmit={this.handleSubmit} className={styles.grid}>
           <label htmlFor="username">Name:</label>
