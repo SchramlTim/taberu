@@ -8,6 +8,7 @@ import Register from './Routes/Register/Register';
 import Home from './Routes/Home/Home';
 import Bowls from './Routes/Bowls/Bowls';
 import BowlDetails from './Routes/BowlDetails/BowlDetails';
+import './index.css'
 
 function App() {
   return (    
