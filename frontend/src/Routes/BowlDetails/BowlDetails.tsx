@@ -35,7 +35,7 @@ function BowlDetails() {
                 'Content-Type': 'application/json',
                 //'Content-Type': 'application/x-www-form-urlencoded',
                 'Accept': 'application/json',
-                'x-token': sessionStorage.getItem('token')
+                'x-token': sessionStorage.getItem('token') ?? ''
             },
             redirect: 'follow', // manual, *follow, error
             referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
@@ -53,7 +53,7 @@ function BowlDetails() {
             </div>
             <div>
                 {
-                    orders.map((order) => (
+                    orders.map((order: any) => (
                         <p>{JSON.stringify(order)}</p>
                 ))}
             </div>

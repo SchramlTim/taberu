@@ -27,7 +27,7 @@ function Bowls() {
                 'Content-Type': 'application/json',
                 //'Content-Type': 'application/x-www-form-urlencoded',
                 'Accept': 'application/json',
-                'x-token': sessionStorage.getItem('token')
+                'x-token': sessionStorage.getItem('token') ?? ''
             },
             redirect: 'follow', // manual, *follow, error
             referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
@@ -38,7 +38,7 @@ function Bowls() {
       return (
           <ul>
               {
-                  bowls.map((bowl) => (
+                  bowls.map((bowl: any) => (
                     <Link key={bowl.id} to={'/bowls/' + bowl.id}>
                         <li key={bowl.id}>
                             <p>{bowl.name}</p>

@@ -12,7 +12,7 @@ class Home extends React.Component {
           <p><Link to="/login">Login</Link></p>
           <p><Link to="/register">Register</Link></p>
           <p><Link to="/user">Users</Link></p>
-          <p><Link to="/bowls">Bowls</Link></p>
+          <p className={"bg-amber-700"}><Link to="/bowls">Bowls</Link></p>
         </>
       );
     }
