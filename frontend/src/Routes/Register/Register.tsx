@@ -1,6 +1,4 @@
 import React from 'react';
-import styles from './Register.module.css';
-//import { Link } from "react-router-dom";
 
 class Register extends React.Component {
 
@@ -85,7 +83,7 @@ class Register extends React.Component {
   
     render() {
       return (
-        <form onSubmit={this.handleSubmit} className={styles.grid}>
+        <form onSubmit={this.handleSubmit} className={'grid justify-around'}>
           <label htmlFor="username">Name:</label>
           <input name="username" type="text" onChange={this.handleChangeUsername} />
 

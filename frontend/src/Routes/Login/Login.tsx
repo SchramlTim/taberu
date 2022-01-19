@@ -1,7 +1,5 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-import styles from './Login.module.css';
-//import { Link } from "react-router-dom";
 
 class Login extends React.Component {
 
@@ -65,7 +63,7 @@ class Login extends React.Component {
       }
 
       return (
-        <form onSubmit={this.handleSubmit} className={styles.grid}>
+        <form onSubmit={this.handleSubmit} className={'grid justify-around'}>
           <label htmlFor="username">Name:</label>
           <input name="username" type="text" onChange={this.handleChangeUsername} />
 

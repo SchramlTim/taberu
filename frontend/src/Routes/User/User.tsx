@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router';
-import styles from './User.module.css';
-//import { Link } from "react-router-dom";
 
 function User() {
 
