@@ -83,27 +83,73 @@ class Register extends React.Component {
   
     render() {
       return (
-        <form onSubmit={this.handleSubmit} className={'grid justify-around'}>
-          <label htmlFor="username">Name:</label>
-          <input name="username" type="text" onChange={this.handleChangeUsername} />
-
-          <label htmlFor="firstName">First Name:</label>
-          <input name="firstName" type="text" onChange={this.handleChangeFirstName} />
-
-          <label htmlFor="lastName">Last Name:</label>
-          <input name="lastName" type="text" onChange={this.handleChangeLastName} />
-
-          <label htmlFor="password">Password:</label>
-          <input name="password" type="password" onChange={this.handleChangePassword} />
-
-          <label htmlFor="phoneNumber">Phone Number:</label>
-          <input name="phoneNumber" type="text" onChange={this.handleChangePhoneNumber} />
-
-          <label htmlFor="paypalUsername">Paypal Username:</label>
-          <input name="paypalUsername" type="text" onChange={this.handleChangePaypalUsername} />
-          
-          <input type="submit" value="Submit" />
-        </form>
+        <div className={'flex justify-center items-center w-full h-full'}>
+            <div className={'w-full max-w-xs'}>
+                <form onSubmit={this.handleSubmit} className={'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
+                    <div className={'mb-4'}>
+                        <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor="username">
+                            Name
+                        </label>
+                        <input
+                            onChange={this.handleChangeUsername}
+                            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
+                            id="username" type="text" placeholder="Name"/>
+                    </div>
+                    <div className={'mb-4'}>
+                        <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor="firstName">
+                            First Name
+                        </label>
+                        <input
+                            onChange={this.handleChangeFirstName}
+                            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
+                            id="firstName" type="text" placeholder="First Name"/>
+                    </div>
+                    <div className={'mb-4'}>
+                        <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor="lastName">
+                            Last Name
+                        </label>
+                        <input
+                            onChange={this.handleChangeLastName}
+                            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
+                            id="lastName" type="text" placeholder="Last Name"/>
+                    </div>
+                    <div className={'mb-4'}>
+                        <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor="password">
+                            Password
+                        </label>
+                        <input
+                            onChange={this.handleChangePassword}
+                            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
+                            id="password" type="password" placeholder="*****************"/>
+                    </div>
+                    <div className={'mb-4'}>
+                        <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor="phoneNumber">
+                            Phone Number
+                        </label>
+                        <input
+                            onChange={this.handleChangePhoneNumber}
+                            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
+                            id="phoneNumber" type="tel" placeholder="*****************"/>
+                    </div>
+                    <div className={'mb-4'}>
+                        <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor="paypalUsername">
+                            Paypal Username
+                        </label>
+                        <input
+                            onChange={this.handleChangePaypalUsername}
+                            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
+                            id="paypalUsername" type="email" placeholder="max.mustermann@email.com"/>
+                    </div>
+                    <div className={'flex items-center justify-between'}>
+                        <button
+                            className={'bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'}
+                            type="submit">
+                            Sign Up
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
       );
     }
   }

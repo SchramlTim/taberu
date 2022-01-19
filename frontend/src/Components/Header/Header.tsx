@@ -8,8 +8,8 @@ function BowlDetails() {
       }, [display])
     return (
         <>
-            <div className={'h-16 flex items-center bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60 bg-gray-800 border border-gray-200'}>
-                <Link to="/home" className={'text-xl'}>Taberu</Link>
+            <div className={'h-16 flex items-center bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60 bg-amber-600 border border-gray-200'}>
+                <Link to="/" className={'text-xl'}>Taberu</Link>
 
                 <button className={'absolute right-2 z-50 bg-white h-12 w-12 rounded-2xl flex justify-center items-center'} onClick={toggleMenu}>
                     <div className="space-y-2">

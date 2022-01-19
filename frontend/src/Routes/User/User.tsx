@@ -10,7 +10,7 @@ function User() {
             .then(response => {
                 setUser(response.data)
             });
-    });
+    }, []);
 
     const getData = async (url = '', data = {}) => {
         // Default options are marked with *
