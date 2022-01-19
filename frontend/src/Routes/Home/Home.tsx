@@ -1,8 +1,5 @@
 import React from 'react';
-// import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
-//import { Link } from "react-router-dom";
-import '../../index.css'
 
 export const Home = () => {
       return (

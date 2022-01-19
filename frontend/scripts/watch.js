@@ -11,34 +11,6 @@ const path = require('path');
 
 const conf = config('development');
 
-for (const rule of conf.module.rules) {
-    if (!rule.oneOf) continue
-
-    for (const one of rule.oneOf) {
-        if (
-            one.loader &&
-            one.loader.includes('babel-loader') &&
-            one.options &&
-            one.options.plugins
-        ) {
-            one.options.plugins = one
-                .options
-                .plugins
-                .filter(plugin =>
-                    typeof plugin !== 'string' ||
-                    !plugin.includes('react-refresh')
-                )
-        }
-    }
-}
-
-conf.plugins = conf
-    .plugins
-    .filter(plugin =>
-        !(plugin instanceof webpack.HotModuleReplacementPlugin) &&
-        !(plugin instanceof ReactRefreshPlugin)
-    )
-
 // We needed to output to a specific folder for cross-framework interop.
 // Make sure to change the output path or to remove this line if the behavior
 // of the original gist is sufficient for your needs!

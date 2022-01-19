@@ -25,17 +25,18 @@ export const Bowls = () => {
     }, []);
 
     const getData = async (url = '', data = {}) => {
-        const requestHeaders: HeadersInit = new Headers();
-        requestHeaders.set('Content-Type', 'application/json');
-        requestHeaders.set('Accept', 'application/json');
-        requestHeaders.set('x-token', sessionStorage.getItem('token') as string);
         // Default options are marked with *
         const response = await fetch(url, {
             method: 'GET', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
             credentials: 'same-origin', // include, *same-origin, omit
-            headers: requestHeaders,
+            headers: {
+                'Content-Type': 'application/json',
+                //'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'application/json',
+                'x-token': sessionStorage.getItem('token') ?? ''
+            },
             redirect: 'follow', // manual, *follow, error
             referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         });
