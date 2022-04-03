@@ -1,46 +1,41 @@
 import React, {createContext, FC, useState} from "react";
 
 
-type UserContextState = {
-    user: {
-        name: string,
-        auth: boolean,
-    },
-    login: any,
-};
+type UserState = {
+    id: number,
+    username: string,
+    firstName: string,
+    lastName: string,
+    paypalUsername: string,
+    phoneNumber: string,
+    selfLink: string,
+    token: boolean,
+}
 
-const contextDefaultValues: UserContextState = {
-    user: {
-        name: '',
-        auth: false,
-    },
-    login: () => {},
+
+
+
+
+type UserProviderState = {
+    user: UserState | undefined,
+    login(userData: UserState): void,
+}
+
+const contextDefaultValues: UserProviderState  = {
+    user: undefined,
+    login: (userData) => {},
 };
 
 export const UserContext = createContext(contextDefaultValues);
 
 export const UserProvider: FC = ({ children }) => {
     // User is the name of the "data" that gets stored in context
-    const [user, setUser] = useState<object>(contextDefaultValues.user);
-
-    // Login updates the user data with a name parameter
-    const login = (name: string) => {
-        setUser((user) => ({
-            name: name,
-            auth: true,
-        }));
-    };
-
-    // Logout updates the user data to default
-    const logout = () => {
-        setUser((user) => ({
-            name: '',
-            auth: false,
-        }));
-    };
+    const [userData, setUser] = useState<UserState>();
+    const login = (userData: UserState) => setUser(userData)
+    const logout = () => setUser(undefined)
 
     return (
-        <UserContext.Provider value={{ user: contextDefaultValues.user, login: setUser }}>
+        <UserContext.Provider value={{ user: userData, login: setUser }}>
             {children}
         </UserContext.Provider>
     );
