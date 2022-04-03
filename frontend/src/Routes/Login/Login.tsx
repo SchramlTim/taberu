@@ -34,9 +34,7 @@ export const Login = () => {
             password: password,
         });
 
-        login(response.data.user)
-        sessionStorage.setItem('token', response.data.token);
-        sessionStorage.setItem('user', JSON.stringify(response.data.user));
+        login(response.data)
         setAfterLogin(true)
     }
 

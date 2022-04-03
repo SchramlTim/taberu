@@ -8,6 +8,7 @@ import Home from './Routes/Home/Home';
 import Bowls from './Routes/Bowls/Bowls';
 import BowlDetails from './Routes/BowlDetails/BowlDetails';
 import { UserProvider } from './Context/UserContext';
+import PrivateRoute from "./Routes/PrivateRoute/PrivateRoute";
 
 function App() {
   return (    
@@ -18,9 +19,9 @@ function App() {
             <Route exact path="/"><Home/></Route>
             <Route exact path="/login"><Login/></Route>
             <Route exact path="/register"><Register/></Route>
-            <Route exact path="/user"><User/></Route>
-            <Route exact path="/bowls"><Bowls/></Route>
-            <Route exact path="/bowls/:id"><BowlDetails/></Route>
+            <PrivateRoute  path="/user"  component={User} exact />
+            <PrivateRoute  path="/bowls"  component={Bowls} exact />
+            <PrivateRoute  path="/bowls/:id"  component={BowlDetails} exact />
           </Switch>
         </DefaultLayout>
       </UserProvider>

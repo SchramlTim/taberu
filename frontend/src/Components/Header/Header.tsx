@@ -8,6 +8,10 @@ function BowlDetails() {
         setDisplayState(!display)
       }, [display])
     const { user: userContext, logout } = useContext(UserContext)
+    const handleLogout = () => {
+        logout()
+        toggleMenu()
+    }
     return (
         <>
             <div className={'h-16 flex items-center bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60 bg-amber-600 border border-gray-200'}>
@@ -43,7 +47,7 @@ function BowlDetails() {
                                 <div className={'flex flex-col justify-start text-center text-l'}>
                                     <span>Name: {userContext.username}</span>
                                     <span>ID: {userContext.id}</span>
-                                    <div className={'p-2 ml-3 mr-3 mt-2 rounded-md bg-gray-900'} onClick={logout}>Logout</div>
+                                    <div className={'p-2 ml-3 mr-3 mt-2 rounded-md bg-gray-900'} onClick={handleLogout}>Logout</div>
                                 </div>
                             </div>
                         }
