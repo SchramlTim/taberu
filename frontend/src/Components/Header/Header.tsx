@@ -7,7 +7,7 @@ function BowlDetails() {
     const toggleMenu = useCallback(async () => {
         setDisplayState(!display)
       }, [display])
-    const { user: userContext } = useContext(UserContext)
+    const { user: userContext, logout } = useContext(UserContext)
     return (
         <>
             <div className={'h-16 flex items-center bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60 bg-amber-600 border border-gray-200'}>
@@ -39,10 +39,11 @@ function BowlDetails() {
                             }
                         </ul>
                         {userContext &&
-                            <div className={'bottom-0'}>
-                                <div>
-                                    <span className={'mt-2'}>{userContext.username}</span>
-                                    <span className={'mt-2'}>{userContext.id}</span>
+                            <div className={'absolute bottom-12 w-full'}>
+                                <div className={'flex flex-col justify-start text-center text-l'}>
+                                    <span>Name: {userContext.username}</span>
+                                    <span>ID: {userContext.id}</span>
+                                    <div className={'p-2 ml-3 mr-3 mt-2 rounded-md bg-gray-900'} onClick={logout}>Logout</div>
                                 </div>
                             </div>
                         }
