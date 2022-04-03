@@ -4,7 +4,6 @@ import { UserContext } from '../../Context/UserContext';
 
 export const Home = () => {
   const { user: userContext } = useContext(UserContext);
-  console.log('test', userContext)
   return (
     <div className={"my-50"}>
       <h1 className={"bg-light"}>Home</h1>

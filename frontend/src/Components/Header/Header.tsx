@@ -1,11 +1,13 @@
-import React, { useState, useCallback } from 'react';
+import React, {useState, useCallback, useContext} from 'react';
 import { Link } from 'react-router-dom';
+import {UserContext} from "../../Context/UserContext";
 
 function BowlDetails() {
     const [display, setDisplayState] = useState<any>(false);    
     const toggleMenu = useCallback(async () => {
         setDisplayState(!display)
       }, [display])
+    const { user: userContext } = useContext(UserContext)
     return (
         <>
             <div className={'h-16 flex items-center bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60 bg-amber-600 border border-gray-200'}>
@@ -23,11 +25,27 @@ function BowlDetails() {
                     <div onClick={toggleMenu} className={'absolute top-0 left-0 w-screen h-screen'}></div>
                     <div className={'absolute right-0 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-90 bg-gray-800 border h-screen border-gray-200 top-0 m-0 w-1/4 text-white'}>
                         <ul className={'mt-20 flex flex-col justify-start text-center text-2xl'}>
-                            <li className={'mt-2'}><Link to="/login">Login</Link></li>
-                            <li className={'mt-2'}><Link to="/register">Register</Link></li>
-                            <li className={'mt-2'}><Link to="/user">Users</Link></li>
-                            <li className={'mt-2'}><Link to="/bowls">Bowls</Link></li>
+                            {userContext &&
+                                <>
+                                    <li className={'mt-2'}><Link onClick={toggleMenu} to="/user">Users</Link></li>
+                                    <li className={'mt-2'}><Link onClick={toggleMenu} to="/bowls">Bowls</Link></li>
+                                </>
+                            }
+                            {!userContext &&
+                                <>
+                                <li className={'mt-2'}><Link onClick={toggleMenu} to="/login">Login</Link></li>
+                                <li className={'mt-2'}><Link onClick={toggleMenu} to="/register">Register</Link></li>
+                                </>
+                            }
                         </ul>
+                        {userContext &&
+                            <div className={'bottom-0'}>
+                                <div>
+                                    <span className={'mt-2'}>{userContext.username}</span>
+                                    <span className={'mt-2'}>{userContext.id}</span>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </>}
             </div>
