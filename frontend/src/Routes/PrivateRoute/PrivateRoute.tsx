@@ -8,8 +8,7 @@ const  PrivateRoute: React.FC<{
     exact: boolean;
 }> = (props) => {
     const { user: userContext } = useContext(UserContext)
-    console.log(userContext)
     return userContext ? (<Route  path={props.path}  exact={props.exact} component={props.component} />) :
-        (<Redirect  to="/login"  />);
+        (<Redirect to="/login" />);
 };
 export default  PrivateRoute;

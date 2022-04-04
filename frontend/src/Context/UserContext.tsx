@@ -35,7 +35,6 @@ export const UserProvider: FC = ({ children }) => {
     // User is the name of the "data" that gets stored in context
     const [userData, setUser] = useState<UserState|undefined>(contextDefaultValues.user);
     const login = (userData: UserResponse) => {
-        console.log(userData);
         setUser(userData.user)
         sessionStorage.setItem('user', JSON.stringify(userData.user))
         sessionStorage.setItem('token', userData.token)
