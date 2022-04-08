@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import BowlListElement from "../../Components/BowlListElement/BowlListElement";
 
-type BowlProps = {
+export type BowlProps = {
     id: string,
     name: string,
     description: string,
@@ -41,19 +41,12 @@ export const Bowls = () => {
     }
 
       return (
-          <ul className={"bg-light"}>
+          <div className={"flex flex-col gap-y-3 justify-center items-center"}>
               {
                   bowls.map((bowl: BowlProps) => (
-                    <Link key={bowl.id} to={'/bowls/' + bowl.id}>
-                        <li key={bowl.id}>
-                            <p>{bowl.name}</p>
-                            <p>{bowl.description}</p>
-                            <p>{bowl.orderDeadline}</p>
-                            <p>{bowl.arriveDate}</p>
-                        </li>
-                    </Link>
+                    <BowlListElement  {...bowl} />
               ))}
-          </ul>
+          </div>
       );
   }
 

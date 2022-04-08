@@ -2,7 +2,7 @@ import React, {useState, useCallback, useContext} from 'react';
 import { Link } from 'react-router-dom';
 import {UserContext} from "../../Context/UserContext";
 
-function BowlDetails() {
+function Header() {
     const [display, setDisplayState] = useState<any>(false);    
     const toggleMenu = useCallback(async () => {
         setDisplayState(!display)
@@ -14,7 +14,7 @@ function BowlDetails() {
     }
     return (
         <>
-            <div className={'h-16 flex items-center bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60 bg-amber-600 border border-gray-200'}>
+            <div className={'h-16 flex items-center bg-clip-padding backdrop-filter backdrop-blur-xl bg-amber-500'}>
                 <Link to="/" className={'text-xl'}>Taberu</Link>
 
                 <button className={'absolute right-2 z-50 bg-white h-12 w-12 rounded-2xl flex justify-center items-center'} onClick={toggleMenu}>
@@ -59,4 +59,4 @@ function BowlDetails() {
       );
   }
 
-export default BowlDetails;
+export default Header;
