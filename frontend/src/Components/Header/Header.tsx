@@ -27,7 +27,7 @@ function BowlDetails() {
                 {display &&
                 <>
                     <div onClick={toggleMenu} className={'absolute top-0 left-0 w-screen h-screen'}></div>
-                    <div className={'absolute right-0 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-90 bg-gray-800 border h-screen border-gray-200 top-0 m-0 w-1/4 text-white'}>
+                    <div className={'absolute right-0 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-90 bg-gray-800 border h-screen border-gray-200 top-0 m-0 w-3/4 md:w-1/4 sm:w-1/2 lg:w-1/5 text-white'}>
                         <ul className={'mt-20 flex flex-col justify-start text-center text-2xl'}>
                             {userContext &&
                                 <>
@@ -44,10 +44,11 @@ function BowlDetails() {
                         </ul>
                         {userContext &&
                             <div className={'absolute bottom-12 w-full'}>
-                                <div className={'flex flex-col justify-start text-center text-l'}>
-                                    <span>Name: {userContext.username}</span>
-                                    <span>ID: {userContext.id}</span>
-                                    <div className={'p-2 ml-3 mr-3 mt-2 rounded-md bg-gray-900'} onClick={handleLogout}>Logout</div>
+                                <div className={'flex flex-col justify-start text-lg p-4'}>
+                                    <span>Hi, {userContext.firstName} {userContext.lastName}</span>
+                                    <span className={'text-base'}>User: {userContext.username}</span>
+                                    <span className={'text-base'}>ID: {userContext.id}</span>
+                                    <div className={'p-2 mt-2 text-center rounded-md bg-gray-900'} onClick={handleLogout}>Logout</div>
                                 </div>
                             </div>
                         }
