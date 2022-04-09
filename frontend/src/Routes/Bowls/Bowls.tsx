@@ -44,7 +44,7 @@ export const Bowls = () => {
           <div className={"flex flex-col gap-y-3 justify-center items-center"}>
               {
                   bowls.map((bowl: BowlProps) => (
-                    <BowlListElement  {...bowl} />
+                    <BowlListElement key={bowl.id} {...bowl} />
               ))}
           </div>
       );
