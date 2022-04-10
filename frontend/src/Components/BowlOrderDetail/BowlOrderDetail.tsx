@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {getData} from "../Utils/GetData";
+import {getData} from "../../Utils/GetData";
 
 export type OrderDetailsType = {
     bowlId: number,
@@ -22,12 +22,13 @@ function BowlOrderDetail(props: {order: OrderDetailsType}) {
             .then(response => {
                 setUser(response.data)
             });
-    })
+    }, [])
 
     return (
-        <div>
-            <span>{order.id}</span>
-            <span>{user.firstName}</span>
+        <div className={'flex gap-2 flex-wrap justify-between mt-3 p-2 rounded bg-gray-200 w-full'}>
+            <span className={'w-1/3 break-all'}>{user.firstName} {user.lastName}</span>
+            <span className={'w-1/4 break-all text-right ' + (order.paymentStatus === 'PAID' ? 'text-green-400' : 'text-red-500')}>{order.finalPrice.toFixed(2)} €</span>
+            <span className={'w-1/4 break-all text-gray-600 text-center'}>{order.paymentStatus}</span>
         </div>
     )
 }
