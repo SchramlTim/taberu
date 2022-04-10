@@ -218,7 +218,7 @@ class Bowl extends BaseModel
     public function getOrders(): array
     {
         $orders = Order::all([
-            [Bowl::ID, '=', $this->getId()],
+            [Order::BOWL_ID, '=', $this->getId()],
         ]);
 
         return $orders;
