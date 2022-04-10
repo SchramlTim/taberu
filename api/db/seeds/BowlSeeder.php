@@ -21,7 +21,7 @@ class BowlSeeder extends AbstractSeed
             $data[] = [
                 'creator_id'      => $userIds[array_rand($userIds)]['id'],
                 'name'      => $faker->name,
-                'description'      => $faker->randomLetter,
+                'description'      => $faker->text(200),
                 'order_deadline'      => date('Y-m-d H:i:s'),
                 'arrive_date'      => date('Y-m-d H:i:s'),
                 'menu_id'      => $faker->randomDigit,

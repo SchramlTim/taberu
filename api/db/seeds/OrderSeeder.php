@@ -19,7 +19,7 @@ class OrderSeeder extends AbstractSeed
         $data = [];
         $bowlIds = $this->adapter->fetchAll('select id from bowls');
         $userIds = $this->adapter->fetchAll('select id from users');
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $data[] = [
                 'bowl_id' => $bowlIds[array_rand($bowlIds)]['id'],
                 'user_id' => $userIds[array_rand($userIds)]['id'],
