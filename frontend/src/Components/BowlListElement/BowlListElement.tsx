@@ -13,8 +13,8 @@ function BowlListElement(bowlDetails: BowlProps) {
                 ' transition ease-in-out delay-50 duration-200 hover:bg-amber-200'}
         >
             <span className={'text-lg w-full'}>{bowlDetails.name}</span>
-            <span className={'w-full'}>{bowlDetails.description}</span>
-            <div className={'w-full flex justify-between text-gray-500'}>
+            <span className={'w-full text-gray-500'}>{bowlDetails.description}</span>
+            <div className={'w-full flex justify-between mt-5 text-gray-500'}>
                 <span>{bowlDetails.orderDeadline}</span>
                 <span>{bowlDetails.arriveDate}</span>
             </div>
