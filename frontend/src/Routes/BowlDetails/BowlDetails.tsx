@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import BowlOrderList from "../../Components/BowlOrderList/BowlOrderList";
 import {OrderDetailsType} from "../../Components/BowlOrderDetail/BowlOrderDetail";
-import {getData} from "../../Utils/GetData";
+import { get } from "../../Utils/Request";
 import Timer from "../../Components/Timer/Timer";
 
 function BowlDetails() {
@@ -12,12 +12,12 @@ function BowlDetails() {
     const [orders, setOrders] = useState<OrderDetailsType[]>([]);
 
     useEffect(() => {
-        getData("/v1/bowls/" + id)
+        get("/v1/bowls/" + id)
             .then(response => {
                 setBowls(response.data)
         });
 
-        getData("/v1/bowls/" + id + '/orders')
+        get("/v1/bowls/" + id + '/orders')
             .then(response => {
                 setOrders(response.data)
         });

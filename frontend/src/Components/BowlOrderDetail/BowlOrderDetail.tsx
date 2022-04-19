@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {getData} from "../../Utils/GetData";
+import { get } from "../../Utils/Request";
 
 export type OrderDetailsType = {
     bowlId: number,
@@ -18,7 +18,7 @@ function BowlOrderDetail(props: {order: OrderDetailsType}) {
     const order = props.order
 
     useEffect(() => {
-        getData("/v1/users/" + order.userId)
+        get("/v1/users/" + order.userId)
             .then(response => {
                 setUser(response.data)
             });
