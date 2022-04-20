@@ -9,6 +9,7 @@ import Bowls from './Routes/Bowls/Bowls';
 import BowlDetails from './Routes/BowlDetails/BowlDetails';
 import { UserProvider } from './Context/UserContext';
 import PrivateRoute from "./Routes/PrivateRoute/PrivateRoute";
+import BowlCreate from "./Routes/BowlCreate/BowlCreate";
 
 function App() {
   return (    
@@ -21,6 +22,7 @@ function App() {
             <Route exact path="/register"><Register/></Route>
             <PrivateRoute  path="/user"  component={User} exact />
             <PrivateRoute  path="/bowls"  component={Bowls} exact />
+            <PrivateRoute  path="/bowls/create"  component={BowlCreate} exact />
             <PrivateRoute  path="/bowls/:id"  component={BowlDetails} exact />
           </Switch>
         </DefaultLayout>

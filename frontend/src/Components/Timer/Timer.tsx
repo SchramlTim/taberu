@@ -4,7 +4,6 @@ function Timer (props: {finishDate: string}) {
     const [seconds, setSeconds] = useState<number>(0)
 
     useEffect(() => {
-        console.log('start')
         setInterval(() => {
             setSeconds(seconds => seconds + 1);
         }, 1000);
