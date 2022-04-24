@@ -14,7 +14,7 @@ function Header() {
     }
     return (
         <>
-            <header className={'h-16 flex items-center bg-clip-padding backdrop-filter backdrop-blur-xl bg-amber-500 shadow'}>
+            <header className={'h-16 flex items-center bg-clip-padding backdrop-filter backdrop-blur-xl bg-primary shadow'}>
                 <Link to="/" className={'text-xl'}>Taberu</Link>
 
                 <button className={'absolute right-2 z-50 bg-white h-12 w-12 rounded-2xl flex justify-center items-center'} onClick={toggleMenu}>
@@ -33,6 +33,7 @@ function Header() {
                                 <>
                                     <li className={'mt-2'}><Link onClick={toggleMenu} to="/user">Users</Link></li>
                                     <li className={'mt-2'}><Link onClick={toggleMenu} to="/bowls">Bowls</Link></li>
+                                    <li className={'mt-2'}><Link onClick={toggleMenu} to="/menus">Menus</Link></li>
                                 </>
                             }
                             {!userContext &&
