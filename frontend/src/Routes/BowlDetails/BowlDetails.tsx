@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import BowlOrderList from "../../Components/BowlOrderList/BowlOrderList";
-import {OrderDetailsType} from "../../Components/BowlOrderDetail/BowlOrderDetail";
+import BowlOrderList from "./BowlOrderList/BowlOrderList";
+import {OrderDetailsType} from "./BowlOrderDetail/BowlOrderDetail";
 import { get } from "../../Utils/Request";
 import Timer from "../../Components/Timer/Timer";
 

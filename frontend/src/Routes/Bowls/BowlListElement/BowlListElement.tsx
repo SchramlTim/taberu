@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useContext} from 'react';
-import {BowlProps} from "../../Routes/Bowls/Bowls";
+import {BowlProps} from "../Bowls";
 import { Link } from 'react-router-dom';
 
 function BowlListElement(bowlDetails: BowlProps) {

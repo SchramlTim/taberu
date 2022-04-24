@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { get } from "../../Utils/Request";
+import { get } from "../../../Utils/Request";
 
 export type OrderDetailsType = {
     bowlId: number,
