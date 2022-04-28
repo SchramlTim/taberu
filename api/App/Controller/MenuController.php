@@ -33,13 +33,14 @@ class MenuController
 
     public function createMenu(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
+        $queryParameter = $request->getQueryParams();
         $parsedBody = $request->getParsedBody();
 
         try {
             $menu = new Menu();
             $menu->setName($parsedBody['name'])
                 ->setDescription($parsedBody['description'])
-                ->setCreatorID($parsedBody['creatorId']);
+                ->setCreatorID($parsedBody['creatorId'] ?? $queryParameter['sub']);
 
             if (isset($parsedBody['restaurantId'])) {
                 $menu->setRestaurantId($parsedBody['restaurantId']);

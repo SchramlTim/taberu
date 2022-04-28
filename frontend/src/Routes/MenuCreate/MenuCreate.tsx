@@ -1,39 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import TextInput from '../../Components/TextInput/TextInput'
+import {post} from "../../Utils/Request";
 
 function MenuCreate() {
+
+    const [name, setMenuName] = useState('');
+    const [description, setDescription] = useState('');
+
+    const createMenu = () => {
+        post('/v1/menus', {
+            name,
+            description
+        })
+    }
+
 
     return (
         <div className={'flex justify-center items-center w-full h-full'}>
             <div className={'w-full max-w-[80%]'}>
-                <form onSubmit={() => {}} className={'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
+                <form onSubmit={(e) => {
+                    e.preventDefault()
+                    createMenu()
+                }} className={'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
                     <TextInput
-                        title='Bowl Name'
-                        placeholder='Bowl Name'
-                        id='bowlname'
+                        title='Menu Name'
+                        placeholder='Menu Name'
+                        id='name'
                         type='text'
-                        onChange={() => {}}
+                        onChange={(e) => {setMenuName(e.target.value)}}
                     />
                     <TextInput
                         title='Description'
                         placeholder='Description'
                         id='description'
                         type='text'
-                        onChange={() => {}}
-                    />
-                    <TextInput
-                        title='Order Deadline'
-                        placeholder='Order Deadline'
-                        id='orderDateline'
-                        type='datetime-local'
-                        onChange={() => {}}
-                    />
-                    <TextInput
-                        title='Arrive Date'
-                        placeholder='Arrive Date'
-                        id='arriveDate'
-                        type='datetime-local'
-                        onChange={() => {}}
+                        onChange={(e) => {setDescription(e.target.value)}}
                     />
                     <div className={'flex items-center justify-between'}>
                         <button

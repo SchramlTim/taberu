@@ -31,6 +31,7 @@ export const post = async (url = '', data = {}) => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'x-token': sessionStorage.getItem('token') ?? ''
         },
         redirect: 'follow', // manual, *follow, error
         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
