@@ -2,10 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
+body {
     overflow: scroll;
     overflow-x: hidden;
+    background-color: #F6F6F6;
 }
+
 ::-webkit-scrollbar {
     width: 0;  /* Remove scrollbar space */
     background: transparent;  /* Optional: just make scrollbar invisible */

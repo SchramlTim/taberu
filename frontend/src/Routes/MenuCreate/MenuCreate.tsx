@@ -1,19 +1,92 @@
 import React, { useState, useEffect } from 'react';
 import TextInput from '../../Components/TextInput/TextInput'
-import {post} from "../../Utils/Request";
+import {get, post} from "../../Utils/Request";
+import {MenuProps} from "../Menus/Menus";
+import {MenuItemProps} from "../MenuDetails/MenuDetails";
+import Button from "../../Components/Button/Button";
 
 function MenuCreate() {
 
-    const [name, setMenuName] = useState('');
-    const [description, setDescription] = useState('');
+    const [menuName, setMenuName] = useState('');
+    const [menuDescription, setMenuDescription] = useState('');
+    const [menu, setCreatedMenu] = useState<MenuProps|null>();
+    const [menuItemName, setMenuItemName] = useState('');
+    const [menuItemDescription, setMenuItemDescription] = useState('');
+    const [menuItemPrice, setMenuItemPrice] = useState('');
+    const [menuItems, setMenuItems] = useState<Array<MenuItemProps>>([]);
 
-    const createMenu = () => {
-        post('/v1/menus', {
-            name,
-            description
+    const createMenu = async () => {
+        const response = await post('/v1/menus', {
+            name: menuName,
+            description: menuDescription
         })
+        setCreatedMenu(response.data)
     }
 
+    const createMenuItem = async () => {
+        await post('/v1/menus/' + menu?.id + '/items', {
+            name: menuItemName,
+            description: menuItemDescription,
+            price: menuItemPrice
+        })
+        const response = await get('/v1/menus/' + menu?.id + '/items')
+        setMenuItems(response.data)
+    }
+
+    if (menu) {
+        return (
+            <>
+                <div className={'flex flex-col justify-center items-center w-full h-full'}>
+                    <div className={'w-full max-w-[80%] bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
+                        <span>{menu.name}</span>
+                        <span>{menu.description}</span>
+                    </div>
+                    <div className={'flex flex-col gap-1 w-full max-w-[80%] mt-3'}>
+                        {menuItems.map((item) => {
+                            return (
+                                <div key={item.id} className={'flex gap-2 flex-wrap justify-between p-2 rounded bg-gray-200 w-full'}>
+                                    <span className={'w-1/3 break-all'}>{item.name}</span>
+                                    <span className={'w-1/4 break-all text-right'}>{item.description}</span>
+                                    <span className={'w-1/4 break-all text-gray-600 text-center'}>{item.price}</span>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div className={'w-full max-w-[80%] mt-3'}>
+                        <form onSubmit={(e) => {
+                            e.preventDefault()
+                            createMenuItem()
+                        }} className={'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
+                            <TextInput
+                                title='Item Name'
+                                placeholder='Item Name'
+                                id='name'
+                                type='text'
+                                onChange={(e) => {setMenuItemName(e.target.value)}}
+                            />
+                            <TextInput
+                                title='Description'
+                                placeholder='Description'
+                                id='description'
+                                type='text'
+                                onChange={(e) => {setMenuItemDescription(e.target.value)}}
+                            />
+                            <TextInput
+                                title='Price'
+                                placeholder='Price'
+                                id='description'
+                                type='text'
+                                onChange={(e) => {setMenuItemPrice(e.target.value)}}
+                            />
+                            <div className={'flex items-center justify-between'}>
+                                <Button type={'submit'} text={'Create Menu Item'} />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </>
+        )
+    }
 
     return (
         <div className={'flex justify-center items-center w-full h-full'}>
@@ -34,14 +107,10 @@ function MenuCreate() {
                         placeholder='Description'
                         id='description'
                         type='text'
-                        onChange={(e) => {setDescription(e.target.value)}}
+                        onChange={(e) => {setMenuDescription(e.target.value)}}
                     />
                     <div className={'flex items-center justify-between'}>
-                        <button
-                            className={'bg-primary hover:bg-amber-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'}
-                            type="submit">
-                            Create Bowl
-                        </button>
+                        <Button type={'submit'} text={'Create Menu'} />
                     </div>
                 </form>
             </div>

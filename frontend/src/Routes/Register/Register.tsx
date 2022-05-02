@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { post } from "../../Utils/Request";
 import { Redirect } from "react-router-dom";
+import Button from "../../Components/Button/Button";
 
 function Register() {
 
@@ -80,7 +81,7 @@ function Register() {
                         <input
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
-                            id="phoneNumber" type="tel" placeholder="*****************"/>
+                            id="phoneNumber" type="tel" placeholder="00000-00000"/>
                     </div>
                     <div className={'mb-4'}>
                         <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor="paypalUsername">
@@ -92,11 +93,7 @@ function Register() {
                             id="paypalUsername" type="email" placeholder="max.mustermann@email.com"/>
                     </div>
                     <div className={'flex items-center justify-between'}>
-                        <button
-                            className={'bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'}
-                            type="submit">
-                            Sign Up
-                        </button>
+                        <Button type={'submit'} text={'Sign Up'} />
                     </div>
                 </form>
             </div>

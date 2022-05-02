@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import { UserContext } from '../../Context/UserContext';
 import { Redirect } from "react-router-dom";
 import { post } from '../../Utils/Request'
+import Button from "../../Components/Button/Button";
 
 export const Login = () => {
 
@@ -53,12 +54,8 @@ export const Login = () => {
                             id="password" type="password" placeholder="*****************"/>
                     </div>
                     <div className={'flex items-center justify-between'}>
-                        <button
-                            className={'bg-amber-500 hover:bg-amber-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'}
-                            type="submit">
-                            Sign In
-                        </button>
-                        <a className={'inline-block align-baseline font-bold text-sm text-amber-500 hover:text-amber-800'} href="#">
+                        <Button type={'submit'} text={'Sign In'} />
+                        <a className={'inline-block align-baseline font-bold text-sm text-primary'} href="#">
                             Forgot Password?
                         </a>
                     </div>
