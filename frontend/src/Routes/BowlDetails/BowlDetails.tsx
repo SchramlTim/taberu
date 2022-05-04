@@ -4,6 +4,7 @@ import BowlOrderList from "./BowlOrderList/BowlOrderList";
 import {OrderDetailsType} from "./BowlOrderDetail/BowlOrderDetail";
 import { get } from "../../Utils/Request";
 import Timer from "../../Components/Timer/Timer";
+import PlaceOrder from "./PlaceOrder/PlaceOrder";
 
 function BowlDetails() {
 
@@ -40,6 +41,9 @@ function BowlDetails() {
                         <Timer finishDate={bowl.arriveDate} />
                     </div>
                 </div>
+            </div>
+            <div className={'mt-4'}>
+                <PlaceOrder />
             </div>
             <div className={'flex flex-col w-3/4 m-10'}>
                 <BowlOrderList orders={orders}/>
