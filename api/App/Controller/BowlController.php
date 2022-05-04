@@ -34,11 +34,12 @@ class BowlController
 
     public function createBowl(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
+        $queryParameter = $request->getQueryParams();
         $parsedBody = $request->getParsedBody();
 
         try {
             $bowl = new Bowl();
-            $bowl->setCreatorID($parsedBody['creatorId'])
+            $bowl->setCreatorID($parsedBody['creatorId'] ?? $queryParameter['sub'])
                 ->setName($parsedBody['name'])
                 ->setDescription($parsedBody['description'])
                 ->setOrderDeadline(new DateTime($parsedBody['orderDeadline']))
