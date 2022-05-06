@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import BowlListElement from "./BowlListElement/BowlListElement";
 import {get} from "../../Utils/Request";
-
-export type BowlProps = {
-    id: string,
-    name: string,
-    description: string,
-    orderDeadline: string,
-    arriveDate: string,
-}
+import {BowlProps} from "../../Utils/Types";
+import BowlList from "./BowlList/BowlList";
 
 export const Bowls = () => {
 
@@ -28,7 +21,7 @@ export const Bowls = () => {
               <div className={"flex flex-col gap-y-3 justify-center items-center"}>
                   {
                       bowls.map((bowl: BowlProps) => (
-                        <BowlListElement key={bowl.id} {...bowl} />
+                        <BowlList key={bowl.id} {...bowl} />
                   ))}
               </div>
               <Link to="/bowls/create" className="bg-primary fixed bottom-10 right-10 text-black text-center py-2 px-4 rounded h-14 w-14 inline-flex items-center">

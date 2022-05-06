@@ -1,6 +1,6 @@
 import React, {useState, useCallback, useContext} from 'react';
-import {MenuProps} from "../Menus";
 import { Link } from 'react-router-dom';
+import {MenuProps} from "../../../Utils/Types";
 
 function MenuListElement(details: MenuProps) {
     return (

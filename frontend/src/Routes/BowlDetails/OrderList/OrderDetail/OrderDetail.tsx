@@ -1,18 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { get } from "../../../Utils/Request";
+import { get } from "../../../../Utils/Request";
 
-export type OrderDetailsType = {
-    bowlId: number,
-    finalPrice: number,
-    id: number,
-    orderStatus: string,
-    paymentMethod: string,
-    paymentStatus: string,
-    selfLink: string,
-    userId: number
-}
-
-function BowlOrderDetail(props: {order: OrderDetailsType}) {
+function OrderDetail(props: {order: any}) {
 
     const [user, setUser] = useState<any>([]);
     const order = props.order
@@ -33,4 +22,4 @@ function BowlOrderDetail(props: {order: OrderDetailsType}) {
     )
 }
 
-export default BowlOrderDetail
+export default OrderDetail

@@ -2,12 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MenuListElement from "./MenuListElement/MenuListElement"
 import {get} from "../../Utils/Request";
-
-export type MenuProps = {
-    id: string,
-    name: string,
-    description: string
-}
+import {MenuProps} from "../../Utils/Types";
 
 export const Menus = () => {
 

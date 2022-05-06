@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { get } from "../../../Utils/Request";
-import {MenuItemProps} from "../MenuDetails";
+import { get } from "../../../../Utils/Request";
+import {MenuItemProps} from "../../../../Utils/Types";
 
-function MenuItemDetail(props: {item: MenuItemProps}) {
+function ItemDetail(props: {item: MenuItemProps}) {
 
     const item = props.item
 
@@ -14,4 +14,4 @@ function MenuItemDetail(props: {item: MenuItemProps}) {
     )
 }
 
-export default MenuItemDetail
+export default ItemDetail

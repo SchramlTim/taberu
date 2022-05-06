@@ -1,8 +1,8 @@
 import React, {useState, useCallback, useContext} from 'react';
-import {BowlProps} from "../Bowls";
 import { Link } from 'react-router-dom';
+import {BowlProps} from "../../../Utils/Types";
 
-function BowlListElement(bowlDetails: BowlProps) {
+function BowlList(bowlDetails: BowlProps) {
     return (
         <Link
             key={bowlDetails.id}
@@ -22,4 +22,4 @@ function BowlListElement(bowlDetails: BowlProps) {
       );
   }
 
-export default BowlListElement;
+export default BowlList;

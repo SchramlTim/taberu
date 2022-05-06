@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import TextInput from '../../Components/TextInput/TextInput'
 import Button from "../../Components/Button/Button";
 import {get, post} from "../../Utils/Request";
-import {MenuProps} from "../Menus/Menus";
 import {Redirect} from "react-router-dom";
-import {BowlProps} from "../Bowls/Bowls";
+import {BowlProps, MenuProps} from "../../Utils/Types";
 
 
 function BowlCreate() {

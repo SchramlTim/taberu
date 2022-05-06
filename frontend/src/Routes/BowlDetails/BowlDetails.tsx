@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
-import BowlOrderList from "./BowlOrderList/BowlOrderList";
-import {OrderDetailsType} from "./BowlOrderDetail/BowlOrderDetail";
 import { get } from "../../Utils/Request";
 import Timer from "../../Components/Timer/Timer";
 import PlaceOrder from "./PlaceOrder/PlaceOrder";
+import {OrderProps} from "../../Utils/Types";
+import OrderList from "./OrderList/OrderList";
 
 function BowlDetails() {
 
     let { id } = useParams<any>();
     const [bowl, setBowls] = useState<any>([]);
-    const [orders, setOrders] = useState<OrderDetailsType[]>([]);
+    const [orders, setOrders] = useState<OrderProps[]>([]);
 
     useEffect(() => {
         get("/v1/bowls/" + id)
@@ -42,11 +42,11 @@ function BowlDetails() {
                     </div>
                 </div>
             </div>
-            <div className={'mt-4'}>
+            <div className={'flex flex-col justify-between w-3/4 mt-4'}>
                 <PlaceOrder />
             </div>
             <div className={'flex flex-col w-3/4 m-10'}>
-                <BowlOrderList orders={orders}/>
+                <OrderList orders={orders}/>
             </div>
         </div>
       );

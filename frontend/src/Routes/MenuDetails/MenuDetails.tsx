@@ -1,20 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { get } from "../../Utils/Request";
-import MenuItemList from "./MenuItemList/MenuItemList";
-
-export type MenuProps = {
-    id: string,
-    name: string,
-    description: string
-}
-
-export type MenuItemProps = {
-    id: string,
-    name: string,
-    description: string,
-    price: number
-}
+import {MenuItemProps, MenuProps} from "../../Utils/Types";
+import ItemList from "./ItemList/ItemList";
 
 function MenuDetails() {
 
@@ -43,7 +31,7 @@ function MenuDetails() {
                 </div>
             </div>
             <div className={'flex flex-col w-3/4 m-10'}>
-                <MenuItemList items={items}/>
+                <ItemList items={items}/>
             </div>
         </div>
       );

@@ -1,5 +1,6 @@
 import Button from "../../../Components/Button/Button";
-import {useState} from "react";
+import React, {useState} from "react";
+import TextInput from "../../../Components/TextInput/TextInput";
 
 
 function PlaceOrder () {
@@ -12,7 +13,9 @@ function PlaceOrder () {
 
 
     return (
-        <div>open</div>
+        <>
+
+        </>
     )
 }
 

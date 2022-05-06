@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import TextInput from '../../Components/TextInput/TextInput'
 import {get, post} from "../../Utils/Request";
-import {MenuProps} from "../Menus/Menus";
-import {MenuItemProps} from "../MenuDetails/MenuDetails";
 import Button from "../../Components/Button/Button";
+import {MenuItemProps, MenuProps} from "../../Utils/Types";
 
 function MenuCreate() {
 
