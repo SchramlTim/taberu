@@ -5,6 +5,7 @@ namespace Taberu\Controller;
 use Taberu\Exception\ResponseException;
 use Taberu\Model\Bowl;
 use Taberu\Model\Order;
+use Taberu\Model\OrderItem;
 use Taberu\Model\Restaurant;
 use Taberu\Model\User;
 use Taberu\Transformer\BowlList;
@@ -144,6 +145,7 @@ class BowlController
 
     public function createBowlOrder(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
+        $queryParameter = $request->getQueryParams();
         $parsedBody = $request->getParsedBody();
 
         try {
@@ -153,7 +155,7 @@ class BowlController
 
             $order = new Order();
             $order->setBowlId($bowl->getId())
-                ->setUserId($parsedBody['userId'])
+                ->setUserId($parsedBody['userId'] ?? $queryParameter['sub'])
                 ->setPaymentMethod($parsedBody['paymentMethod'])
                 ->setFinalPrice($parsedBody['finalPrice']);
             $order->create();
@@ -161,6 +163,17 @@ class BowlController
             $order = Order::findFirstOrFail([
                 [Order::ID, '=', $order->getId()]
             ]);
+
+            $items = $parsedBody['items'] ?? [];
+            foreach($items as $item) {
+                $orderItem = new OrderItem();
+                $orderItem->setOrderId($order->getId())
+                    ->setName($item['name'])
+                    ->setPrice($item['price'])
+                    ->setCount($item['count'])
+                    ->setAdditionalInformation($item['additionalInformation']);
+                $orderItem->create();
+            }
 
             $transformer = new \Taberu\Transformer\Order($order);
             $response->getBody()->write($transformer->getJson());
