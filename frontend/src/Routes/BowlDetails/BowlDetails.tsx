@@ -52,12 +52,14 @@ function BowlDetails() {
                 <h2>Menu</h2>
                 <BasketProvider>
                     <OrderableItemList items={menuItems} />
-                    {bowl && <PlaceOrder bowlId={bowl.id} />}
+                    {bowl &&
+                        <div className={'w-full mt-3'}>
+                            <PlaceOrder bowlId={bowl.id} />
+                        </div>}
                 </BasketProvider>
             </div>
             <div className={'flex flex-col w-3/4 m-10'}>
                 <OrderList orders={orders}/>
-
             </div>
         </div>
       );

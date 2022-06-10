@@ -2,14 +2,10 @@
 
 namespace Taberu\Model;
 
-use LogicException;
-use RuntimeException;
-use Taberu\Exception\MutipleEntriesFoundException;
-use Taberu\Exception\NotFoundException;
-use Taberu\Utils\Database;
-
 class OrderItem extends BaseModel
 {
+    use ORMTrait;
+
     const ORDER_ID = 'order_id';
     const NAME = 'name';
     const PRICE = 'price';

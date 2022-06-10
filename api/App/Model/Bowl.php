@@ -255,7 +255,7 @@ class Bowl extends BaseModel
      */
     public function getOrderLink(): string
     {
-        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/v1/bowls/' . $this->getId() . '/orders';
+        return 'https://' . $_SERVER['HTTP_HOST'] . '/v1/bowls/' . $this->getId() . '/orders';
     }
 
     /**
@@ -263,7 +263,7 @@ class Bowl extends BaseModel
      */
     public function getUsersLink(): string
     {
-        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/v1/bowls/' . $this->getId() . '/users';
+        return 'https://' . $_SERVER['HTTP_HOST'] . '/v1/bowls/' . $this->getId() . '/users';
     }
 
     /**
@@ -287,6 +287,6 @@ class Bowl extends BaseModel
      */
     public function getLink(): string
     {
-        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/v1/bowls/' . $this->getId();
+        return 'https://' . $_SERVER['HTTP_HOST'] . '/v1/bowls/' . $this->getId();
     }
 }

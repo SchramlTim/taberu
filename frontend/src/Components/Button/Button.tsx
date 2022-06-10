@@ -10,7 +10,7 @@ function Button(props: {
 
     return (
         <button
-            className={"bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"}
+            className={"bg-primary w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"}
             onClick={props.onClick}
             type={props.type}>
             {props.text}

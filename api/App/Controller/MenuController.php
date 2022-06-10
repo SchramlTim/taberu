@@ -203,6 +203,17 @@ class MenuController
         return $response;
     }
 
+    public function getAllMenuCategories(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $menu = Menu::findFirstOrFail([
+            [Menu::ID, '=', (int)$args['menuId']]
+        ]);
+
+        $categories = $menu->getCategories();
+
+        return $response;
+    }
+
     public function deleteMenuItem(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $response->getBody()->write("Function " . __FUNCTION__ . " is not implemented");

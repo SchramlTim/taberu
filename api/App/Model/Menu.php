@@ -186,6 +186,6 @@ class Menu extends BaseModel
      */
     public function getLink(): string
     {
-        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/v1/menus/' . $this->getId();
+        return 'https://' . $_SERVER['HTTP_HOST'] . '/v1/menus/' . $this->getId();
     }
 }

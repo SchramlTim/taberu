@@ -23,8 +23,8 @@ export const BasketProvider: FC = ({ children }) => {
     }
     const reduceItem = (item: MenuItemProps) => {
         const index = items.findIndex((listItem) => listItem.id === item.id);
-        const changedList = items.splice(index, 1)
-        setSelectedItems(changedList)
+        items.splice(index, 1)
+        setSelectedItems([...items])
     }
 
     console.log(items)

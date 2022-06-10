@@ -10,14 +10,23 @@ function Item(props: {item: MenuItemProps}) {
     const selfSelectList = selectedItems.filter((listItem) => listItem.id === item.id)
 
     return (
-        <div
-            className={'flex gap-2 flex-wrap justify-between mt-3 p-2 rounded w-full ' + (selfSelectList.length > 0 ? 'bg-green-100' : 'bg-gray-200')}
-            onClick={() => increaseItem(item)}
-        >
-            <span className={'w-1/3 break-all'}>{item.name}</span>
-            <span className={'w-1/3 break-all'}>{selfSelectList.length}x</span>
-            <span className={'w-1/4 break-all text-right'}>{item.price.toFixed(2)} €</span>
-        </div>
+        <>
+            <div
+                className={'flex gap-2 flex-wrap justify-between mt-3 rounded w-full ' + (selfSelectList.length > 0 ? 'bg-green-100' : 'bg-gray-200')}
+            >
+                <div className={'w-5/6 flex gap-2 flex-wrap justify-between p-2'} onClick={() => increaseItem(item)}>
+                    <span className={'break-all'}>{item.name}</span>
+                    <span className={'break-all'}>{selfSelectList.length}x</span>
+                    <span className={'break-all text-right'}>{item.price.toFixed(2)} €</span>
+                </div>
+                {selfSelectList.length > 0 && <div onClick={(e) => {
+                    e.preventDefault()
+                    reduceItem(item)
+                }} className={'w-11 flex items-center justify-center font-bold bg-red-300 rounded text-center'}>
+                    <span>-</span>
+                </div>}
+            </div>
+        </>
     )
 }
 

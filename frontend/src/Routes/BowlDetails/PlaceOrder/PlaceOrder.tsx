@@ -2,7 +2,7 @@ import Button from "../../../Components/Button/Button";
 import React, {useContext, useState} from "react";
 import {BasketContext} from "../../../Context/BasketContext";
 import {post} from "../../../Utils/Request";
-import {OrderItemProp} from "../../../Utils/Types";
+import {MenuItemProps, OrderItemProp} from "../../../Utils/Types";
 
 
 function PlaceOrder (props: {bowlId: string}) {
@@ -13,19 +13,31 @@ function PlaceOrder (props: {bowlId: string}) {
     const placeOrder = () => {
 
 
-        const orderItems = selectedItems.map((item) => {
+        const uniqueItems = selectedItems.reduce((unique, testItem) => {
+            console.log(testItem)
+            if(!unique.some(obj => obj.id === testItem.id)) {
+                console.log('before', unique, testItem)
+                unique.push(testItem)
+                console.log('after', unique, testItem)
+            }
+
+            console.log('after pushing', unique)
+            return unique;
+        }, [] as Array<MenuItemProps>)
+
+        console.log('uni', uniqueItems)
+
+        const items = uniqueItems.map((uniqueItem) => {
             return {
-                name: item.name,
-                price: item.price,
-                count: 1,
-                additionalInformation: ''
+                id: uniqueItem.id,
+                name: uniqueItem.name,
+                price: uniqueItem.price,
+                count: selectedItems.filter((selItem) => selItem.id === uniqueItem.id).length,
+                additionalInformation: 'sdasda'
             } as OrderItemProp
         })
 
-        const items = orderItems.reduce((prev, curr) => {
-            prev.count += curr.count;
-            return prev;
-        })
+        console.log('items', items)
 
         post('/v1/bowls/' + id + '/orders', {
             paymentMethod: 'Paypal',

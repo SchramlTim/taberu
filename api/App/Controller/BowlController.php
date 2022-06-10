@@ -153,18 +153,22 @@ class BowlController
                 [Bowl::ID, '=', (int)$args['bowlId']]
             ]);
 
+            $items = $parsedBody['items'] ?? [];
+            $finalPrice = array_reduce($items, function (float $finalPrice, array $item) {
+                return $finalPrice + ($item['price'] * $item['count']);
+            }, 0.00);
+
             $order = new Order();
             $order->setBowlId($bowl->getId())
                 ->setUserId($parsedBody['userId'] ?? $queryParameter['sub'])
                 ->setPaymentMethod($parsedBody['paymentMethod'])
-                ->setFinalPrice($parsedBody['finalPrice']);
+                ->setFinalPrice($finalPrice);
             $order->create();
 
             $order = Order::findFirstOrFail([
                 [Order::ID, '=', $order->getId()]
             ]);
 
-            $items = $parsedBody['items'] ?? [];
             foreach($items as $item) {
                 $orderItem = new OrderItem();
                 $orderItem->setOrderId($order->getId())
