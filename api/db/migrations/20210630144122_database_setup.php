@@ -105,6 +105,7 @@ final class DatabaseSetup extends AbstractMigration
 
         $category = $this->table('categories');
         $category->addColumn('name', 'string')
+            ->addColumn('icon_url', 'string')
             ->addColumn('created', 'datetime', ['timezone' => true, 'default' => \Phinx\Util\Literal::from('now()')])
             ->addColumn('updated', 'datetime', ['null' => true])
             ->create();

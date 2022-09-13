@@ -172,13 +172,28 @@ class Menu extends BaseModel
         return self::$_table;
     }
 
-    public function getMenuItems($whereParams = []): array
+    public function getMenuItems(): array
     {
         $items = MenuItem::all([
             [MenuItem::MENU_ID, '=', $this->getId()],
         ]);
 
         return $items;
+    }
+
+    public function getCategories(): array
+    {
+        $menu2categories = Menu2Category::all([
+            [Menu2Category::MENU_ID, '=', $this->getId()],
+        ]);
+
+        $categoryIds = array_map(function (Menu2Category $m2c) {
+            return $m2c->getCategoryId();
+        }, $menu2categories);
+
+        return Category::all([
+           [Category::ID, 'IN', '(' . implode(',', $categoryIds) . ')']
+        ]);
     }
 
     /**

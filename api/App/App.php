@@ -101,6 +101,8 @@ class App
                 $group->patch('/{menuId}[/]', MenuController::class.':updateMenu');
                 $group->delete('/{menuId}[/]', MenuController::class.':deleteMenu');
                 
+                $group->get('/{menuId}/categories[/]', MenuController::class.':getAllMenuCategories');
+
                 $group->get('/{menuId}/items[/]', MenuController::class.':getAllMenuItems');
                 $group->post('/{menuId}/items[/]', MenuController::class.':createMenuItem');
                 $group->patch('/{menuId}/items/{itemId}[/]', MenuController::class.':updateMenuItem');

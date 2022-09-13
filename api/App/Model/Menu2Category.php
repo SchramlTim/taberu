@@ -8,23 +8,23 @@ use Taberu\Exception\MutipleEntriesFoundException;
 use Taberu\Exception\NotFoundException;
 use Taberu\Utils\Database;
 
-class Category extends BaseModel
+class Menu2Category extends BaseModel
 {
     use ORMTrait;
 
-    const NAME = 'name';
-    const ICON_URL = 'icon_url';
+    const MENU_ID = 'menu_id';
+    const CATEGORY_ID = 'category_id';
 
     private static array $_loadedFields = [
         self::ID,
-        self::NAME,
-        self::ICON_URL
+        self::MENU_ID,
+        self::CATEGORY_ID
     ];
 
-    public static string $_table = 'categories';
+    public static string $_table = 'menu2category';
 
-    private string $name = '';
-    private string $url = '';
+    private int $menuId;
+    private int $categoryId;
 
     /**
      * Category constructor.
@@ -41,9 +41,8 @@ class Category extends BaseModel
     protected static function createObjectFromDatabase(array $data): self
     {
         $object = new self();
-        $object->setId($data[self::ID])
-            ->setName($data[self::NAME])
-            ->setIconUrl($data[self::ICON_URL]);
+        $object->setMenuId($data[self::MENU_ID])
+            ->setCategoryId($data[self::CATEGORY_ID]);
 
         return $object;
     }
@@ -56,7 +55,8 @@ class Category extends BaseModel
     {
         if (!$valuesToSave) {
             $valuesToSave = [
-                self::NAME => $this->getName()
+                self::MENU_ID => $this->getMenuId(),
+                self::CATEGORY_ID => $this->getCategoryId(),
             ];
         }
 
@@ -71,7 +71,8 @@ class Category extends BaseModel
     {
         if (!$valuesToSave) {
             $valuesToSave = [
-                self::NAME => $this->getName()
+                self::MENU_ID => $this->getMenuId(),
+                self::CATEGORY_ID => $this->getCategoryId(),
             ];
         }
 
@@ -79,38 +80,38 @@ class Category extends BaseModel
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getName(): string
+    public function getMenuId(): int
     {
-        return $this->name;
+        return $this->menuId;
     }
 
     /**
-     * @param string $name
+     * @param int $bowlId
      * @return $this
      */
-    public function setName(string $name): self
+    public function setMenuId(int $menuId): self
     {
-        $this->name = $name;
+        $this->menuId = $menuId;
         return $this;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getIconUrl(): string
+    public function getCategoryId(): int
     {
-        return $this->url;
+        return $this->categoryId;
     }
 
     /**
-     * @param string $url
+     * @param int $userId
      * @return $this
      */
-    public function setIconUrl(string $url): self
+    public function setCategoryId(int $categoryId): self
     {
-        $this->url = $url;
+        $this->categoryId = $categoryId;
         return $this;
     }
 
@@ -127,6 +128,6 @@ class Category extends BaseModel
      */
     public function getLink(): string
     {
-        return 'https://' . $_SERVER['HTTP_HOST'] . '/v1/categories/' . $this->getId();
+        return '';
     }
 }

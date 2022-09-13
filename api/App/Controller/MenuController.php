@@ -5,6 +5,7 @@ namespace Taberu\Controller;
 use Taberu\Exception\ResponseException;
 use Taberu\Model\Menu;
 use Taberu\Model\MenuItem;
+use Taberu\Transformer\CategoryList;
 use Taberu\Transformer\MenuItemList;
 use Taberu\Transformer\MenuList;
 use Taberu\Utils\Database;
@@ -205,11 +206,18 @@ class MenuController
 
     public function getAllMenuCategories(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $menu = Menu::findFirstOrFail([
-            [Menu::ID, '=', (int)$args['menuId']]
-        ]);
+        try {
+            $menu = Menu::findFirstOrFail([
+                [Menu::ID, '=', (int)$args['menuId']]
+            ]);
 
-        $categories = $menu->getCategories();
+            $categories = $menu->getCategories();
+
+            $transformer = new CategoryList($categories);
+            $response->getBody()->write($transformer->getJson());
+        } catch (\Taberu\Exception\NotFoundException $e) {
+            throw new ResponseException(404, $e->getMessage());
+        }
 
         return $response;
     }
