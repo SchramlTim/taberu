@@ -7,7 +7,7 @@ function User() {
 
     // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
-        get("/v1/users/")
+        get(process.env.API_ENDPOINT + "/v1/users/")
             .then(response => {
                 setUser(response.data)
             });

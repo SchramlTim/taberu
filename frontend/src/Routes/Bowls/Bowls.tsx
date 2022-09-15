@@ -10,7 +10,7 @@ export const Bowls = () => {
 
     // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
-        get("/v1/bowls")
+        get(process.env.API_ENDPOINT + "/v1/bowls")
             .then(response => {
                 setBowls(response.data)
         });

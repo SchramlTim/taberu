@@ -16,7 +16,7 @@ function Register() {
     const handleSubmit = async (event: any) => {
         event.preventDefault()
         try {
-            const response = await post("/v1/users/register", {
+            const response = await post(process.env.API_ENDPOINT + "/v1/users/register", {
                 username: username,
                 firstName: firstName,
                 lastName: lastName,
