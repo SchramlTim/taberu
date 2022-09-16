@@ -12,17 +12,17 @@ function MenuDetails() {
     const [categories, setCategories] = useState<any[]>([]);
 
     useEffect(() => {
-        get(process.env.API_ENDPOINT + "/v1/menus/" + id)
+        get(process.env.REACT_APP_API_ENDPOINT + "/v1/menus/" + id)
             .then(response => {
                 setMenu(response.data)
         });
 
-        get(process.env.API_ENDPOINT + "/v1/menus/" + id + '/items')
+        get(process.env.REACT_APP_API_ENDPOINT + "/v1/menus/" + id + '/items')
             .then(response => {
                 setItems(response.data)
         });
 
-        get(process.env.API_ENDPOINT + "/v1/menus/" + id + '/categories')
+        get(process.env.REACT_APP_API_ENDPOINT + "/v1/menus/" + id + '/categories')
             .then(response => {
                 setCategories(response.data)
             });

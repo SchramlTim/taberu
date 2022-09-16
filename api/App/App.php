@@ -35,14 +35,6 @@ class App
         $errorMiddleware = $app->addErrorMiddleware(true, true, true);
         $errorMiddleware->setDefaultErrorHandler(new JsonErrorHandler($app));
 
-        /*
-        DISABLED CAUSE: problems with grouping routing
-
-        $app->options('/{routes:.+}', function ($request, $response, $args) {
-            return $response;
-        });
-        */
-
         $app->get('[/]', function (Request $request, Response $response, array $args) {
             $response->getBody()->write("Nothing here");
             return $response;

@@ -15,7 +15,7 @@ export const Login = () => {
         event.preventDefault();
 
         try {
-            const response = await post(process.env.API_ENDPOINT + "/v1/users/login", {
+            const response = await post(process.env.REACT_APP_API_ENDPOINT + "/v1/users/login", {
                 username: user,
                 password: password,
             });

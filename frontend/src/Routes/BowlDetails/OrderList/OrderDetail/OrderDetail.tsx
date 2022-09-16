@@ -7,7 +7,7 @@ function OrderDetail(props: {order: any}) {
     const order = props.order
 
     useEffect(() => {
-        get(process.env.API_ENDPOINT + "/v1/users/" + order.userId)
+        get(process.env.REACT_APP_API_ENDPOINT + "/v1/users/" + order.userId)
             .then(response => {
                 setUser(response.data)
             });

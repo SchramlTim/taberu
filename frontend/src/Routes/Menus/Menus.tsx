@@ -10,7 +10,7 @@ export const Menus = () => {
 
     // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
-        get(process.env.API_ENDPOINT + "/v1/menus")
+        get(process.env.REACT_APP_API_ENDPOINT + "/v1/menus")
             .then(response => {
                 setMenus(response.data)
         });

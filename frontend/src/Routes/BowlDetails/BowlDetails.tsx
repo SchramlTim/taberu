@@ -16,7 +16,7 @@ function BowlDetails() {
     const [menuItems, setMenuItems] = useState<MenuItemProps[]>([]);
 
     useEffect(() => {
-        get(process.env.API_ENDPOINT + "/v1/bowls/" + id)
+        get(process.env.REACT_APP_API_ENDPOINT + "/v1/bowls/" + id)
             .then(response => {
                 setBowls(response.data)
                 get(response.data.orders)
