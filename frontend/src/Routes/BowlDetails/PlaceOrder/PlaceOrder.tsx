@@ -39,7 +39,7 @@ function PlaceOrder (props: {bowlId: string}) {
 
         console.log('items', items)
 
-        post('/v1/bowls/' + id + '/orders', {
+        post(process.env.REACT_APP_API_ENDPOINT + '/v1/bowls/' + id + '/orders', {
             paymentMethod: 'Paypal',
             finalPrice: 1337,
             items: items

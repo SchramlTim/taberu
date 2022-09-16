@@ -17,7 +17,7 @@ function BowlCreate() {
     const [bowl, setBowl] = useState<BowlProps|null>(null)
 
     useEffect(() => {
-        get('/v1/menus')
+        get(process.env.REACT_APP_API_ENDPOINT + '/v1/menus')
             .then(response => {
                 setMenus(response.data)
                 selectMenu(response.data[0] ?? null)
@@ -27,7 +27,7 @@ function BowlCreate() {
     const createBowl = (e: any) => {
         e.preventDefault()
         if (selectedMenu) {
-            post('/v1/bowls', {
+            post(process.env.REACT_APP_API_ENDPOINT + '/v1/bowls', {
                 name: bowlName,
                 description: bowlDescription,
                 orderDeadline,

@@ -23,7 +23,7 @@ function BowlDetails() {
                     .then(response => {
                         setOrders(response.data)
                     });
-                get('/v1/menus/' + response.data.menuId + '/items')
+                get(process.env.REACT_APP_API_ENDPOINT + '/v1/menus/' + response.data.menuId + '/items')
                     .then(response => {
                         setMenuItems(response.data)
                     });

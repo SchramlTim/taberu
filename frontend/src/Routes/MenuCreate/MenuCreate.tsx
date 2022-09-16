@@ -15,7 +15,7 @@ function MenuCreate() {
     const [menuItems, setMenuItems] = useState<Array<MenuItemProps>>([]);
 
     const createMenu = async () => {
-        const response = await post('/v1/menus', {
+        const response = await post(process.env.REACT_APP_API_ENDPOINT + '/v1/menus', {
             name: menuName,
             description: menuDescription
         })
@@ -23,12 +23,12 @@ function MenuCreate() {
     }
 
     const createMenuItem = async () => {
-        await post('/v1/menus/' + menu?.id + '/items', {
+        await post(process.env.REACT_APP_API_ENDPOINT + '/v1/menus/' + menu?.id + '/items', {
             name: menuItemName,
             description: menuItemDescription,
             price: menuItemPrice
         })
-        const response = await get('/v1/menus/' + menu?.id + '/items')
+        const response = await get(process.env.REACT_APP_API_ENDPOINT + '/v1/menus/' + menu?.id + '/items')
         setMenuItems(response.data)
     }
 
