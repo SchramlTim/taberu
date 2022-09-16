@@ -35,6 +35,18 @@ class App
         $errorMiddleware = $app->addErrorMiddleware(true, true, true);
         $errorMiddleware->setDefaultErrorHandler(new JsonErrorHandler($app));
 
+        $app->options('/{routes:.+}', function ($request, $response, $args) {
+            return $response;
+        });
+
+        $app->add(function ($request, $handler) {
+            $response = $handler->handle($request);
+            return $response
+                ->withHeader('Access-Control-Allow-Origin', '*')
+                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization, x-token')
+                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+        });
+
         $app->get('[/]', function (Request $request, Response $response, array $args) {
             $response->getBody()->write("Nothing here");
             return $response;
