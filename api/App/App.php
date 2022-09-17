@@ -24,6 +24,9 @@ class App
 {
     private SlimApp $app;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $app = AppFactory::create();
