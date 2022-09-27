@@ -35,11 +35,11 @@ function MenuDetails() {
                     <h1 className={'text-4xl'}>{menu?.name}</h1>
                     <span>{menu?.description}</span>
                     <div className={'flex'}>
-                        {categories.map((category: any) => <div className={'flex flex-col w-1/4 h-1/4'}>
+                        {categories.map((category: any) => <div className={'flex flex-col w-20'}>
                             <img
                                 src={category.iconUrl}
                             />
-                            <span>{category.name}</span>
+                            <span className={'text-center'}>{category.name}</span>
                         </div>)}
                     </div>
                 </div>
