@@ -1,34 +1,13 @@
 import React, {useState} from 'react';
-import { post } from "../../Utils/Request";
 import { Redirect } from "react-router-dom";
 import Button from "../../Components/Button/Button";
+import Form from "../../Components/Form/Form";
+import Input from "../../Components/Input/Input";
+import {validateEmail, validateNotEmpty} from "../../Utils/Validator";
 
 function Register() {
 
-    const [username, setUsername] = useState('')
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [password, setPassword] = useState('')
-    const [phoneNumber, setPhoneNumber] = useState('')
-    const [paypalUsername, setPaypalUsername] = useState('')
     const [afterRegister, setAfterRegister] = useState(false)
-
-    const handleSubmit = async (event: any) => {
-        event.preventDefault()
-        try {
-            const response = await post(process.env.REACT_APP_API_ENDPOINT + "/v1/users/register", {
-                username: username,
-                firstName: firstName,
-                lastName: lastName,
-                password: password,
-                phoneNumber: phoneNumber,
-                paypalUsername: paypalUsername,
-            })
-            setAfterRegister(true)
-        } catch (e) {
-            console.log(e)
-        }
-    }
 
     if (afterRegister) {
         return (<Redirect to={'/login'} />)
@@ -37,65 +16,17 @@ function Register() {
     return (
         <div className={'flex justify-center items-center w-full h-full'}>
             <div className={'w-full max-w-xs'}>
-                <form onSubmit={handleSubmit} className={'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
-                    <div className={'mb-4'}>
-                        <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor="username">
-                            Name
-                        </label>
-                        <input
-                            onChange={(e) => setUsername(e.target.value)}
-                            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
-                            id="username" type="text" placeholder="Name"/>
-                    </div>
-                    <div className={'mb-4'}>
-                        <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor="firstName">
-                            First Name
-                        </label>
-                        <input
-                            onChange={(e) => setFirstName(e.target.value)}
-                            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
-                            id="firstName" type="text" placeholder="First Name"/>
-                    </div>
-                    <div className={'mb-4'}>
-                        <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor="lastName">
-                            Last Name
-                        </label>
-                        <input
-                            onChange={(e) => setLastName(e.target.value)}
-                            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
-                            id="lastName" type="text" placeholder="Last Name"/>
-                    </div>
-                    <div className={'mb-4'}>
-                        <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor="password">
-                            Password
-                        </label>
-                        <input
-                            onChange={(e) => setPassword(e.target.value)}
-                            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
-                            id="password" type="password" placeholder="*****************"/>
-                    </div>
-                    <div className={'mb-4'}>
-                        <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor="phoneNumber">
-                            Phone Number
-                        </label>
-                        <input
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
-                            id="phoneNumber" type="tel" placeholder="00000-00000"/>
-                    </div>
-                    <div className={'mb-4'}>
-                        <label className={'block text-gray-700 text-sm font-bold mb-2'} htmlFor="paypalUsername">
-                            Paypal Username
-                        </label>
-                        <input
-                            onChange={(e) => setPaypalUsername(e.target.value)}
-                            className={'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}
-                            id="paypalUsername" type="email" placeholder="max.mustermann@email.com"/>
-                    </div>
+                <Form name={'login'} method={'POST'} action={process.env.REACT_APP_API_ENDPOINT + "/v1/users/register"} afterSubmit={() => setAfterRegister(true)} className={'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
+                    <Input identifier={'username'} title={'Name*'} placeholder={''} validation={validateEmail}/>
+                    <Input identifier={'firstName'} title={'First Name*'} placeholder={''} validation={validateNotEmpty}/>
+                    <Input identifier={'lastName'} title={'Last Name*'} placeholder={''} validation={validateNotEmpty}/>
+                    <Input identifier={'password'} title={'Password*'} placeholder={'*****************'} type={'password'} validation={(event) => {}}/>
+                    <Input identifier={'phoneNumber'} title={'Phone Number (optional)'} placeholder={''} validation={(event) => {}}/>
+                    <Input identifier={'paypalUsername'} title={'Paypal Username (optional)'} placeholder={''} validation={(event) => {}}/>
                     <div className={'flex items-center justify-between'}>
-                        <Button type={'submit'} text={'Sign Up'} />
+                        <Button type={'submit'} text={'Sign Up'}/>
                     </div>
-                </form>
+                </Form>
             </div>
         </div>
     );
