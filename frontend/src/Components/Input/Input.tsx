@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
+import {FormContext} from "../../Context/FormContext";
 
-type InputTypes = 'text' | 'number' | 'password' | undefined
+type InputTypes = 'text' | 'number' | 'password' | 'email' | undefined
 
 function Input(props: {
     identifier: string,
@@ -11,6 +12,7 @@ function Input(props: {
 }) {
 
     const [error, setError] = useState<string|boolean>(false)
+    const { addFieldError, removeFieldError } = useContext(FormContext);
 
     return (
         <div className={"mb-4"}>
@@ -27,11 +29,15 @@ function Input(props: {
                             message = error.message
                         }
                         setError(message)
+                        addFieldError(event.target.id, new Error(message))
                     }
                 }}
                 className={"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  + ((error && ' bg-red-300') || '')}
                 id={props.identifier} type={props.type ?? 'text'} placeholder={props.placeholder}
-                onChange={() => setError(false)}
+                onChange={(event) => {
+                    setError(false)
+                    removeFieldError(event.target.id)
+                }}
             />
             {error &&
                 <span className={'text-xs text-red-500'}>{error}</span>
