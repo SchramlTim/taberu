@@ -1,14 +1,15 @@
 import React, {useContext, useState} from "react";
 import {FormContext} from "../../Context/FormContext";
 
-type InputTypes = 'text' | 'number' | 'password' | 'email' | undefined
+type InputTypes = 'text' | 'number' | 'password' | 'email'  | 'tel' | undefined
 
 function Input(props: {
     identifier: string,
     title: string,
     placeholder: string,
     validation: (input: string) => any,
-    type?: InputTypes
+    type?: InputTypes,
+    autocomplete?: string,
 }) {
 
     const [error, setError] = useState<string|boolean>(false)
@@ -32,6 +33,7 @@ function Input(props: {
                         addFieldError(event.target.id, new Error(message))
                     }
                 }}
+                autoComplete={props.autocomplete ?? ''}
                 className={"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  + ((error && ' bg-red-300') || '')}
                 id={props.identifier} type={props.type ?? 'text'} placeholder={props.placeholder}
                 onChange={(event) => {

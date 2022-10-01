@@ -15,3 +15,17 @@ export const validateNotEmpty = (input: string | undefined) => {
         throw new Error('Please fill required fields')
     }
 }
+
+export const validateContainsSpecialCharacter= (input: string | undefined) => {
+    const isValid = /(?=.*[@$!%*?&])+/.test(input ?? '')
+    if (!isValid) {
+        throw new Error('Need to contain one of @$!%*?&')
+    }
+}
+
+export const validateLength= (input: string | undefined, length: number) => {
+    const isValid = String(input).length >= length
+    if (!isValid) {
+        throw new Error(`Must contain at least ${length} characters`)
+    }
+}

@@ -1,6 +1,7 @@
 import React, {useState, useCallback, useContext} from 'react';
 import { Link } from 'react-router-dom';
 import {UserContext} from "../../Context/UserContext";
+import Button from "../Button/Button";
 
 function Header() {
 
@@ -57,11 +58,11 @@ function Header() {
                         </ul>
                         {userContext &&
                             <div className={'absolute bottom-12 w-full'}>
-                                <div className={'flex flex-col justify-start text-lg p-4'}>
+                                <div className={'flex flex-col justify-start gap-2 text-lg p-4'}>
                                     <span>Hi, {userContext.firstName} {userContext.lastName}</span>
                                     <span className={'text-base'}>User: {userContext.username}</span>
                                     <span className={'text-base'}>ID: {userContext.id}</span>
-                                    <div className={'p-2 mt-2 text-center rounded-md bg-background-primary'} onClick={handleLogout}>Logout</div>
+                                    <Button type={'button'} text={'Logout'} onClick={handleLogout}></Button>
                                 </div>
                             </div>
                         }
