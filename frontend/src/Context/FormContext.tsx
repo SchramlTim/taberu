@@ -42,7 +42,8 @@ export const FormProvider: FC = ({ children }) => {
     const addGlobalError = (error: Error) => {
         const globalErrorExist = !!globalErrors.filter((entry) => entry.message === error.message).length
         if (!globalErrorExist) {
-            setGlobalErrors([...globalErrors, error])
+            // temporary overwrite old errors
+            setGlobalErrors([error])
         }
     }
     const removeFieldError = (identifier: string) => {

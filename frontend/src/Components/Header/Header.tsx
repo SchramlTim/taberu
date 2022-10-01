@@ -38,7 +38,7 @@ function Header() {
             <header className={'h-16 flex justify-center items-center bg-clip-padding bg-transparent'}>
                 <>
                     {display && <div onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} onClick={toggleMenu} className={'fixed top-0 left-0 w-screen h-screen backdrop-blur-2xl bg-black opacity-30'}></div>}
-                    <div onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} className={'fixed ' + (display ? 'bottom-0' : '-bottom-[100%]') + ' w-screen h-[80%] transition-all duration-200 fixed z-10 bg-primary'}>
+                    <div onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} className={'fixed ' + (display ? 'bottom-0' : '-bottom-[100%]') + ' w-screen h-[80%] transition-all duration-200 fixed z-10 bg-primary rounded-t-3xl'}>
                         <ul className={'mt-20 flex flex-col justify-start text-center text-2xl'}>
                             {userContext &&
                                 <>

@@ -4,7 +4,11 @@ import {FormContext, FormProvider} from "../../Context/FormContext";
 type MethodTypes = 'GET' | 'POST' | 'DELETE' | 'PUT' | undefined
 
 function ErrorBox(props: { error: Error }) {
-    return <span>{props.error.message}</span>;
+    return (
+        <div className={'text-sm text-red-500 bg-red-300 border-2 border-red-700 rounded w-full mb-4 p-2'}>
+            <span>{props.error.message}</span>
+        </div>
+    );
 }
 
 function Form(props: {
@@ -46,6 +50,12 @@ function Form(props: {
             body: JSON.stringify(data)
         });
 
+        if (response.status !== 200) {
+            const body = await response.json();
+            addGlobalError(new Error(body?.error?.message || 'Technical error'))
+            return;
+        }
+
         if (props.afterSubmit) {
             props.afterSubmit(response);
         }
@@ -58,7 +68,7 @@ function Form(props: {
                 className={props.className}
                 onSubmit={sendRequest}
             >
-                {state.globalErrors && errors}
+                {errors}
                 {props.children}
             </form>
     );
