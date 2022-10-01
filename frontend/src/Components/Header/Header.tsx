@@ -8,26 +8,33 @@ function Header() {
     const [touchStart, setTouchStart] = useState(0);
     const [touchEnd, setTouchEnd] = useState(0);
 
-    function handleTouchStart(e: any) {
+    const resetTouchAxis = () => {
+        setTouchStart(0)
+        setTouchEnd(0)
+    }
+
+    const handleTouchStart = (e: any) => {
         setTouchStart(e.targetTouches[0].clientY);
     }
 
-    function handleTouchMove(e: any) {
+    const handleTouchMove = (e: any) => {
         setTouchEnd(e.targetTouches[0].clientY);
     }
 
-    function handleTouchEnd() {
+    const handleTouchEnd = () => {
         if (touchEnd - touchStart > 150) {
             // do your stuff here for left swipe
             toggleMenu();
+            return;
         }
+
+        resetTouchAxis()
     }
 
     const [display, setDisplayState] = useState<any>(false);    
     const toggleMenu = useCallback(async () => {
         setDisplayState(!display)
-        setTouchStart(0)
-        setTouchEnd(0)
+        resetTouchAxis();
         // @ts-ignore
         document.body.style.overflow = !display ? 'hidden' : 'scroll';
       }, [display])
@@ -37,7 +44,7 @@ function Header() {
         toggleMenu()
     }
 
-    const slack = touchEnd - touchStart;
+    const slack = (touchEnd - touchStart) * 0.3;
 
     return (
         <>

@@ -34,7 +34,7 @@ function Register() {
                             validateContainsSpecialCharacter(input)
                             validateLength(input, 6)
                         }}/>
-                        <Input identifier={'phoneNumber'} title={'Phone Number (optional)'} autocomplete={'tel-area-code'} placeholder={''} validation={(event) => {}}/>
+                        <Input identifier={'phoneNumber'} title={'Phone Number (optional)'} autocomplete={'tel'} placeholder={''} validation={(event) => {}}/>
                         <Input identifier={'paypalUsername'} title={'Paypal Username (optional)'} placeholder={''} validation={(event) => {}}/>
                         <div className={'flex items-center justify-between'}>
                             <Button type={'submit'} text={'Sign Up'}/>
