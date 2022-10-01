@@ -5,6 +5,8 @@ import Button from "../Button/Button";
 
 function Header() {
 
+    const MAX_SLAG = 150;
+    const SLAG_FACTOR = 0.3;
     const [touchStart, setTouchStart] = useState(0);
     const [touchEnd, setTouchEnd] = useState(0);
 
@@ -22,7 +24,7 @@ function Header() {
     }
 
     const handleTouchEnd = () => {
-        if (touchEnd - touchStart > 150) {
+        if (touchEnd - touchStart > MAX_SLAG) {
             // do your stuff here for left swipe
             toggleMenu();
             return;
@@ -44,7 +46,7 @@ function Header() {
         toggleMenu()
     }
 
-    const slack = (touchEnd - touchStart) * 0.3;
+    const slack = (touchEnd - touchStart) * SLAG_FACTOR;
 
     return (
         <>
