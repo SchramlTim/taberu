@@ -26,6 +26,10 @@ clientsClaim();
 
 const toPrecache = self.__WB_MANIFEST.filter(
   (file) => {
+      let context = file;
+      if (typeof context == "object") {
+          context = context.url
+      }
 	  return !file.toString().includes('index.html')
   }
 )
