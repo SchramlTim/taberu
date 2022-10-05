@@ -3,52 +3,21 @@ import { Link } from 'react-router-dom';
 import {UserContext} from "../../Context/UserContext";
 import Button from "../Button/Button";
 import Popup from "../Popup/Popup";
+import NavigationMenu from "../NavigationMenu/NavigationMenu";
 
 function Header() {
 
-    const { user: userContext, logout } = useContext(UserContext)
-    const [display, setDisplayState] = useState<any>(false);
+    const [display, setDisplayState] = useState(false);
 
     const toggleMenu = useCallback(async () => {
         setDisplayState(!display)
-        // @ts-ignore
-        document.body.style.overflow = !display ? 'hidden' : 'scroll';
       }, [display])
-
-    const handleLogout = () => {
-        logout()
-        toggleMenu()
-    }
 
     return (
         <>
             <header className={'h-16 flex justify-center items-center bg-clip-padding bg-transparent'}>
                 <Popup toggle={toggleMenu} display={display}>
-                        <ul className={'mt-20 flex flex-col justify-start text-center text-2xl'}>
-                            {userContext &&
-                                <>
-                                    <li className={'mt-2'}><Link onClick={toggleMenu} to="/user">Users</Link></li>
-                                    <li className={'mt-2'}><Link onClick={toggleMenu} to="/bowls">Bowls</Link></li>
-                                    <li className={'mt-2'}><Link onClick={toggleMenu} to="/menus">Menus</Link></li>
-                                </>
-                            }
-                            {!userContext &&
-                                <>
-                                    <li className={'mt-2'}><Link onClick={toggleMenu} to="/login">Login</Link></li>
-                                    <li className={'mt-2'}><Link onClick={toggleMenu} to="/register">Register</Link></li>
-                                </>
-                            }
-                        </ul>
-                        {userContext &&
-                            <div className={'absolute bottom-12 w-full'}>
-                                <div className={'flex flex-col justify-start gap-2 text-lg p-4'}>
-                                    <span>Hi, {userContext.firstName} {userContext.lastName}</span>
-                                    <span className={'text-base'}>User: {userContext.username}</span>
-                                    <span className={'text-base'}>ID: {userContext.id}</span>
-                                    <Button type={'button'} text={'Logout'} onClick={handleLogout}></Button>
-                                </div>
-                            </div>
-                        }
+                    <NavigationMenu toggleMenu={toggleMenu} />
                 </Popup>
                 <button className={'absolute text-gray-600 left-2 z-50 bg-transparent h-12 w-12 rounded-2xl flex justify-center items-center'}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

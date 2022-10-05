@@ -37,6 +37,8 @@ function Popup(props: {
 
     const toggleMenu = () => {
         props.toggle()
+        // @ts-ignore
+        document.body.style.overflow = !display ? 'hidden' : 'scroll';
         resetTouchAxis()
     }
 
