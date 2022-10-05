@@ -1,5 +1,5 @@
 import React, {createContext, FC, useState} from "react";
-import {MenuItemProps} from "../Utils/Types";
+import {MenuItemProps, OrderItemProp} from "../Utils/Types";
 
 type BasketProviderState = {
     selectedItems: MenuItemProps[],
@@ -26,8 +26,6 @@ export const BasketProvider: FC = ({ children }) => {
         items.splice(index, 1)
         setSelectedItems([...items])
     }
-
-    console.log(items)
 
     return (
         <BasketContext.Provider value={{ selectedItems: items, increaseItem, reduceItem }}>

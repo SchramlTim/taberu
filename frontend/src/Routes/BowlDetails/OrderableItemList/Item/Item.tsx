@@ -12,7 +12,7 @@ function Item(props: {item: MenuItemProps}) {
     return (
         <>
             <div
-                className={'flex gap-2 flex-wrap justify-between mt-3 rounded w-full ' + (selfSelectList.length > 0 ? 'bg-green-100' : 'bg-gray-200')}
+                className={'flex flex-wrap justify-between mt-3 rounded w-full ' + (selfSelectList.length > 0 ? 'bg-green-100' : 'bg-gray-200')}
             >
                 <div className={'w-5/6 flex gap-2 flex-wrap justify-between p-2'} onClick={() => increaseItem(item)}>
                     <span className={'break-all'}>{item.name}</span>
@@ -22,7 +22,7 @@ function Item(props: {item: MenuItemProps}) {
                 {selfSelectList.length > 0 && <div onClick={(e) => {
                     e.preventDefault()
                     reduceItem(item)
-                }} className={'w-11 flex items-center justify-center font-bold bg-red-300 rounded text-center'}>
+                }} className={'w-1/6 flex items-center justify-center font-bold bg-red-300 rounded text-center'}>
                     <span>-</span>
                 </div>}
             </div>

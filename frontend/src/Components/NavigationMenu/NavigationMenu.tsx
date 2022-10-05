@@ -18,7 +18,7 @@ function NavigationMenu(props: {
 
     return (
         <>
-            <ul className={'mt-20 flex flex-col justify-start text-center text-2xl'}>
+            <ul className={'flex flex-col justify-start text-center text-2xl'}>
                 {userContext &&
                     <>
                         <li className={'mt-2'}><Link onClick={props.toggleMenu} to="/user">Users</Link></li>

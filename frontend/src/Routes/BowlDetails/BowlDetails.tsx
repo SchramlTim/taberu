@@ -7,6 +7,7 @@ import {BowlProps, MenuItemProps, OrderProps} from "../../Utils/Types";
 import OrderList from "./OrderList/OrderList";
 import OrderableItemList from "./OrderableItemList/OrderableItemList";
 import {BasketProvider} from "../../Context/BasketContext";
+import Popup from "../../Components/Popup/Popup";
 
 function BowlDetails() {
 
