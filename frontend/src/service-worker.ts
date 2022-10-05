@@ -30,7 +30,7 @@ const toPrecache = self.__WB_MANIFEST.filter(
       if (typeof context == "object") {
           context = context.url
       }
-	  return !file.toString().includes('index.html')
+	  return !context.toString().includes('index.html')
   }
 )
 
