@@ -23,7 +23,11 @@ clientsClaim();
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 
-precacheAndRoute(self.__WB_MANIFEST);
+const toPrecache = self.__WB_MANIFEST.filter(
+  (file) => !file.url.includes('index.html'),
+)
+
+precacheAndRoute(toPrecache);
 
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
