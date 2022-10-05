@@ -13,6 +13,7 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
+import {PrecacheEntry} from "workbox-precaching/src/_types";
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -24,7 +25,9 @@ clientsClaim();
 // even if you decide not to use precaching. See https://cra.link/PWA
 
 const toPrecache = self.__WB_MANIFEST.filter(
-  (file) => !file.url.includes('index.html'),
+  (file) => {
+	  return !file.toString().includes('index.html')
+  }
 )
 
 precacheAndRoute(toPrecache);
