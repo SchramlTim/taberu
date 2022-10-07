@@ -12,7 +12,7 @@ import { clientsClaim } from 'workbox-core';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { StaleWhileRevalidate } from 'workbox-strategies';
+import {NetworkFirst, StaleWhileRevalidate} from 'workbox-strategies';
 import {PrecacheEntry} from "workbox-precaching/src/_types";
 
 declare const self: ServiceWorkerGlobalScope;
@@ -24,15 +24,22 @@ clientsClaim();
 // This variable must be present somewhere in your service worker file,
 // even if you decide not to use precaching. See https://cra.link/PWA
 
-const files = self.__WB_MANIFEST
+//@ts-ignore
+const files = self.__WB_MANIFEST.filter((file) => !file.url.includes('index.html'))
 console.log(files)
 precacheAndRoute(files);
+
+registerRoute(
+    ({ url }) => url.pathname.includes('index.html'),
+    new NetworkFirst(),
+)
 
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
 // https://developers.google.com/web/fundamentals/architecture/app-shell
+/*
 const fileExtensionRegexp = new RegExp('/[^/?]+\\.[^/]+$');
-/*registerRoute(
+registerRoute(
   // Return false to exempt requests from being fulfilled by index.html.
   ({ request, url }: { request: Request; url: URL }) => {
     // If this isn't a navigation, skip.
