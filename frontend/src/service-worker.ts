@@ -26,7 +26,6 @@ clientsClaim();
 
 //@ts-ignore
 const files = self.__WB_MANIFEST.filter((file) => !file.url.includes('index.html'))
-console.log(files)
 precacheAndRoute(files);
 
 registerRoute(
