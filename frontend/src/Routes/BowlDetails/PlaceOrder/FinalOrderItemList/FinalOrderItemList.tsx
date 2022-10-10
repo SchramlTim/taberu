@@ -3,12 +3,11 @@ import {OrderItemProp} from "../../../../Utils/Types";
 import OrderItem from "./OrderItem/OrderItem";
 
 function FinalOrderItemList(props : { items : OrderItemProp[] }) {
-    const items = props.items
     return (
         <div>
             {
-                items.map((item: OrderItemProp) => (
-                    <OrderItem key={item.id} item={item} />
+                props.items.map((item: OrderItemProp, index) => (
+                    <OrderItem key={index} item={item} />
                 ))}
         </div>
     )

@@ -2,7 +2,6 @@ import React, {useState, useEffect, useContext} from 'react';
 import {OrderItemProp} from "../../../../../Utils/Types";
 
 function OrderItem(props: {item: OrderItemProp}) {
-
     return (
         <>
             <div

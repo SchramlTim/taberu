@@ -2,7 +2,7 @@ import React, {createContext, FC, useState} from "react";
 import {MenuItemProps, OrderItemProp} from "../Utils/Types";
 
 type BasketProviderState = {
-    selectedItems: MenuItemProps[],
+    selectedItems: OrderItemProp[],
     paymentMethod: string,
     increaseItem(item: MenuItemProps): void,
     reduceItem(item: MenuItemProps): void,
@@ -18,12 +18,12 @@ export const BasketContext = createContext({
 } as BasketProviderState);
 
 export const BasketProvider: FC = ({ children }) => {
-    const [items, setSelectedItems] = useState<MenuItemProps[]>([]);
+    const [items, setSelectedItems] = useState<OrderItemProp[]>([]);
     const [paymentMethod, setPaymentMethod] = useState<string>('cash');
 
     const increaseItem = (item: MenuItemProps) => {
         const changedList = [...items];
-        changedList.push(item)
+        changedList.push({...item, count: 1, additionalInformation: ''})
         setSelectedItems(changedList)
     }
     const reduceItem = (item: MenuItemProps) => {

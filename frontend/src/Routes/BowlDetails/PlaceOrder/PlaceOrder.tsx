@@ -21,21 +21,21 @@ function PlaceOrder (props: {bowlId: string}) {
     }, [display])
 
     const uniqueItems = selectedItems.reduce((unique, testItem) => {
-        if(!unique.some(obj => obj.id === testItem.id)) {
-            unique.push(testItem)
+        let updated = unique;
+        if(!updated.some(obj => obj.id === testItem.id && obj.additionalInformation === testItem.additionalInformation)) {
+            updated.push(testItem)
+        } else {
+            updated = unique.map((obj) => {
+                return obj.id === testItem.id && obj.additionalInformation === testItem.additionalInformation
+                    ? {...obj, count: obj.count+1}
+                    : obj
+            });
         }
-        return unique;
-    }, [] as Array<MenuItemProps>)
+        return updated;
+    }, [] as Array<OrderItemProp>)
 
-    const items = uniqueItems.map((uniqueItem) => {
-        return {
-            id: uniqueItem.id,
-            name: uniqueItem.name,
-            price: uniqueItem.price,
-            count: selectedItems.filter((selItem) => selItem.id === uniqueItem.id).length,
-            additionalInformation: 'sdasda'
-        } as OrderItemProp
-    })
+    console.log(uniqueItems)
+    const items = uniqueItems
 
     const placeOrder = async () => {
         const response = await post(process.env.REACT_APP_API_ENDPOINT + '/v1/bowls/' + id + '/orders', {
@@ -51,33 +51,29 @@ function PlaceOrder (props: {bowlId: string}) {
         <>
             <Button onClick={() => selectedItems.length && setDisplayState(!display)} type={'button'} text={'Check Order'} />
             <Popup display={display} toggle={toggleMenu}>
-                <HorizontalSlide headlines={[
-                    {title: 'Basket'},
-                    {title: 'Payment'},
-                    {title: 'Order completion'},
-                ]}>
-                        <div className={'h-full pl-5 pr-5 min-w-full'}>
-                            <FinalOrderItemList items={items} />
-                        </div>
-                        <div className={'h-full pl-5 pr-5 min-w-full'}>
-                            <span>{paymentMethod}</span>
-                            <div className={'flex flex-col gap-2'}>
-                                {offeredPaymentMethods.map((method, index) => <div key={method}>
-                                    <input
-                                        className={'hidden'}
-                                        name={'paymentMethod'}
-                                        id={method}
-                                        type={'radio'}
-                                        defaultChecked={index === 0}
-                                        onClick={(e) => setPaymentMethod(e.currentTarget.id)}
-                                    />
-                                    <label htmlFor={method}>
-                                        <div className={'h-[6rem] bg-gray-300 w-full border-2 border-transparent rounded'}>{method.toUpperCase()}</div>
-                                    </label>
-                                </div>)}
+                <div className={'pl-5 pr-5 w-full'}>
+                    <h2 className={'text-2xl font-extrabold mt-5'}>Summary</h2>
+                    <FinalOrderItemList items={items} />
+                    <h2 className={'text-2xl font-extrabold mt-5'}>Payment</h2>
+                    <div className={'flex flex-col gap-2'}>
+                    {offeredPaymentMethods.map((method, index) => <div key={method}>
+                        <input
+                            className={'hidden'}
+                            name={'paymentMethod'}
+                            id={method}
+                            type={'radio'}
+                            defaultChecked={index === 0}
+                            onClick={(e) => setPaymentMethod(e.currentTarget.id)}
+                        />
+                        <label htmlFor={method}>
+                            <div className={'flex justify-center items-center h-[6rem] bg-gray-300 w-full border-2 border-transparent rounded'}>
+                                <h3 className={'font-extrabold'}>{method.toUpperCase()}</h3>
                             </div>
-                        </div>
-                </HorizontalSlide>
+                        </label>
+                    </div>)}
+                </div>
+                    <Button onClick={() => selectedItems.length && placeOrder()} type={'button'} text={!order ? 'Place Order' : 'Order is Placed'} />
+                </div>
             </Popup>
         </>
     )
