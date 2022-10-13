@@ -65,7 +65,7 @@ class DepartmentController
             $response->getBody()->write($transformer->getJson());
         } catch (\Taberu\Exception\AlreadyExistException $e) {
             throw new ResponseException(404, $e->getMessage());
-        } catch (\Taberu\Exception\MutipleEntriesFoundException $e) {
+        } catch (\Taberu\Exception\MultipleEntriesFoundException $e) {
             throw new ResponseException(400, $e->getMessage());
         }
 

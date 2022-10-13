@@ -5,7 +5,7 @@ namespace Taberu\Model;
 use LogicException;
 use RuntimeException;
 use Taberu\Exception\AlreadyExistException;
-use Taberu\Exception\MutipleEntriesFoundException;
+use Taberu\Exception\MultipleEntriesFoundException;
 use Taberu\Exception\NotFoundException;
 use Taberu\Utils\Database;
 use \DateTime;

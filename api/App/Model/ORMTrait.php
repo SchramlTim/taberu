@@ -3,7 +3,7 @@
 namespace Taberu\Model;
 
 use Taberu\Exception\AlreadyExistException;
-use Taberu\Exception\MutipleEntriesFoundException;
+use Taberu\Exception\MultipleEntriesFoundException;
 use Taberu\Exception\NotFoundException;
 use Taberu\Utils\Database;
 
@@ -116,7 +116,7 @@ trait ORMTrait
         }
 
         if (is_array($firstEntry) && count($firstEntry) > 1) {
-            throw new MutipleEntriesFoundException('Mutiple entries are found');
+            throw new MultipleEntriesFoundException('Mutiple entries are found');
         }
 
         return self::createObjectFromDatabase($firstEntry[0]);

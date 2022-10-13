@@ -2,6 +2,7 @@
 
 namespace Taberu\Controller;
 
+use Taberu\Exception\RequiredRequestParameterMissing;
 use Taberu\Transformer\MenuList;
 use Taberu\Transformer\OrderList;
 use Taberu\Validator\JWT;
@@ -21,6 +22,12 @@ class UserController
         $parsedBody = $request->getParsedBody();
 
         try {
+            foreach (['username', 'firstName', 'lastName', 'password'] as $requiredParam) {
+                if (!isset($parsedBody[$requiredParam])) {
+                    throw new RequiredRequestParameterMissing("Parameter $requiredParam is missing");
+                }
+            }
+
             $user = new User();
             $user->setUsername($parsedBody['username'])
                 ->setFirstName($parsedBody['firstName'])
@@ -40,6 +47,8 @@ class UserController
             throw new ResponseException(409, $e->getMessage());
         } catch (\Taberu\Exception\NotFoundException $e) {
             throw new ResponseException(404, $e->getMessage());
+        } catch (\Taberu\Exception\RequiredRequestParameterMissing $e) {
+            throw new ResponseException(400, $e->getMessage());
         }
 
         return $response;
@@ -82,7 +91,7 @@ class UserController
             $response->getBody()->write($transformer->getJson());
         } catch (\Taberu\Exception\AlreadyExistException $e) {
             throw new ResponseException(404, $e->getMessage());
-        } catch (\Taberu\Exception\MutipleEntriesFoundException $e) {
+        } catch (\Taberu\Exception\MultipleEntriesFoundException $e) {
             throw new ResponseException(400, $e->getMessage());
         }
 
