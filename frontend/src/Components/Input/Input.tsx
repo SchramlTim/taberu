@@ -10,6 +10,7 @@ function Input(props: {
     placeholder?: string,
     type?: InputTypes,
     autocomplete?: string,
+    required?: boolean
 }) {
 
     const [error, setError] = useState<string|boolean>(false)
@@ -18,7 +19,7 @@ function Input(props: {
     return (
         <div className={"mb-4"}>
             <label className={"block text-gray-700 text-sm font-bold mb-2" + ((error && ' text-red-500') || '')} htmlFor={props.identifier}>
-                {props.title}
+                {props.title}{props.required && '*'}
             </label>
             <input
                 onBlur={(event) => {
@@ -33,6 +34,7 @@ function Input(props: {
                         addFieldError(event.target.id, new Error(message))
                     }
                 }}
+                data-required={props.required}
                 autoComplete={props?.autocomplete}
                 className={"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  + ((error && ' bg-red-300') || '')}
                 id={props.identifier} type={props.type ?? 'text'} placeholder={props?.placeholder}

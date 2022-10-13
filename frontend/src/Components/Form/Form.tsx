@@ -31,6 +31,17 @@ function Form(props: {
         }
 
         const elements = [...e.target.elements]
+
+        const emptyInput = elements.filter((element) => {
+            return !!element.dataset.required && element.value.length === 0
+        })
+
+        console.log(emptyInput)
+        if (emptyInput.length) {
+            addGlobalError(new Error('Please fill the input field before submit'))
+            return;
+        }
+
         const data = elements.reduce((acc, elem) => {
             if (elem.id) {
                 acc[elem.id] = elem.value
