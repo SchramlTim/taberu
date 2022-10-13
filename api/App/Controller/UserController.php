@@ -23,7 +23,7 @@ class UserController
 
         try {
             foreach (['username', 'firstName', 'lastName', 'password'] as $requiredParam) {
-                if (!isset($parsedBody[$requiredParam])) {
+                if (empty($parsedBody[$requiredParam])) {
                     throw new RequiredRequestParameterMissing("Parameter $requiredParam is missing");
                 }
             }
