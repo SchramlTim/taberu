@@ -12,7 +12,7 @@ function PlaceOrder (props: {bowlId: string}) {
 
     const id = props.bowlId
     const offeredPaymentMethods = ['cash', 'paypal']
-    const {selectedItems, paymentMethod, setPaymentMethod} = useContext(BasketContext)
+    const {basketItems, paymentMethod, setPaymentMethod} = useContext(BasketContext)
     const [display, setDisplayState] = useState(false);
     const [order, setOrder] = useState<OrderProps|undefined>(undefined);
 
@@ -20,7 +20,7 @@ function PlaceOrder (props: {bowlId: string}) {
         setDisplayState(!display)
     }, [display])
 
-    const uniqueItems = selectedItems.reduce((unique, testItem) => {
+    const uniqueItems = basketItems.reduce((unique, testItem) => {
         let updated = unique;
         if(!updated.some(obj => obj.id === testItem.id && obj.additionalInformation === testItem.additionalInformation)) {
             updated.push(testItem)
@@ -34,13 +34,18 @@ function PlaceOrder (props: {bowlId: string}) {
         return updated;
     }, [] as Array<OrderItemProp>)
 
-    console.log(uniqueItems)
-    const items = uniqueItems
+    const indexOfAll = (arr: OrderItemProp[], val: OrderItemProp) => {
+        return arr.reduce((acc: Array<number>, el: OrderItemProp, currentIndex) => {
+            return el.id === val.id && el.additionalInformation === val.additionalInformation ? [...acc, currentIndex] : [...acc]
+        }, []);
+    }
+    const items = uniqueItems.map((item) => {
+        return {...item, basketIndex: indexOfAll(basketItems, item)}
+    })
 
     const placeOrder = async () => {
         const response = await post(process.env.REACT_APP_API_ENDPOINT + '/v1/bowls/' + id + '/orders', {
             paymentMethod: 'Paypal',
-            finalPrice: 1337,
             items: items
         })
 
@@ -49,7 +54,7 @@ function PlaceOrder (props: {bowlId: string}) {
 
     return (
         <>
-            <Button onClick={() => selectedItems.length && setDisplayState(!display)} type={'button'} text={'Check Order'} />
+            <Button onClick={() => basketItems.length && setDisplayState(!display)} type={'button'} text={'Check Order'} />
             <Popup display={display} toggle={toggleMenu}>
                 <div className={'pl-5 pr-5 w-full'}>
                     <h2 className={'text-2xl font-extrabold mt-5'}>Summary</h2>
@@ -72,7 +77,7 @@ function PlaceOrder (props: {bowlId: string}) {
                         </label>
                     </div>)}
                 </div>
-                    <Button onClick={() => selectedItems.length && placeOrder()} type={'button'} text={!order ? 'Place Order' : 'Order is Placed'} />
+                    <Button onClick={() => basketItems.length && placeOrder()} type={'button'} text={!order ? 'Place Order' : 'Order is Placed'} />
                 </div>
             </Popup>
         </>

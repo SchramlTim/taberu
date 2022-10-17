@@ -4,10 +4,10 @@ import {BasketContext} from "../../../../Context/BasketContext";
 
 function Item(props: {item: MenuItemProps}) {
 
-    const { selectedItems, increaseItem, reduceItem } = useContext(BasketContext);
+    const { basketItems, increaseItem, reduceItem } = useContext(BasketContext);
     const item = props.item
 
-    const selfSelectList = selectedItems.filter((listItem) => listItem.id === item.id)
+    const selfSelectList = basketItems.filter((listItem) => listItem.id === item.id)
 
     return (
         <>

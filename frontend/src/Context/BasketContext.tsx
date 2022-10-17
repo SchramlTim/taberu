@@ -2,19 +2,21 @@ import React, {createContext, FC, useState} from "react";
 import {MenuItemProps, OrderItemProp} from "../Utils/Types";
 
 type BasketProviderState = {
-    selectedItems: OrderItemProp[],
+    basketItems: OrderItemProp[],
     paymentMethod: string,
     increaseItem(item: MenuItemProps): void,
     reduceItem(item: MenuItemProps): void,
-    setPaymentMethod (method: string): void
+    setPaymentMethod (method: string): void,
+    addInformationToBasketItem (index: number, additionalInformation: string): void
 }
 
 export const BasketContext = createContext({
-    selectedItems: [],
+    basketItems: [],
     paymentMethod: '',
     increaseItem: (item) => {},
     reduceItem: (item) => {},
-    setPaymentMethod: (method: string) => {}
+    setPaymentMethod: (method: string) => {},
+    addInformationToBasketItem: (index: number, additionalInformation: string) => {}
 } as BasketProviderState);
 
 export const BasketProvider: FC = ({ children }) => {
@@ -32,8 +34,17 @@ export const BasketProvider: FC = ({ children }) => {
         setSelectedItems([...items])
     }
 
+    const addInformationToBasketItem = (index: number, additionalInformation: string) => {
+        const item = items[index];
+        item.additionalInformation = additionalInformation
+        items[index] = item
+        setSelectedItems([...items ]);
+    }
+
+    console.log(items)
+
     return (
-        <BasketContext.Provider value={{ selectedItems: items, paymentMethod, increaseItem, reduceItem, setPaymentMethod }}>
+        <BasketContext.Provider value={{ basketItems: items, paymentMethod, increaseItem, reduceItem, setPaymentMethod, addInformationToBasketItem }}>
             {children}
         </BasketContext.Provider>
     );
