@@ -4,13 +4,8 @@ namespace Taberu\Controller;
 
 use Taberu\Exception\ResponseException;
 use Taberu\Model\Order;
-use Taberu\Utils\Database;
-use Taberu\Validator\JWT;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamInterface;
-use Slim\Psr7\Cookies;
-use Slim\Psr7\UploadedFile;
 
 class OrderController
 {

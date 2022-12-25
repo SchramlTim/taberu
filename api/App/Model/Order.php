@@ -2,12 +2,6 @@
 
 namespace Taberu\Model;
 
-use LogicException;
-use RuntimeException;
-use Taberu\Exception\MultipleEntriesFoundException;
-use Taberu\Exception\NotFoundException;
-use Taberu\Utils\Database;
-
 class Order extends BaseModel
 {
     use ORMTrait;

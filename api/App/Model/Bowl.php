@@ -2,12 +2,6 @@
 
 namespace Taberu\Model;
 
-use LogicException;
-use RuntimeException;
-use Taberu\Exception\AlreadyExistException;
-use Taberu\Exception\MultipleEntriesFoundException;
-use Taberu\Exception\NotFoundException;
-use Taberu\Utils\Database;
 use \DateTime;
 
 class Bowl extends BaseModel
@@ -33,7 +27,7 @@ class Bowl extends BaseModel
 
     public static string $_table = 'bowls';
 
-    private int $creatorID;
+    private int $creatorId;
     private string $name = '';
     private string $description = '';
     private DateTime $orderDeadline;
@@ -57,7 +51,7 @@ class Bowl extends BaseModel
     {
         $object = new self();
         $object->setId($data[self::ID])
-            ->setCreatorID($data[self::CREATOR_ID])
+            ->setCreatorId($data[self::CREATOR_ID])
             ->setName($data[self::NAME])
             ->setDescription($data[self::DESCRIPTION])
             ->setOrderDeadline(new DateTime($data[self::ORDER_DEADLINE]))
@@ -75,7 +69,7 @@ class Bowl extends BaseModel
     {
         if (!$valuesToSave) {
             $valuesToSave = [
-                self::CREATOR_ID => $this->getCreatorID(),
+                self::CREATOR_ID => $this->getCreatorId(),
                 self::NAME => $this->getName(),
                 self::DESCRIPTION => $this->getDescription(),
                 self::ORDER_DEADLINE => $this->getOrderDeadline()->format('Y-m-d H:i:s'),
@@ -95,7 +89,7 @@ class Bowl extends BaseModel
     {
         if (!$valuesToSave) {
             $valuesToSave = [
-                self::CREATOR_ID => $this->getCreatorID(),
+                self::CREATOR_ID => $this->getCreatorId(),
                 self::NAME => $this->getName(),
                 self::DESCRIPTION => $this->getDescription(),
                 self::ORDER_DEADLINE => $this->getOrderDeadline()->format('Y-m-d H:i:s'),
@@ -110,18 +104,18 @@ class Bowl extends BaseModel
     /**
      * @return int
      */
-    public function getCreatorID(): int
+    public function getCreatorId(): int
     {
-        return $this->creatorID;
+        return $this->creatorId;
     }
 
     /**
-     * @param int $creatorID
+     * @param int $creatorId
      * @return $this
      */
-    public function setCreatorID(int $creatorID): self
+    public function setCreatorId(int $creatorId): self
     {
-        $this->creatorID = $creatorID;
+        $this->creatorId = $creatorId;
         return $this;
     }
 

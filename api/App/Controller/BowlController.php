@@ -6,13 +6,10 @@ use Taberu\Exception\ResponseException;
 use Taberu\Model\Bowl;
 use Taberu\Model\Order;
 use Taberu\Model\OrderItem;
-use Taberu\Model\Restaurant;
 use Taberu\Model\User;
 use Taberu\Transformer\BowlList;
 use Taberu\Transformer\OrderList;
 use Taberu\Transformer\UserList;
-use Taberu\Utils\Database;
-use Taberu\Validator\JWT;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use DateTime;
@@ -40,7 +37,7 @@ class BowlController
 
         try {
             $bowl = new Bowl();
-            $bowl->setCreatorID($parsedBody['creatorId'] ?? $queryParameter['sub'])
+            $bowl->setCreatorId$parsedBody['creatorId'] ?? $queryParameter['sub'])
                 ->setName($parsedBody['name'])
                 ->setDescription($parsedBody['description'])
                 ->setOrderDeadline(new DateTime($parsedBody['orderDeadline']))
