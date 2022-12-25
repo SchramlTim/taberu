@@ -21,9 +21,11 @@ function NavigationMenu(props: {
             <ul className={'flex flex-col justify-start text-center text-2xl'}>
                 {userContext &&
                     <>
-                        <li className={'mt-2'}><Link onClick={props.toggleMenu} to="/user">Users</Link></li>
+                        {
+                        //<li className={'mt-2'}><Link onClick={props.toggleMenu} to="/user">Users</Link></li>
                         <li className={'mt-2'}><Link onClick={props.toggleMenu} to="/bowls">Bowls</Link></li>
-                        <li className={'mt-2'}><Link onClick={props.toggleMenu} to="/menus">Menus</Link></li>
+                        //<li className={'mt-2'}><Link onClick={props.toggleMenu} to="/menus">Menus</Link></li>
+                        }
                     </>
                 }
                 {!userContext &&

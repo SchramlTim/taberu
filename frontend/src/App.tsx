@@ -20,13 +20,14 @@ function App() {
       <UserProvider>
         <DefaultLayout>
           <Switch>
-            <Route exact path="/"><Home/></Route>
+            <Route exact path="/"><Login/></Route>
             <Route exact path="/login"><Login/></Route>
             <Route exact path="/register"><Register/></Route>
-            <PrivateRoute  path="/user"  component={User} exact />
-            <PrivateRoute  path="/menus"  component={Menus} exact />
-            <PrivateRoute  path="/menus/create"  component={MenuCreate} exact />
-            <PrivateRoute  path="/menus/:id"  component={MenuDetails} exact />
+            {//<PrivateRoute  path="/user"  component={User} exact />
+            //<PrivateRoute  path="/menus"  component={Menus} exact />
+            //<PrivateRoute  path="/menus/create"  component={MenuCreate} exact />
+            //<PrivateRoute  path="/menus/:id"  component={MenuDetails} exact />
+            }
             <PrivateRoute  path="/bowls"  component={Bowls} exact />
             <PrivateRoute  path="/bowls/create"  component={BowlCreate} exact />
             <PrivateRoute  path="/bowls/:id"  component={BowlDetails} exact />

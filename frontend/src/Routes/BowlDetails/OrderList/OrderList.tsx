@@ -14,4 +14,4 @@ function OrderList(props : { orders : OrderProps[] }) {
     )
 }
 
-export default OrderList ;
+export default OrderList;
