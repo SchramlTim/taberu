@@ -2,6 +2,8 @@
 
 namespace Taberu\Model;
 
+use Taberu\Utils\Database;
+
 class Order extends BaseModel
 {
     use ORMTrait;

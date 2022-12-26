@@ -13,6 +13,7 @@ use Taberu\Transformer\UserList;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use DateTime;
+use Taberu\Model\Menu;
 
 class BowlController
 {
@@ -37,7 +38,7 @@ class BowlController
 
         try {
             $bowl = new Bowl();
-            $bowl->setCreatorId$parsedBody['creatorId'] ?? $queryParameter['sub'])
+            $bowl->setCreatorId($parsedBody['creatorId'] ?? $queryParameter['sub'])
                 ->setName($parsedBody['name'])
                 ->setDescription($parsedBody['description'])
                 ->setOrderDeadline(new DateTime($parsedBody['orderDeadline']))
@@ -91,7 +92,7 @@ class BowlController
                 $bowl->setName($parsedBody['name']);
             }
             if (isset($parsedBody['creatorId'])) {
-                $bowl->setCreatorID($parsedBody['creatorId']);
+                $bowl->setCreatorId($parsedBody['creatorId']);
             }
             if (isset($parsedBody['description'])) {
                 $bowl->setDescription($parsedBody['description']);
@@ -149,8 +150,23 @@ class BowlController
             $bowl = Bowl::findFirstOrFail([
                 [Bowl::ID, '=', (int)$args['bowlId']]
             ]);
+            $menu = Menu::findFirstOrFail([
+                [Menu::ID, '=', $bowl->getMenuId()]
+            ]);
+            $menuItems = $menu->getMenuItems();
+            $items = array_map(function($item) use ($menuItems) {
+                foreach ($menuItems as $menuItem) {
+                    if ($menuItem->getId() === $item['id']) {
+                        return [
+                            'name' => $menuItem->getName(),
+                            'price' => $menuItem->getPrice(),
+                            'count' => $item['count'] ?? 1,
+                            'additionalInformation' => $item['additionalInformation'] ?? ''
+                        ];
+                    }   
+                }
+            }, $parsedBody['items']);
 
-            $items = $parsedBody['items'] ?? [];
             $finalPrice = array_reduce($items, function (float $finalPrice, array $item) {
                 return $finalPrice + ($item['price'] * $item['count']);
             }, 0.00);
