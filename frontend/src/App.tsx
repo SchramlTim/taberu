@@ -23,7 +23,8 @@ function App() {
             <Route exact path="/"><Login/></Route>
             <Route exact path="/login"><Login/></Route>
             <Route exact path="/register"><Register/></Route>
-            {//<PrivateRoute  path="/user"  component={User} exact />
+            {
+            //<PrivateRoute  path="/user"  component={User} exact />
             //<PrivateRoute  path="/menus"  component={Menus} exact />
             //<PrivateRoute  path="/menus/create"  component={MenuCreate} exact />
             //<PrivateRoute  path="/menus/:id"  component={MenuDetails} exact />

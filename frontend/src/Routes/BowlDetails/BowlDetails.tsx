@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
 import { get } from "../../Utils/Request";
 import Timer from "../../Components/Timer/Timer";
@@ -6,8 +6,9 @@ import PlaceOrder from "./PlaceOrder/PlaceOrder";
 import {BowlProps, MenuItemProps, OrderProps} from "../../Utils/Types";
 import OrderList from "./OrderList/OrderList";
 import OrderableItemList from "./OrderableItemList/OrderableItemList";
+import {EditContext} from "../../Context/EditContext";
 import {BasketProvider} from "../../Context/BasketContext";
-import Popup from "../../Components/Popup/Popup";
+import Button from '../../Components/Button/Button';
 
 function BowlDetails() {
 
@@ -15,6 +16,8 @@ function BowlDetails() {
     const [bowl, setBowls] = useState<BowlProps>();
     const [orders, setOrders] = useState<OrderProps[]>([]);
     const [menuItems, setMenuItems] = useState<MenuItemProps[]>([]);
+
+    const {isEditMode, toggleEditMode} = useContext(EditContext)
 
     useEffect(() => {
         get(process.env.REACT_APP_API_ENDPOINT + "/v1/bowls/" + id)
@@ -31,11 +34,16 @@ function BowlDetails() {
         });
     }, []);
 
-      return (
-        <div className={'flex flex-col w-full justify-center items-center'}>
+    return (
+    <div className={'flex flex-col w-full justify-center items-center'}>
             <div className={'flex flex-col md:flex-row justify-between w-3/4'}>
                 <div className={'flex flex-col'}>
-                    <h1 className={'text-4xl'}>{bowl?.name}</h1>
+                    <div className='flex justify-between'>
+                        <h1 className={'text-4xl'}>{bowl?.name}</h1>
+                        <div className='w-1/4'>
+                            <Button type='button' text='Edit' onClick={() => toggleEditMode()} />
+                        </div>
+                    </div>
                     <span>{bowl?.description}</span>
                 </div>
                 <div className={'flex justify-between gap-5 mt-10 md:m-0 md:flex-col md:w-1/3'}>
@@ -45,7 +53,7 @@ function BowlDetails() {
                     </div>
                     <div>
                         <span>Arrive Date</span>
-                        <Timer finishDate={bowl?.arriveDate ?? ''} />
+                            <Timer finishDate={bowl?.arriveDate ?? ''} />
                     </div>
                 </div>
             </div>
@@ -63,7 +71,7 @@ function BowlDetails() {
                 <OrderList orders={orders}/>
             </div>
         </div>
-      );
-  }
+    );
+}
 
 export default BowlDetails;
