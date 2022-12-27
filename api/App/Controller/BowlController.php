@@ -150,6 +150,12 @@ class BowlController
             $bowl = Bowl::findFirstOrFail([
                 [Bowl::ID, '=', (int)$args['bowlId']]
             ]);
+
+            $bufferTime = $bowl->getOrderDeadline()->modify('+5 minutes');
+            if ($bufferTime <= new \DateTime()) {
+                throw new ResponseException(410, 'Deadline expired');
+            }
+
             $menu = Menu::findFirstOrFail([
                 [Menu::ID, '=', $bowl->getMenuId()]
             ]);
