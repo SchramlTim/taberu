@@ -45,10 +45,9 @@ function PlaceOrder (props: {bowlId: string}) {
 
     const placeOrder = async () => {
         const response = await post(process.env.REACT_APP_API_ENDPOINT + '/v1/bowls/' + id + '/orders', {
-            paymentMethod: 'Paypal',
+            paymentMethod: paymentMethod,
             items: items
         })
-
         setOrder(response.data)
     }
 
