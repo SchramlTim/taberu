@@ -13,6 +13,7 @@ import BowlCreate from "./Routes/BowlCreate/BowlCreate";
 import Menus from "./Routes/Menus/Menus";
 import MenuDetails from "./Routes/MenuDetails/MenuDetails";
 import MenuCreate from "./Routes/MenuCreate/MenuCreate";
+import { EditProvider } from './Context/EditContext';
 
 function App() {
   return (    

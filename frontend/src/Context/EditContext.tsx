@@ -19,7 +19,6 @@ export const EditProvider: FC = ({ children }) => {
     }
 
     const toggleEditMode = () => {
-        console.log(isEditMode)
         setEditMode(!isEditMode)
     }
     return (

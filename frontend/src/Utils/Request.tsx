@@ -37,5 +37,5 @@ export const post = async (url = '', data = {}) => {
         throw Error('error while send data')
     }
 
-    return response.json(); // parses JSON response into native JavaScript objects
+    return await response.json(); // parses JSON response into native JavaScript objects
 }

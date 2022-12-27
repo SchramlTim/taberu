@@ -17,8 +17,6 @@ function BowlDetails() {
     const [orders, setOrders] = useState<OrderProps[]>([]);
     const [menuItems, setMenuItems] = useState<MenuItemProps[]>([]);
 
-    const {isEditMode, toggleEditMode} = useContext(EditContext)
-
     useEffect(() => {
         get(process.env.REACT_APP_API_ENDPOINT + "/v1/bowls/" + id)
             .then(response => {
@@ -35,14 +33,11 @@ function BowlDetails() {
     }, []);
 
     return (
-    <div className={'flex flex-col w-full justify-center items-center'}>
+        <div className={'flex flex-col w-full justify-center items-center'}>
             <div className={'flex flex-col md:flex-row justify-between w-3/4'}>
                 <div className={'flex flex-col'}>
                     <div className='flex justify-between'>
                         <h1 className={'text-4xl'}>{bowl?.name}</h1>
-                        <div className='w-1/4'>
-                            <Button type='button' text='Edit' onClick={() => toggleEditMode()} />
-                        </div>
                     </div>
                     <span>{bowl?.description}</span>
                 </div>
@@ -53,7 +48,7 @@ function BowlDetails() {
                     </div>
                     <div>
                         <span>Arrive Date</span>
-                            <Timer finishDate={bowl?.arriveDate ?? ''} />
+                        <Timer finishDate={bowl?.arriveDate ?? ''} />
                     </div>
                 </div>
             </div>
