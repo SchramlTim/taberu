@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react'
 
 function Timer (props: {finishDate: string}) {
-    const [seconds, setSeconds] = useState<number>(0)
-
-    useEffect(() => {
-        setInterval(() => {
-            setSeconds(seconds => seconds + 1);
-        }, 1000);
-    }, [seconds]);
+  
+    const deadline = props.finishDate
+    const [time, setTime] = useState<{days: number, hours: number, minutes: number, seconds: number}>({
+        days: 0, 
+        hours: 0, 
+        minutes: 0, 
+        seconds: 0
+    })
 
     const calculateTimeFormat = (date: string) => {
+        console.log(date)
         const now = new Date()
         const finishDate = new Date(date)
         const seconds = (finishDate.getTime() - now.getTime());
@@ -21,7 +23,10 @@ function Timer (props: {finishDate: string}) {
         }
     }
 
-    const time = calculateTimeFormat(props.finishDate)
+    useEffect(() => {
+        deadline.length && setInterval(() => setTime(calculateTimeFormat(deadline)), 1000);
+    }, [deadline]);
+
     const zeroPad = (num: number, places: number) => String(num).padStart(places, '0')
 
     return (
