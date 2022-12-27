@@ -66,14 +66,14 @@ function BowlCreate() {
                         placeholder='Order Deadline'
                         id='orderDateline'
                         type='datetime-local'
-                        onChange={(e) => {setOrderDeadline(e.target.value)}}
+                        onChange={(e) => {setOrderDeadline(new Date(e.target.value).toISOString())}}
                     />
                     <TextInput
                         title='Arrive Date'
                         placeholder='Arrive Date'
                         id='arriveDate'
                         type='datetime-local'
-                        onChange={(e) => {setArriveDate(e.target.value)}}
+                        onChange={(e) => {setArriveDate(new Date(e.target.value).toISOString())}}
                     />
                     <div className={"mb-4"}>
                         <select onChange={(e) => {
