@@ -11,7 +11,6 @@ function Timer (props: {finishDate: string}) {
     })
 
     const calculateTimeFormat = (date: string) => {
-        console.log(date)
         const now = new Date()
         const finishDate = new Date(date)
         const seconds = (finishDate.getTime() - now.getTime());

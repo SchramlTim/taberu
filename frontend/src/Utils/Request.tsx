@@ -39,3 +39,22 @@ export const post = async (url = '', data = {}) => {
 
     return await response.json(); // parses JSON response into native JavaScript objects
 }
+
+export const patch = async (url = '', data = {}) => {
+    const response = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'x-token': sessionStorage.getItem('token') ?? ''
+        },
+        redirect: 'follow',
+        body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+        throw Error('error while send data')
+    }
+
+    return await response.json(); // parses JSON response into native JavaScript objects
+}

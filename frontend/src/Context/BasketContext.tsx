@@ -41,8 +41,6 @@ export const BasketProvider: FC = ({ children }) => {
         setSelectedItems([...items ]);
     }
 
-    console.log(items)
-
     return (
         <BasketContext.Provider value={{ basketItems: items, paymentMethod, increaseItem, reduceItem, setPaymentMethod, addInformationToBasketItem }}>
             {children}

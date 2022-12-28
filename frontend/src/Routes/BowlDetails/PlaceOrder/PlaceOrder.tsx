@@ -8,7 +8,7 @@ import FinalOrderItemList from "./FinalOrderItemList/FinalOrderItemList";
 import HorizontalSlide from "../../../Components/HorizontalSlide/HorizontalSlide";
 
 
-function PlaceOrder (props: {bowlId: string}) {
+function PlaceOrder (props: {bowlId: number}) {
 
     const id = props.bowlId
     const offeredPaymentMethods = ['cash', 'paypal']

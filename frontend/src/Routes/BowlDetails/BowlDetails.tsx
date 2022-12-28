@@ -6,16 +6,17 @@ import PlaceOrder from "./PlaceOrder/PlaceOrder";
 import {BowlProps, MenuItemProps, OrderProps} from "../../Utils/Types";
 import OrderList from "./OrderList/OrderList";
 import OrderableItemList from "./OrderableItemList/OrderableItemList";
-import {EditContext} from "../../Context/EditContext";
 import {BasketProvider} from "../../Context/BasketContext";
-import Button from '../../Components/Button/Button';
+import { UserContext } from '../../Context/UserContext';
+import { BowlProvider } from '../../Context/BowlContext';
 
 function BowlDetails() {
 
-    let { id } = useParams<any>();
+    const { id } = useParams<any>();
     const [bowl, setBowls] = useState<BowlProps>();
     const [orders, setOrders] = useState<OrderProps[]>([]);
     const [menuItems, setMenuItems] = useState<MenuItemProps[]>([]);
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         get(process.env.REACT_APP_API_ENDPOINT + "/v1/bowls/" + id)
@@ -33,39 +34,42 @@ function BowlDetails() {
     }, []);
 
     return (
-        <div className={'flex flex-col w-full justify-center items-center'}>
-            <div className={'flex flex-col md:flex-row justify-between w-3/4'}>
-                <div className={'flex flex-col'}>
-                    <div className='flex justify-between'>
-                        <h1 className={'text-4xl'}>{bowl?.name}</h1>
+        <BowlProvider value={{bowl}} >
+            <div className={'flex flex-col w-full justify-center items-center'}>
+                <div className={'flex flex-col md:flex-row justify-between w-3/4'}>
+                    <div className={'flex flex-col w-full pr-5'}>
+                        <div className='flex justify-between'>
+                            <h1 className={'text-4xl'}>{bowl?.name}</h1>
+                            {bowl?.creatorId === user?.id && <span>(Owner)</span>}
+                        </div>
+                        <span>{bowl?.description}</span>
                     </div>
-                    <span>{bowl?.description}</span>
+                    <div className={'flex justify-between gap-5 mt-10 md:m-0 md:flex-col md:w-1/3'}>
+                        <div>
+                            <span>Order Deadline</span>
+                            <Timer finishDate={bowl?.orderDeadline ?? ''} />
+                        </div>
+                        <div>
+                            <span>Arrive Date</span>
+                            <Timer finishDate={bowl?.arriveDate ?? ''} />
+                        </div>
+                    </div>
                 </div>
-                <div className={'flex justify-between gap-5 mt-10 md:m-0 md:flex-col md:w-1/3'}>
-                    <div>
-                        <span>Order Deadline</span>
-                        <Timer finishDate={bowl?.orderDeadline ?? ''} />
-                    </div>
-                    <div>
-                        <span>Arrive Date</span>
-                        <Timer finishDate={bowl?.arriveDate ?? ''} />
-                    </div>
+                <div className={'flex flex-col justify-between w-3/4 mt-4'}>
+                    <h2>Menu</h2>
+                    <BasketProvider>
+                        <OrderableItemList items={menuItems} />
+                        {bowl &&
+                            <div className={'w-full mt-3'}>
+                                <PlaceOrder bowlId={bowl.id || 0} />
+                            </div>}
+                    </BasketProvider>
+                </div>
+                <div className={'flex flex-col w-3/4 m-10'}>
+                    <OrderList orders={orders}/>
                 </div>
             </div>
-            <div className={'flex flex-col justify-between w-3/4 mt-4'}>
-                <h2>Menu</h2>
-                <BasketProvider>
-                    <OrderableItemList items={menuItems} />
-                    {bowl &&
-                        <div className={'w-full mt-3'}>
-                            <PlaceOrder bowlId={bowl.id} />
-                        </div>}
-                </BasketProvider>
-            </div>
-            <div className={'flex flex-col w-3/4 m-10'}>
-                <OrderList orders={orders}/>
-            </div>
-        </div>
+        </BowlProvider>
     );
 }
 

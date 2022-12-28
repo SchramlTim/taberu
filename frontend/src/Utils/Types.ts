@@ -10,12 +10,12 @@ export type OrderProps = {
 }
 
 export type BowlProps = {
-    id: string,
+    id: number,
     name: string,
     description: string,
     orderDeadline: string,
     arriveDate: string,
-    creatorId: string,
+    creatorId: number,
     menuId: string,
 }
 
