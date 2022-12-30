@@ -8,12 +8,13 @@ class Bowl extends BaseModel
 {
     use ORMTrait;
 
-    const CREATOR_ID = 'creator_id';
-    const NAME = 'name';
-    const DESCRIPTION = 'description';
-    const ORDER_DEADLINE = 'order_deadline';
-    const ARRIVE_DATE = 'arrive_date';
-    const MENU_ID = 'menu_id';
+    const ID = 'bowls.id';
+    const CREATOR_ID = 'bowls.creator_id';
+    const NAME = 'bowls.name';
+    const DESCRIPTION = 'bowls.description';
+    const ORDER_DEADLINE = 'bowls.order_deadline';
+    const ARRIVE_DATE = 'bowls.arrive_date';
+    const MENU_ID = 'bowls.menu_id';
 
     private static array $_loadedFields = [
         self::ID,

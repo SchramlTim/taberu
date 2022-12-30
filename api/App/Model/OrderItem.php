@@ -6,11 +6,12 @@ class OrderItem extends BaseModel
 {
     use ORMTrait;
 
-    const ORDER_ID = 'order_id';
-    const NAME = 'name';
-    const PRICE = 'price';
-    const COUNT = 'count';
-    const ADDITIONAL_INFORMATION = 'additional_information';
+    const ID = 'order_items.id';
+    const ORDER_ID = 'order_items.order_id';
+    const NAME = 'order_items.name';
+    const PRICE = 'order_items.price';
+    const COUNT = 'order_items.count';
+    const ADDITIONAL_INFORMATION = 'order_items.additional_information';
 
     private static array $_loadedFields = [
         self::ID,

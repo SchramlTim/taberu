@@ -12,8 +12,9 @@ class Menu2Category extends BaseModel
 {
     use ORMTrait;
 
-    const MENU_ID = 'menu_id';
-    const CATEGORY_ID = 'category_id';
+    const ID = 'menu2category.id';
+    const MENU_ID = 'menu2category.menu_id';
+    const CATEGORY_ID = 'menu2category.category_id';
 
     private static array $_loadedFields = [
         self::ID,

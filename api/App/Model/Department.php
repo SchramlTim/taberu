@@ -12,9 +12,10 @@ class Department extends BaseModel
 {
     use ORMTrait;
 
-    const NAME = 'name';
-    const DESCRIPTION = 'description';
-    const LOCATION = 'location';
+    const ID = 'departments.id';
+    const NAME = 'departments.name';
+    const DESCRIPTION = 'departments.description';
+    const LOCATION = 'departments.location';
 
     private static array $_loadedFields = [
         self::ID,

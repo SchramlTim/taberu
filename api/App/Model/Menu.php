@@ -12,10 +12,11 @@ class Menu extends BaseModel
 {
     use ORMTrait;
 
-    const NAME = 'name';
-    const DESCRIPTION = 'description';
-    const CREATOR_ID = 'creator_id';
-    const RESTAURANT_ID = 'restaurant_id';
+    const ID = 'menus.id';
+    const NAME = 'menus.name';
+    const DESCRIPTION = 'menus.description';
+    const CREATOR_ID = 'menus.creator_id';
+    const RESTAURANT_ID = 'menus.restaurant_id';
 
     private static array $_loadedFields = [
         self::ID,

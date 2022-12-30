@@ -12,8 +12,9 @@ class User2Bowl extends BaseModel
 {
     use ORMTrait;
 
-    const BOWL_ID = 'bowl_id';
-    const USER_ID = 'user_id';
+    const ID = 'user2bowl.id';
+    const BOWL_ID = 'user2bowl.bowl_id';
+    const USER_ID = 'user2bowl.user_id';
 
     private static array $_loadedFields = [
         self::ID,

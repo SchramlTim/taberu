@@ -9,6 +9,14 @@ use Taberu\Utils\Database;
 
 trait ORMTrait
 {
+
+    protected static function extractTables(array $whereParams) {
+        $tables = array_map(function ($v) {
+            return strpos($v[0], '.') !== false ? strtok($v[0], '.') : null; 
+        }, $whereParams);
+        return array_filter($tables, fn($v) => (bool) $v);
+    }
+
     /**
      * @param array $whereParams
      * @return array
@@ -18,8 +26,10 @@ trait ORMTrait
         $database = Database::getDB();
 
         $where = self::prepareWhereConditions($whereParams);
+        $tables = self::extractTables($whereParams);
+        $fields = array_map(fn($field) => $field . ' as "' . $field . '"', self::$_loadedFields);  
 
-        $sql = 'SELECT ' . implode(',', self::$_loadedFields) . ' FROM ' . self::$_table;
+        $sql = 'SELECT ' . implode(',', $fields) . ' FROM ' . (count($tables) ? implode(',', $tables) : self::$_table);
 
         if (count($where)) {
             $sql .= ' WHERE ' . implode(' AND ', $where);
@@ -55,15 +65,23 @@ trait ORMTrait
             return !is_null($value) && strlen((string)$value);
         });
 
+        $mapping = [];
+        foreach ($valuesToSave as $key => $value) {
+            $name = explode('.', $key)[1];
+            $mapping[$name] = $value;
+        }
+
         $setQuery = array_map(function ($fieldName) {
             return $fieldName . '=:' . $fieldName;
-        }, array_keys($valuesToSave));
-
+        }, array_keys($mapping));
 
         $sql = "UPDATE ".self::getTable()." SET ".implode(', ', $setQuery)." WHERE id=:id";
+
         $stmt= $db->prepare($sql);
 
-        return $stmt->execute(array_merge([self::ID => $this->getId()], $valuesToSave));
+        error_log($sql);
+
+        return $stmt->execute(array_merge(['id' => $this->getId()], $mapping));
     }
 
     /**
@@ -77,6 +95,12 @@ trait ORMTrait
         array_filter($valuesToSave, function ($value) {
             return !is_null($value) && strlen((string)$value);
         });
+
+        $mapping = [];
+        foreach ($valuesToSave as $key => $value) {
+            $name = explode('.', $key)[1];
+            $mapping[$name] = $value;
+        }
 
         $setQuery = array_map(function ($fieldName) {
             return ':' . $fieldName;

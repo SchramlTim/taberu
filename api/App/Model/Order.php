@@ -8,12 +8,13 @@ class Order extends BaseModel
 {
     use ORMTrait;
 
-    const BOWL_ID = 'bowl_id';
-    const USER_ID = 'user_id';
-    const FINAL_PRICE = 'final_price';
-    const PAYMENT_METHOD = 'payment_method';
-    const PAYMENT_STATUS = 'payment_status';
-    const ORDER_STATUS = 'order_status';
+    const ID = 'orders.id';
+    const BOWL_ID = 'orders.bowl_id';
+    const USER_ID = 'orders.user_id';
+    const FINAL_PRICE = 'orders.final_price';
+    const PAYMENT_METHOD = 'orders.payment_method';
+    const PAYMENT_STATUS = 'orders.payment_status';
+    const ORDER_STATUS = 'orders.order_status';
 
     private static array $_loadedFields = [
         self::ID,

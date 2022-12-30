@@ -12,13 +12,14 @@ class User extends BaseModel
 {
     use ORMTrait;
 
-    const USERNAME = 'username';
-    const FIRST_NAME = 'first_name';
-    const LAST_NAME = 'last_name';
-    const PHONE_NUMBER = 'phone_number';
-    const PAYPAL_USERNAME = 'paypal_username';
-    const PASSWORD = 'password';
-    const PASSWORD_SALT = 'password_salt';
+    const ID = 'users.id';
+    const USERNAME = 'users.username';
+    const FIRST_NAME = 'users.first_name';
+    const LAST_NAME = 'users.last_name';
+    const PHONE_NUMBER = 'users.phone_number';
+    const PAYPAL_USERNAME = 'users.paypal_username';
+    const PASSWORD = 'users.password';
+    const PASSWORD_SALT = 'users.password_salt';
 
     protected static array $_loadedFields = [
         self::ID,

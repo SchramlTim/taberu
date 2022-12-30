@@ -10,8 +10,6 @@ use Taberu\Utils\Database;
 
 abstract class BaseModel
 {
-    const ID = 'id';
-
     protected ?int $id = null;
     protected ?string $table = null;
 

@@ -12,13 +12,14 @@ class Restaurant extends BaseModel
 {
     use ORMTrait;
 
-    const NAME = 'name';
-    const STREET = 'street';
-    const STREET_NUMBER = 'street_nr';
-    const ZIP = 'zip';
-    const CITY = 'city';
-    const DESCRIPTION = 'description';
-    const PHONE_NUMBER = 'phone_number';
+    const ID = 'restaurants.id';
+    const NAME = 'restaurants.name';
+    const STREET = 'restaurants.street';
+    const STREET_NUMBER = 'restaurants.street_nr';
+    const ZIP = 'restaurants.zip';
+    const CITY = 'restaurants.city';
+    const DESCRIPTION = 'restaurants.description';
+    const PHONE_NUMBER = 'restaurants.phone_number';
 
     protected static array $_loadedFields = [
         self::ID,

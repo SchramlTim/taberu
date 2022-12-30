@@ -12,8 +12,9 @@ class Category extends BaseModel
 {
     use ORMTrait;
 
-    const NAME = 'name';
-    const ICON_URL = 'icon_url';
+    const ID = 'categories.id';
+    const NAME = 'categories.name';
+    const ICON_URL = 'categories.icon_url';
 
     private static array $_loadedFields = [
         self::ID,
