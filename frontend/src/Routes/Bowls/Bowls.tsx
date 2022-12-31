@@ -10,7 +10,7 @@ export const Bowls = () => {
 
     // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
-        get(process.env.REACT_APP_API_ENDPOINT + "/v1/bowls")
+        get(process.env.REACT_APP_API_ENDPOINT + "/v1/bowls?filter[orderDeadline]=" + (new Date()).toISOString())
             .then(response => {
                 setBowls(response.data)
         });
