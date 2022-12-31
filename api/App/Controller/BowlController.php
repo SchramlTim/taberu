@@ -20,8 +20,14 @@ class BowlController
 
     public function getAllBowls(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
+        $queryParameter = $request->getQueryParams();
+        $where = [];
+        if (isset($queryParameter['filter']['orderDeadline'])) {
+            $where[] = [Bowl::ORDER_DEADLINE, '>=', $queryParameter['filter']['orderDeadline']];
+        }
+
         try {
-            $bowls = Bowl::all();
+            $bowls = Bowl::all($where);
             $transformer = new BowlList($bowls);
             $response->getBody()->write($transformer->getJson());
         } catch (\Taberu\Exception\NotFoundException $e) {
