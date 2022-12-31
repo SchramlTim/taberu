@@ -104,15 +104,15 @@ trait ORMTrait
 
         $setQuery = array_map(function ($fieldName) {
             return ':' . $fieldName;
-        }, array_keys($valuesToSave));
+        }, array_keys($mapping));
 
-        $sql = "INSERT INTO " . self::getTable() . " (".implode(', ', array_keys($valuesToSave)).") VALUES (".implode(', ', $setQuery).")";
-
+        $sql = "INSERT INTO " . self::getTable() . " (".implode(', ', array_keys($mapping)).") VALUES (".implode(', ', $setQuery).")";
+        var_dump($sql);
         $stmt= $db->prepare($sql);
 
         $executed = false;
         try {
-            $executed = $stmt->execute($valuesToSave);
+            $executed = $stmt->execute($mapping);
         } catch (\PDOException $exception) {
             //duplicate entry
             if ((int)$exception->getCode() === 23505) {

@@ -5,6 +5,7 @@ namespace Taberu\Middleware;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Slim\Psr7\Response;
+use Taberu\Model\User;
 use Taberu\Validator\JWT;
 
 class JWTAuthMiddleware
@@ -32,6 +33,15 @@ class JWTAuthMiddleware
              
         $validator = new JWT($token);
         if (!$validator->validate()) {
+            $response = new Response();
+            return $response->withStatus(401);
+        }
+
+        $users = User::all([
+            [User::ID, '=', $validator->getPayload()['sub']]
+        ]);
+
+        if (!count($users)) {
             $response = new Response();
             return $response->withStatus(401);
         }
