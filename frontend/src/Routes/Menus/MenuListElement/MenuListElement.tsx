@@ -14,7 +14,7 @@ function MenuListElement(details: MenuProps) {
                 'transition ease-in-out delay-50 duration-200 hover:bg-amber-200'}
         >
             <span className={'text-lg w-full'}>{details.name}</span>
-            <span className={'w-full text-gray-500'}>{details.description}</span>
+            <span className={'w-full'}>{details.description}</span>
         </Link>
       );
   }

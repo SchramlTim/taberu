@@ -18,7 +18,7 @@ function Register() {
         <div className={'flex justify-center items-center w-full h-full'}>
             <div className={'w-full max-w-xs'}>
                 <FormProvider>
-                    <Form name={'login'} method={'POST'} action={process.env.REACT_APP_API_ENDPOINT + "/v1/users/register"} afterSubmit={() => setAfterRegister(true)} className={'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
+                    <Form name={'register'} method={'POST'} action={process.env.REACT_APP_API_ENDPOINT + "/v1/users/register"} afterSubmit={() => setAfterRegister(true)} className={'bg-background-secondary shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
                         <Input identifier={'username'} title={'Name'} required autocomplete={'email'} placeholder={''} validation={(input) => {
                             validateNotEmpty(input)
                             validateEmail(input)
@@ -31,13 +31,13 @@ function Register() {
                         }}/>
                         <Input identifier={'password'} title={'Password'} required autocomplete={'new-password'} placeholder={'*****************'} type={'password'} validation={(input) => {
                             validateNotEmpty(input)
-                            validateContainsSpecialCharacter(input)
+                            //validateContainsSpecialCharacter(input)
                             validateLength(input, 6)
                         }}/>
                         <Input identifier={'phoneNumber'} title={'Phone Number (optional)'} autocomplete={'tel'} placeholder={''} validation={(event) => {}}/>
                         <Input identifier={'paypalUsername'} title={'Paypal Username (optional)'} placeholder={''} validation={(event) => {}}/>
                         <div className={'flex items-center justify-between'}>
-                            <Button type={'submit'} text={'Sign Up'}/>
+                            <Button variant="primary" type={'submit'} text={'Sign Up'}/>
                         </div>
                     </Form>
                 </FormProvider>

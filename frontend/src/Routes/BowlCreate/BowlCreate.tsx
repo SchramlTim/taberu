@@ -87,7 +87,7 @@ function BowlCreate() {
                         </select>
                     </div>
                     <div className={'flex items-center justify-between'}>
-                        <Button type={'submit'} text={'Create Bowl'} />
+                        <Button variant="primary" type={'submit'} text={'Create Bowl'} />
                     </div>
                 </form>
             </div>

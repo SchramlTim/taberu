@@ -78,7 +78,7 @@ function MenuCreate() {
                                 onChange={(e) => {setMenuItemPrice(e.target.value)}}
                             />
                             <div className={'flex items-center justify-between'}>
-                                <Button type={'submit'} text={'Create Menu Item'} />
+                                <Button variant="primary" type={'submit'} text={'Create Menu Item'} />
                             </div>
                         </form>
                     </div>
@@ -109,7 +109,7 @@ function MenuCreate() {
                         onChange={(e) => {setMenuDescription(e.target.value)}}
                     />
                     <div className={'flex items-center justify-between'}>
-                        <Button type={'submit'} text={'Create Menu'} />
+                        <Button variant="primary" type={'submit'} text={'Create Menu'} />
                     </div>
                 </form>
             </div>

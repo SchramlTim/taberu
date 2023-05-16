@@ -11,9 +11,11 @@ module.exports = {
         transparent: 'transparent',
         current: 'currentColor',
         'background-primary': '#F6F6F6',
-        'background-secondary': '#0F0F0F',
-        'icon-primary': '#989898',
-        'primary': '#F96F2E',
+        'background-secondary': '#ffffff',
+        'icon-primary': '#685582',
+        'text-primary': '#290521',
+        'button-primary': '#ff9500',
+        'button-secondary': '#ffffff',
       }
     }
   },

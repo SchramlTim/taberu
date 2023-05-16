@@ -17,7 +17,7 @@ import { EditProvider } from './Context/EditContext';
 
 function App() {
   return (    
-    <>
+    <div className={"text-text-primary"}>
       <UserProvider>
         <DefaultLayout>
           <Switch>
@@ -36,7 +36,7 @@ function App() {
           </Switch>
         </DefaultLayout>
       </UserProvider>
-    </>
+    </div>
   );
 }
 

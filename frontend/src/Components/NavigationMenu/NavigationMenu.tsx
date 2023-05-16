@@ -41,7 +41,7 @@ function NavigationMenu(props: {
                         <span>Hi, {userContext.firstName} {userContext.lastName}</span>
                         <span className={'text-base'}>User: {userContext.username}</span>
                         <span className={'text-base'}>ID: {userContext.id}</span>
-                        <Button type={'button'} text={'Logout'} onClick={handleLogout}></Button>
+                        <Button variant="secondary" type={'button'} text={'Logout'} onClick={handleLogout}></Button>
                     </div>
                 </div>
             }

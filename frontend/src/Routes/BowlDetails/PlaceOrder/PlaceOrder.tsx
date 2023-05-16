@@ -53,7 +53,7 @@ function PlaceOrder (props: {bowlId: number}) {
 
     return (
         <>
-            <Button onClick={() => basketItems.length && setDisplayState(!display)} type={'button'} text={'Check Order'} />
+            <Button variant="primary" onClick={() => basketItems.length && setDisplayState(!display)} type={'button'} text={'Check Order'} />
             <Popup display={display} toggle={toggleMenu}>
                 <div className={'pl-5 pr-5 w-full'}>
                     <h2 className={'text-2xl font-extrabold mt-5'}>Summary</h2>
@@ -76,7 +76,7 @@ function PlaceOrder (props: {bowlId: number}) {
                         </label>
                     </div>)}
                 </div>
-                    <Button onClick={() => basketItems.length && placeOrder()} type={'button'} text={!order ? 'Place Order' : 'Order is Placed'} />
+                    <Button variant="primary" onClick={() => basketItems.length && placeOrder()} type={'button'} text={!order ? 'Place Order' : 'Order is Placed'} />
                 </div>
             </Popup>
         </>

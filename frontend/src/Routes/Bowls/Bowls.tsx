@@ -24,7 +24,7 @@ export const Bowls = () => {
                         <BowlList key={bowl.id} {...bowl} />
                   ))}
               </div>
-              <Link to="/bowls/create" className="bg-primary fixed bottom-10 right-10 text-black text-center py-2 px-4 rounded h-14 w-14 inline-flex items-center">
+              <Link to="/bowls/create" className="bg-button-primary fixed bottom-10 right-10 text-black text-center py-2 px-4 rounded h-14 w-14 inline-flex items-center">
                   <svg className="h-8 w-8 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"/>
                   </svg>

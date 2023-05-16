@@ -35,7 +35,7 @@ export const Login = () => {
                         }}/>
                         <Input identifier={'password'} title={'Password'} autocomplete={'current-password'} placeholder={'*****************'} type={'password'} validation={(input) => {}}/>
                         <div className={'flex items-center justify-between gap-4'}>
-                            <Button type={'submit'} text={'Sign In'}/>
+                            <Button variant="primary" type={'submit'} text={'Sign In'}/>
                             <a className={'inline-block align-baseline font-bold text-sm text-primary'} href="#">
                                 Forgot Password?
                             </a>
