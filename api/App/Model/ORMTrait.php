@@ -107,7 +107,6 @@ trait ORMTrait
         }, array_keys($mapping));
 
         $sql = "INSERT INTO " . self::getTable() . " (".implode(', ', array_keys($mapping)).") VALUES (".implode(', ', $setQuery).")";
-        var_dump($sql);
         $stmt= $db->prepare($sql);
 
         $executed = false;
