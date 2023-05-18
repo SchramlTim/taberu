@@ -36,7 +36,7 @@ function Input(props: {
                 }}
                 data-required={props.required}
                 autoComplete={props?.autocomplete}
-                className={"shadow appearance-none border rounded w-full py-2 px-3 text-background-primary leading-tight focus:outline-none focus:shadow-outline"  + ((error && ' bg-red-300') || '')}
+                className={"shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:shadow-outline"  + ((error && ' bg-red-300') || '')}
                 id={props.identifier} type={props.type ?? 'text'} placeholder={props?.placeholder}
                 onChange={(event) => {
                     setError(false)

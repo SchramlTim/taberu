@@ -2,9 +2,7 @@ import React from 'react';
 import { Route, Switch } from "react-router-dom";
 import { DefaultLayout } from './Layout/DefaultLayout/DefaultLayout';
 import Login from './Routes/Login/Login';
-import User from './Routes/User/User';
 import Register from './Routes/Register/Register';
-import Home from './Routes/Home/Home';
 import Bowls from './Routes/Bowls/Bowls';
 import BowlDetails from './Routes/BowlDetails/BowlDetails';
 import { UserProvider } from './Context/UserContext';
@@ -13,7 +11,6 @@ import BowlCreate from "./Routes/BowlCreate/BowlCreate";
 import Menus from "./Routes/Menus/Menus";
 import MenuDetails from "./Routes/MenuDetails/MenuDetails";
 import MenuCreate from "./Routes/MenuCreate/MenuCreate";
-import { EditProvider } from './Context/EditContext';
 
 function App() {
   return (    

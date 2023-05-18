@@ -26,9 +26,9 @@ function Header() {
                 </button>
                 <button className={'absolute right-2 z-10 bg-transparent h-12 w-12 rounded-2xl flex justify-center items-center'} onClick={toggleMenu}>
                     <div className="space-y-2">
-                        <div className="w-8 h-0.5 bg-gray-600"></div>
-                        <div className="w-5 h-0.5 bg-gray-600"></div>
-                        <div className="w-3 h-0.5 bg-gray-600"></div>
+                        <div className="w-8 h-0.5 bg-text-primary"></div>
+                        <div className="w-5 h-0.5 bg-text-primary"></div>
+                        <div className="w-3 h-0.5 bg-text-primary"></div>
                     </div>
                 </button>
             </header>
