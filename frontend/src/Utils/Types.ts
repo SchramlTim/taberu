@@ -17,6 +17,7 @@ export type BowlProps = {
     arriveDate: string,
     creatorId: number,
     menuId: string,
+    orders: string,
 }
 
 export type MenuProps = {

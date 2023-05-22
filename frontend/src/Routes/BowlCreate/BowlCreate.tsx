@@ -59,7 +59,7 @@ function BowlCreate() {
                         <Input
                             title='Order Deadline'
                             placeholder='Order Deadline'
-                            identifier='orderDateline'
+                            identifier='orderDeadline'
                             type='datetime-local'
                             validation={(input) => validateNotEmpty(input)}
                         />
