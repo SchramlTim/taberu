@@ -29,11 +29,13 @@ export const Login = () => {
             <div className={'w-full max-w-xs'}>
                 <FormProvider>
                     <Form name={'login'} method={'POST'} action={process.env.REACT_APP_API_ENDPOINT + "/v1/users/login"} afterSubmit={loginUser} className={'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
-                        <Input identifier={'username'} title={'Username'} autocomplete={'email'} placeholder={''} validation={(input) => {
+                        <Input required identifier={'username'} title={'Username'} autocomplete={'email'} placeholder={''} validation={(input) => {
                             validateNotEmpty(input)
                             validateEmail(input)
                         }}/>
-                        <Input identifier={'password'} title={'Password'} autocomplete={'current-password'} placeholder={'*****************'} type={'password'} validation={(input) => {}}/>
+                        <Input required identifier={'password'} title={'Password'} autocomplete={'current-password'} placeholder={'*****************'} type={'password'} validation={(input) => {
+                            validateNotEmpty(input)
+                        }}/>
                         <div className={'flex items-center justify-between gap-4'}>
                             <Button variant="primary" type={'submit'} text={'Sign In'}/>
                             <a className={'inline-block align-baseline font-bold text-sm text-primary'} href="#">

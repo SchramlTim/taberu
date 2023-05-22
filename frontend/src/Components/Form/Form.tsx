@@ -25,6 +25,8 @@ function Form(props: {
     const sendRequest = async (e: any) => {
         e.preventDefault()
 
+        console.log(state.fieldErrors)
+
         if (state.fieldErrors.length) {
             addGlobalError(new Error('Please fix all input errors'))
             return;
@@ -36,7 +38,6 @@ function Form(props: {
             return !!element.dataset.required && element.value.length === 0
         })
 
-        console.log(emptyInput)
         if (emptyInput.length) {
             addGlobalError(new Error('Please fill the input field before submit'))
             return;
