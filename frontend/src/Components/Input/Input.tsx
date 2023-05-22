@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import {FormContext} from "../../Context/FormContext";
 
-type InputTypes = 'text' | 'number' | 'password' | 'email'  | 'tel' | undefined
+type InputTypes = 'text' | 'number' | 'password' | 'email'  | 'tel' | 'datetime-local' | undefined
 
 function Input(props: {
     identifier: string,

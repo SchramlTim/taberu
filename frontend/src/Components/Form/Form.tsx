@@ -46,6 +46,10 @@ function Form(props: {
         const data = elements.reduce((acc, elem) => {
             if (elem.id) {
                 acc[elem.id] = elem.value
+
+                if (elem.type === 'datetime-local') {
+                    acc[elem.id] = new Date(elem.value).toISOString()
+                }
             }
 
             return acc

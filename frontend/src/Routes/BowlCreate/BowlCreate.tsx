@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import TextInput from '../../Components/TextInput/TextInput'
+import Input from '../../Components/Input/Input'
 import Button from "../../Components/Button/Button";
 import {get, post} from "../../Utils/Request";
 import {Redirect} from "react-router-dom";
 import {BowlProps, MenuProps} from "../../Utils/Types";
+import Form from "../../Components/Form/Form";
+import {FormProvider} from "../../Context/FormContext";
+import {validateNotEmpty} from "../../Utils/Validator";
 
 
 function BowlCreate() {
@@ -24,19 +27,9 @@ function BowlCreate() {
             });
     }, [])
 
-    const createBowl = (e: any) => {
-        e.preventDefault()
-        if (selectedMenu) {
-            post(process.env.REACT_APP_API_ENDPOINT + '/v1/bowls', {
-                name: bowlName,
-                description: bowlDescription,
-                orderDeadline,
-                arriveDate,
-                menuId: selectedMenu.id
-            }).then((response) => {
-                setBowl(response.data)
-            })
-        }
+    const afterBowlCreated = async (response: Response) => {
+        const bowl = await response.json()
+        setBowl(bowl.data)
     }
 
     if (bowl) {
@@ -45,51 +38,50 @@ function BowlCreate() {
 
     return (
         <div className={'flex justify-center items-center w-full h-full'}>
-            <div className={'w-full max-w-[80%]'}>
-                <form onSubmit={createBowl} className={'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
-                    <TextInput
-                        title='Bowl Name'
-                        placeholder='Bowl Name'
-                        id='bowlname'
-                        type='text'
-                        onChange={(e) => {setBowlName(e.target.value)}}
-                    />
-                    <TextInput
-                        title='Description'
-                        placeholder='Description'
-                        id='description'
-                        type='text'
-                        onChange={(e) => {setBowlDescription(e.target.value)}}
-                    />
-                    <TextInput
-                        title='Order Deadline'
-                        placeholder='Order Deadline'
-                        id='orderDateline'
-                        type='datetime-local'
-                        onChange={(e) => {setOrderDeadline(new Date(e.target.value).toISOString())}}
-                    />
-                    <TextInput
-                        title='Arrive Date'
-                        placeholder='Arrive Date'
-                        id='arriveDate'
-                        type='datetime-local'
-                        onChange={(e) => {setArriveDate(new Date(e.target.value).toISOString())}}
-                    />
-                    <div className={"mb-4"}>
-                        <select onChange={(e) => {
-                            const selectedMenuId = e.target.options[e.target.selectedIndex].value;
-                            const menu = menus.filter((menu) => parseInt(menu.id) === parseInt(selectedMenuId)).pop()
-                            selectMenu(menu ?? null)
-                        }} className={"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"}>
-                            {menus.map((menu, index) => {
-                                return <option key={menu.id} value={menu.id}>{menu.name}</option>
-                            })}
-                        </select>
-                    </div>
-                    <div className={'flex items-center justify-between'}>
-                        <Button variant="primary" type={'submit'} text={'Create Bowl'} />
-                    </div>
-                </form>
+            <div className={'w-full max-w-xs'}>
+                <FormProvider>
+                    <Form name={'create-bowl'} method={'POST'} action={process.env.REACT_APP_API_ENDPOINT + "/v1/bowls"} afterSubmit={afterBowlCreated} className={'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}>
+                        <Input
+                            required
+                            title='Bowl Name'
+                            placeholder='Bowl Name'
+                            identifier='name'
+                            type='text'
+                            validation={(input) => validateNotEmpty(input)}
+                        />
+                        <Input
+                            title='Description'
+                            placeholder='Description'
+                            identifier='description'
+                            type='text'
+                            validation={(input) => validateNotEmpty(input)}
+                        />
+                        <Input
+                            title='Order Deadline'
+                            placeholder='Order Deadline'
+                            identifier='orderDateline'
+                            type='datetime-local'
+                            validation={(input) => validateNotEmpty(input)}
+                        />
+                        <Input
+                            title='Arrive Date'
+                            placeholder='Arrive Date'
+                            identifier='arriveDate'
+                            type='datetime-local'
+                            validation={(input) => validateNotEmpty(input)}
+                        />
+                        <div className={"mb-4"}>
+                            <select id={'menuId'} className={"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"}>
+                                {menus.map((menu, index) => {
+                                    return <option key={menu.id} value={menu.id}>{menu.name}</option>
+                                })}
+                            </select>
+                        </div>
+                        <div className={'flex items-center justify-between'}>
+                            <Button variant="primary" type={'submit'} text={'Create Bowl'} />
+                        </div>
+                    </Form>
+                </FormProvider>
             </div>
         </div>
     );
