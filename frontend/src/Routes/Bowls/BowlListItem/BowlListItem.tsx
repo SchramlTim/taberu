@@ -29,7 +29,7 @@ function BowlListItem(bowl: BowlProps) {
                 'w-3/4 min-h-10 p-3 rounded-lg shadow-xl' +
                 ' transition ease-in-out delay-50 duration-200 hover:bg-amber-200'}
         >
-            <span className={'text-2xl w-full'}>{bowl.name} {orders.length ? `(${orders.length})` : <LoadingOrderCount/>}</span>
+            <span className={'flex text-2xl w-full'}>{bowl.name} {orders.length ? `(${orders.length})` : <LoadingOrderCount/>}</span>
             <span className={'w-full text-gray-500'}>{bowl.description}</span>
             <div className={'flex h-8 items-center'}>
                 {categories.length ? categories.map((category: any) => {
@@ -54,7 +54,7 @@ export function LoadingBowlListItem() {
                 'w-3/4 min-h-10 p-3 rounded-lg shadow-xl' +
                 ' transition ease-in-out delay-50 duration-200 hover:bg-amber-200'}
         >
-            <span className={'text-2xl w-full flex animate-pulse'}><span className={'bg-gray-300 w-1/2 h-8 rounded-lg'}></span> <LoadingOrderCount/></span>
+            <span className={'text-2xl w-full flex animate-pulse'}><span className={'bg-gray-300 w-1/4 h-8 rounded-lg'}></span> <LoadingOrderCount/></span>
             <span className={'flex flex-[0_0_100%] animate-pulse w-full bg-gray-300 w-10 h-6 rounded-lg'}></span>
             <div className={'flex h-8 items-center'}>
                 <LoadingCategories/>
@@ -69,7 +69,7 @@ export function LoadingBowlListItem() {
 
 function LoadingOrderCount() {
     return (
-        <span className={'bg-gray-300 w-7 h-7 animate-pulse ml-1 rounded-full'}></span>
+        <span className={'bg-gray-300 w-8 h-8 animate-pulse ml-1 rounded-full'}></span>
     );
 }
 
