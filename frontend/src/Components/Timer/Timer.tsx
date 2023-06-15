@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 
-function Timer (props: {finishDate: string}) {
+function Timer (props: {finishDate: string | undefined}) {
   
     const deadline = props.finishDate
     const [time, setTime] = useState<{days: number, hours: number, minutes: number, seconds: number}>({
@@ -23,20 +23,20 @@ function Timer (props: {finishDate: string}) {
     }
 
     useEffect(() => {
-        deadline.length && setInterval(() => setTime(calculateTimeFormat(deadline)), 1000);
+        deadline && deadline.length && setInterval(() => setTime(calculateTimeFormat(deadline)), 1000);
     }, [deadline]);
 
     const zeroPad = (num: number, places: number) => String(num).padStart(places, '0')
 
     return (
         <div className={'flex w-full h-10 bg-gray-200 rounded justify-center items-center'}>
-            <span>{zeroPad(
+            <span>{!deadline ? '??' : zeroPad(
                 time.hours > 0 ? time.hours : 0,
                 2)}:</span>
-            <span>{zeroPad(
+            <span>{!deadline ? '??' : zeroPad(
                 time.minutes > 0 ? time.minutes : 0,
                 2)}:</span>
-            <span>{zeroPad(
+            <span>{!deadline ? '??' : zeroPad(
                 time.seconds > 0 ? time.seconds : 0,
                 2)}</span>
         </div>

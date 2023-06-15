@@ -24,11 +24,11 @@ function BowlDetails() {
                 setBowls(response.data)
                 get(response.data.orders)
                     .then(response => {
-                        setOrders(response.data)
+                        setOrders(response.data ?? [])
                     });
                 get(process.env.REACT_APP_API_ENDPOINT + '/v1/menus/' + response.data.menuId + '/items')
                     .then(response => {
-                        setMenuItems(response.data)
+                        setMenuItems(response.data ?? [])
                     });
         });
     }, []);
@@ -37,21 +37,21 @@ function BowlDetails() {
         <BowlProvider value={{bowl}} >
             <div className={'flex flex-col w-full justify-center items-center'}>
                 <div className={'flex flex-col md:flex-row justify-between w-3/4'}>
-                    <div className={'flex flex-col w-full pr-5'}>
+                    <div className={'flex flex-col w-full pr-5 gap-2'}>
                         <div className='flex justify-between'>
-                            <h1 className={'text-4xl'}>{bowl?.name}</h1>
+                            {!bowl ? <LoadingTitle/> : <h1 className={'text-4xl'}>{bowl?.name}</h1>}
                             {bowl?.creatorId === user?.id && <span>(Owner)</span>}
                         </div>
-                        <span>{bowl?.description}</span>
+                        {!bowl ? <LoadingDescription/> : <span className={'h-16'}>{bowl?.description}</span>}
                     </div>
                     <div className={'flex justify-between gap-5 mt-10 md:m-0 md:flex-col md:w-1/3'}>
                         <div>
                             <span>Order Deadline</span>
-                            <Timer finishDate={bowl?.orderDeadline ?? ''} />
+                            <Timer finishDate={bowl?.orderDeadline} />
                         </div>
                         <div>
                             <span>Arrive Date</span>
-                            <Timer finishDate={bowl?.arriveDate ?? ''} />
+                            <Timer finishDate={bowl?.arriveDate} />
                         </div>
                     </div>
                 </div>
@@ -71,6 +71,14 @@ function BowlDetails() {
             </div>
         </BowlProvider>
     );
+}
+
+function LoadingTitle() {
+    return (<span className={'text-2xl w-full flex animate-pulse'}><span className={'bg-gray-300 w-3/4 h-10 rounded-lg'}></span></span>)
+}
+
+function LoadingDescription() {
+    return (<span className={'text-2xl w-full flex animate-pulse'}><span className={'bg-gray-300 w-full h-16 rounded-lg'}></span></span>)
 }
 
 export default BowlDetails;
