@@ -29,7 +29,10 @@ function Timer (props: {finishDate: string | undefined}) {
     const zeroPad = (num: number, places: number) => String(num).padStart(places, '0')
 
     return (
-        <div className={'flex w-full h-10 bg-gray-200 rounded justify-center items-center'}>
+        <div className={'flex w-full h-10 bg-gray-200 p-2 rounded justify-center items-center'}>
+            {time.days > 0 && <span className={'mr-3'}>{zeroPad(
+                time.hours > 0 ? time.hours : 0,
+                2)} Days</span>}
             <span>{!deadline ? '??' : zeroPad(
                 time.hours > 0 ? time.hours : 0,
                 2)}:</span>

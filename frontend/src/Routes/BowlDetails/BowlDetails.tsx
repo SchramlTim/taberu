@@ -45,18 +45,18 @@ function BowlDetails() {
                         {!bowl ? <LoadingDescription/> : <span className={'h-16'}>{bowl?.description}</span>}
                     </div>
                     <div className={'flex justify-between gap-5 mt-10 md:m-0 md:flex-col md:w-1/3'}>
-                        <div>
+                        <div className={'flex flex-col items-start'}>
                             <span>Order Deadline</span>
                             <Timer finishDate={bowl?.orderDeadline} />
                         </div>
-                        <div>
+                        <div className={'flex flex-col items-start'}>
                             <span>Arrive Date</span>
                             <Timer finishDate={bowl?.arriveDate} />
                         </div>
                     </div>
                 </div>
-                <div className={'flex flex-col justify-between w-3/4 mt-4'}>
-                    <h2>Menu</h2>
+                <div className={'flex flex-col justify-between gap-3 w-3/4 mt-4'}>
+                    <h2 className={'text-2xl'}>Menu</h2>
                     <BasketProvider>
                         {!menuItems ? <LoadingOrderableItemList/> : <OrderableItemList items={menuItems} />}
                         {bowl && menuItems &&
