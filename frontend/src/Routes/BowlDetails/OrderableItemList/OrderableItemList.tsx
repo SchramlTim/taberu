@@ -5,7 +5,7 @@ import {MenuItemProps} from "../../../Utils/Types";
 function OrderableItemList(props : { items : MenuItemProps[] }) {
     const items = props.items
     return (
-        <div>
+        <div className={'flex flex-col gap-3'}>
             {
                 items.map((item: MenuItemProps) => (
                     <Item key={item.id} item={item} />
@@ -14,4 +14,12 @@ function OrderableItemList(props : { items : MenuItemProps[] }) {
     )
 }
 
-export default OrderableItemList ;
+export function LoadingOrderableItemList() {
+    return (
+         <div className={'flex flex-col gap-3'}>
+            {Array(4).fill(null).map(() => (<span className={'text-2xl w-full flex animate-pulse'}><span className={'bg-gray-300 w-full h-10 rounded-lg'}></span></span>))}
+        </div>
+    )
+}
+
+export default OrderableItemList

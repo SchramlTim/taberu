@@ -4,8 +4,8 @@ import { get } from "../../Utils/Request";
 import Timer from "../../Components/Timer/Timer";
 import PlaceOrder from "./PlaceOrder/PlaceOrder";
 import {BowlProps, MenuItemProps, OrderProps} from "../../Utils/Types";
-import OrderList from "./OrderList/OrderList";
-import OrderableItemList from "./OrderableItemList/OrderableItemList";
+import OrderList, { LoadingOrderList } from "./OrderList/OrderList";
+import OrderableItemList, { LoadingOrderableItemList } from "./OrderableItemList/OrderableItemList";
 import {BasketProvider} from "../../Context/BasketContext";
 import { UserContext } from '../../Context/UserContext';
 import { BowlProvider } from '../../Context/BowlContext';
@@ -14,8 +14,8 @@ function BowlDetails() {
 
     const { id } = useParams<any>();
     const [bowl, setBowls] = useState<BowlProps>();
-    const [orders, setOrders] = useState<OrderProps[]>([]);
-    const [menuItems, setMenuItems] = useState<MenuItemProps[]>([]);
+    const [orders, setOrders] = useState<OrderProps[] | undefined>();
+    const [menuItems, setMenuItems] = useState<MenuItemProps[] | undefined>();
     const { user } = useContext(UserContext);
 
     useEffect(() => {
@@ -58,15 +58,15 @@ function BowlDetails() {
                 <div className={'flex flex-col justify-between w-3/4 mt-4'}>
                     <h2>Menu</h2>
                     <BasketProvider>
-                        <OrderableItemList items={menuItems} />
-                        {bowl &&
+                        {!menuItems ? <LoadingOrderableItemList/> : <OrderableItemList items={menuItems} />}
+                        {bowl && menuItems &&
                             <div className={'w-full mt-3'}>
                                 <PlaceOrder bowlId={bowl.id || 0} />
                             </div>}
                     </BasketProvider>
                 </div>
                 <div className={'flex flex-col w-3/4 m-10'}>
-                    <OrderList orders={orders}/>
+                    {!orders ? <LoadingOrderList/> : <OrderList orders={orders}/>}
                 </div>
             </div>
         </BowlProvider>
