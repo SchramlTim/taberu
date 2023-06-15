@@ -14,10 +14,6 @@ export const get = async (url = '', data = {}) => {
         referrerPolicy: 'no-referrer',
     });
 
-    if (!response.ok) {
-        throw Error('error while send data')
-    }
-
     return response.json();
 }
 
