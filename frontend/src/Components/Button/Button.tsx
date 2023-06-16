@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {cva, type VariantProps} from "class-variance-authority";
 import {twMerge} from "tailwind-merge";
 
@@ -29,11 +29,16 @@ function Button(props: {
     text: string,
     onClick?: (e: any) => any,
 } = {type: "button", variant: "primary", text: ""}) {
+    const [clickEffect, setClickEffect] = useState<boolean>(false)
     const button = (variants: VariantProps<typeof buttonVariants>) => twMerge(buttonVariants(variants));
     return (
         <button
-            className={button({intent: props.variant})}
-            onClick={props.onClick}
+            className={button({intent: props.variant}) + (clickEffect ? " animate-press" : "")}
+            onClick={(event) => {
+                props.onClick && props.onClick(event)
+                setClickEffect(true)
+            }}
+            onAnimationEnd={() => setClickEffect(false)}
             type={props.type}>
             {props.text}
         </button>

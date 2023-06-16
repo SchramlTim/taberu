@@ -16,6 +16,15 @@ module.exports = {
         'text-primary': '#290521',
         'button-primary': '#ff9500',
         'button-secondary': '#ffffff',
+      },
+      keyframes: {
+        press: {
+          "0%, 100%": { transform: "scale(1.0)" },
+          "50%": { transform: "scale(0.95)" }
+        }
+      },
+      animation: {
+        press: "press 200ms ease-in-out"
       }
     }
   },
