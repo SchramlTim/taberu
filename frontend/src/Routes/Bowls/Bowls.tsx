@@ -20,12 +20,14 @@ export const Bowls = () => {
       return (
           <>
               <div className={"flex flex-col gap-y-3 justify-center items-center"}>
+                <div className={'lg:w-3/4 w-11/12'}>
                   {
                       !bowls ? 
                         Array(3).fill(null).map(() => <LoadingBowlListItem/>) 
                       : (bowls.length ? bowls.map((bowl: BowlProps) => (
                           <BowlListItem key={bowl.id} {...bowl} />
                   )) : <span>Nothing Found</span>)}
+                  </div>
               </div>
               <Link to="/bowls/create" className="bg-button-primary fixed bottom-10 right-10 text-black text-center py-2 px-4 rounded h-14 w-14 inline-flex items-center">
                   <svg className="h-8 w-8 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">

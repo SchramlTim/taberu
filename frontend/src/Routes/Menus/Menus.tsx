@@ -18,11 +18,13 @@ export const Menus = () => {
 
       return (
           <>
-              <div className={"flex flex-col gap-y-3 justify-center items-center"}>
+              <div className={"flex justify-center items-center"}>
+                <div className={'flex flex-col gap-y-3 w-11/12 lg:w-3/4'}>
                   {
                       menus.map((menu: MenuProps) => (
                         <MenuListElement key={menu.id} {...menu} />
                   ))}
+                </div>
               </div>
               <Link to="/menus/create" className="bg-button-primary fixed bottom-10 right-10 text-black text-center py-2 px-4 rounded h-14 w-14 inline-flex items-center">
                   <svg className="h-8 w-8 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -30,7 +30,7 @@ function MenuDetails() {
 
       return (
         <div className={'flex flex-col w-full justify-center items-center'}>
-            <div className={'flex flex-col md:flex-row justify-between w-3/4'}>
+            <div className={'flex flex-col md:flex-row justify-between w-11/12 lg:w-3/4'}>
                 <div className={'flex flex-col'}>
                     <h1 className={'text-4xl'}>{menu?.name}</h1>
                     <span>{menu?.description}</span>
@@ -44,7 +44,7 @@ function MenuDetails() {
                     </div>
                 </div>
             </div>
-            <div className={'flex flex-col w-3/4 m-10'}>
+            <div className={'flex flex-col w-11/12 lg:w-3/4 m-10'}>
                 <ItemList items={items}/>
             </div>
         </div>

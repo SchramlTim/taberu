@@ -9,7 +9,7 @@ function MenuListElement(details: MenuProps) {
             to={'/menus/' + details.id}
             className={'' +
                 'flex flex-wrap gap-1 ' +
-                'w-3/4 min-h-10 p-3 rounded-lg shadow-md ' +
+                'w-full min-h-10 p-3 rounded-lg shadow-md ' +
                 'bg-white ' +
                 'transition ease-in-out delay-50 duration-200 hover:bg-amber-200'}
         >

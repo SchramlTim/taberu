@@ -26,7 +26,7 @@ function BowlListItem(bowl: BowlProps) {
             to={'/bowls/' + bowl.id}
             className={'' +
                 'flex flex-wrap gap-1 ' +
-                'w-3/4 min-h-10 p-3 rounded-lg shadow-xl' +
+                'w-full min-h-10 p-3 rounded-lg shadow-xl' +
                 ' transition ease-in-out delay-50 duration-200 hover:bg-amber-200'}
         >
             <span className={'flex text-2xl w-full'}>{bowl.name} {orders.length ? `(${orders.length})` : <LoadingOrderCount/>}</span>
@@ -51,7 +51,7 @@ export function LoadingBowlListItem() {
         <div
             className={'' +
                 'flex flex-wrap gap-[0.325rem] ' +
-                'w-3/4 min-h-10 p-3 rounded-lg shadow-xl' +
+                'w-full min-h-10 p-3 rounded-lg shadow-xl' +
                 ' transition ease-in-out delay-50 duration-200 hover:bg-amber-200'}
         >
             <span className={'text-2xl w-full flex animate-pulse'}><span className={'bg-gray-300 w-1/4 h-8 rounded-lg'}></span> <LoadingOrderCount/></span>

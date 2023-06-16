@@ -36,7 +36,7 @@ function BowlDetails() {
     return (
         <BowlProvider value={{bowl}} >
             <div className={'flex flex-col w-full justify-center items-center'}>
-                <div className={'flex flex-col md:flex-row justify-between w-3/4'}>
+                <div className={'flex flex-col md:flex-row justify-between w-11/12 lg:w-3/4'}>
                     <div className={'flex flex-col w-full pr-5 gap-2'}>
                         <div className='flex justify-between'>
                             {!bowl ? <LoadingTitle/> : <h1 className={'text-4xl'}>{bowl?.name}</h1>}
@@ -55,7 +55,7 @@ function BowlDetails() {
                         </div>
                     </div>
                 </div>
-                <div className={'flex flex-col justify-between gap-3 w-3/4 mt-4'}>
+                <div className={'flex flex-col justify-between gap-3 w-11/12 lg:w-3/4 mt-4'}>
                     <h2 className={'text-2xl'}>Menu</h2>
                     <BasketProvider>
                         {!menuItems ? <LoadingOrderableItemList/> : <OrderableItemList items={menuItems} />}
