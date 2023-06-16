@@ -17,6 +17,10 @@ const buttonVariants = cva([
             primary: ["bg-button-primary"],
             secondary: ["bg-button-secondary", "border-4 border-double border-text-primary"],
         },
+        effect: {
+            none: [],
+            scale: ["animate-press"],
+        }
     },
     defaultVariants: {
         intent: "primary",
@@ -29,16 +33,16 @@ function Button(props: {
     text: string,
     onClick?: (e: any) => any,
 } = {type: "button", variant: "primary", text: ""}) {
-    const [clickEffect, setClickEffect] = useState<boolean>(false)
+    const [clickEffect, setClickEffect] = useState<"none"|"scale">("none")
     const button = (variants: VariantProps<typeof buttonVariants>) => twMerge(buttonVariants(variants));
     return (
         <button
-            className={button({intent: props.variant}) + (clickEffect ? " animate-press" : "")}
+            className={button({intent: props.variant, effect: clickEffect})}
             onClick={(event) => {
+                setClickEffect("scale")
                 props.onClick && props.onClick(event)
-                setClickEffect(true)
             }}
-            onAnimationEnd={() => setClickEffect(false)}
+            onAnimationEnd={() => setClickEffect("none")}
             type={props.type}>
             {props.text}
         </button>
