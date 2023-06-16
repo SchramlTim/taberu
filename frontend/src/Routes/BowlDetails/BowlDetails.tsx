@@ -65,7 +65,7 @@ function BowlDetails() {
                             </div>}
                     </BasketProvider>
                 </div>
-                <div className={'flex flex-col w-3/4 m-10'}>
+                <div className={'flex flex-col w-11/12 lg:w-3/4 m-10'}>
                     {!orders ? <LoadingOrderList/> : <OrderList orders={orders}/>}
                 </div>
             </div>
