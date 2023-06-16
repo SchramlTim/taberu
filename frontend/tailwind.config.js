@@ -21,10 +21,15 @@ module.exports = {
         press: {
           "0%, 100%": { transform: "scale(1.0)" },
           "50%": { transform: "scale(0.95)" }
+        },
+        fadeIn: {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 }
         }
       },
       animation: {
-        press: "press 200ms ease-in-out"
+        press: "press 200ms ease-in-out",
+        fadeIn: "fadeIn 500ms ease-in-out"
       }
     }
   },
