@@ -6,33 +6,34 @@ import Spinner from "../../../Components/Spinner/Spinner";
 
 function BowlListItem(bowl: BowlProps) {
 
-    const [orders, setOrders] = useState<OrderProps[]>([]);
-    const [categories, setMenuCategories] = useState<MenuItemProps[]>([]);
+    const [orders, setOrders] = useState<OrderProps[] | undefined>(undefined);
+    const [categories, setMenuCategories] = useState<MenuItemProps[] | undefined>(undefined);
 
     useEffect(() => {
         get(bowl.orders)
             .then(response => {
-                setOrders(response.data)
+                setOrders(response.data ?? [])
             });
         get(process.env.REACT_APP_API_ENDPOINT + '/v1/menus/' + bowl.menuId + '/categories')
             .then(response => {
-                setMenuCategories(response.data)
+                setMenuCategories(response.data ?? [])
             });
     }, [bowl.id]);
 
+    console.log(bowl.name, orders, categories);
+
     return (
         <Link
-            key={bowl.id}
             to={'/bowls/' + bowl.id}
             className={'' +
                 'flex flex-wrap gap-1 ' +
                 'w-full min-h-10 p-3 rounded-lg shadow-xl' +
                 ' transition ease-in-out delay-50 duration-200 hover:bg-amber-200'}
         >
-            <span className={'flex text-2xl w-full'}>{bowl.name} {orders.length ? `(${orders.length})` : <LoadingOrderCount/>}</span>
+            <span className={'flex text-2xl w-full'}>{bowl.name} {orders ? `(${orders.length})` : <LoadingOrderCount/>}</span>
             <span className={'w-full text-gray-500'}>{bowl.description}</span>
             <div className={'flex h-8 items-center'}>
-                {categories.length ? categories.map((category: any) => {
+                {categories ? categories.map((category: any) => {
                     return (
                         <div className={'flex flex-col w-8'}><img src={category.iconUrl}/></div>
                     )

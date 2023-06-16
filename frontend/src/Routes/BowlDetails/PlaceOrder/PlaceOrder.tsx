@@ -6,15 +6,16 @@ import {MenuItemProps, OrderItemProp, OrderProps} from "../../../Utils/Types";
 import Popup from "../../../Components/Popup/Popup";
 import FinalOrderItemList from "./FinalOrderItemList/FinalOrderItemList";
 import HorizontalSlide from "../../../Components/HorizontalSlide/HorizontalSlide";
+import { BowlContext } from "../../../Context/BowlContext";
 
 
-function PlaceOrder (props: {bowlId: number}) {
+function PlaceOrder () {
 
-    const id = props.bowlId
     const offeredPaymentMethods = ['cash', 'paypal']
     const {basketItems, paymentMethod, setPaymentMethod} = useContext(BasketContext)
     const [display, setDisplayState] = useState(false);
     const [order, setOrder] = useState<OrderProps|undefined>(undefined);
+    const { bowl } = useContext(BowlContext);
 
     const toggleMenu = useCallback(async () => {
         setDisplayState(!display)
@@ -44,7 +45,10 @@ function PlaceOrder (props: {bowlId: number}) {
     })
 
     const placeOrder = async () => {
-        const response = await post(process.env.REACT_APP_API_ENDPOINT + '/v1/bowls/' + id + '/orders', {
+        if (!bowl) {
+          return
+        }
+        const response = await post(process.env.REACT_APP_API_ENDPOINT + '/v1/bowls/' + bowl.id + '/orders', {
             paymentMethod: paymentMethod,
             items: items
         })

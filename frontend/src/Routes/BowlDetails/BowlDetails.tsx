@@ -6,7 +6,7 @@ import PlaceOrder from "./PlaceOrder/PlaceOrder";
 import {BowlProps, MenuItemProps, OrderProps} from "../../Utils/Types";
 import OrderList, { LoadingOrderList } from "./OrderList/OrderList";
 import OrderableItemList, { LoadingOrderableItemList } from "./OrderableItemList/OrderableItemList";
-import {BasketProvider} from "../../Context/BasketContext";
+import {BasketContext, BasketProvider} from "../../Context/BasketContext";
 import { UserContext } from '../../Context/UserContext';
 import { BowlProvider } from '../../Context/BowlContext';
 
@@ -59,10 +59,6 @@ function BowlDetails() {
                     <h2 className={'text-2xl'}>Menu</h2>
                     <BasketProvider>
                         {!menuItems ? <LoadingOrderableItemList/> : <OrderableItemList items={menuItems} />}
-                        {bowl && menuItems &&
-                            <div className={'w-full mt-3'}>
-                                <PlaceOrder bowlId={bowl.id || 0} />
-                            </div>}
                     </BasketProvider>
                 </div>
                 <div className={'flex flex-col w-11/12 lg:w-3/4 m-10'}>

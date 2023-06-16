@@ -13,7 +13,6 @@ export const Bowls = () => {
         get(process.env.REACT_APP_API_ENDPOINT + "/v1/bowls?filter[orderDeadline]=" + (new Date()).toISOString())
             .then(response => {
                 setBowls(response.data ?? [])
-                console.log(response);
         });
     }, []);
 
@@ -23,9 +22,9 @@ export const Bowls = () => {
                 <div className={'lg:w-3/4 w-11/12'}>
                   {
                       !bowls ? 
-                        Array(3).fill(null).map(() => <LoadingBowlListItem/>) 
-                      : (bowls.length ? bowls.map((bowl: BowlProps) => (
-                          <BowlListItem key={bowl.id} {...bowl} />
+                        Array(3).fill(null).map((element, index) => <LoadingBowlListItem key={index}/>) 
+                      : (bowls.length ? bowls.map((bowl: BowlProps, index) => (
+                          <BowlListItem key={index} {...bowl} />
                   )) : <span>Nothing Found</span>)}
                   </div>
               </div>
