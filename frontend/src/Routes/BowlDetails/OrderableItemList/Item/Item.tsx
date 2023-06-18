@@ -32,7 +32,9 @@ function Item(props: {item: MenuItemProps}) {
                     e.preventDefault()
                     increaseItem(item)
                 }} className={'flex items-center justify-center font-bold mr-2'}>
+                    <div className="w-12 opacity-0"></div>
                     <span className={'flex items-center justify-center w-12 h-12 bg-background-secondary rounded-full text-center'}>+</span>
+                    <div className="w-12 opacity-0"></div>
                 </div>}
             </div>
         </>
