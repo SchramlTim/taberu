@@ -15,6 +15,7 @@ function AmountHandler(props: {item: MenuItemProps}) {
                 <span className={'flex items-center justify-center w-12 h-12 bg-background-secondary rounded-full text-center z-10'} onClick={() => {
                     if (!selfSelectList.length) {
                         increaseItem(item)
+                        toggle(false)
                         return;
                     }
                     toggle(!active)
