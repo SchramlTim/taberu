@@ -13,7 +13,7 @@ function Item(props: {item: MenuItemProps}) {
     return (
         <>
             <div
-                className={'flex justify-between rounded w-full transtion-color duration-200 ' + (selfSelectList.length > 0 ? 'bg-green-100' : 'bg-gray-200')}
+                className={'flex justify-between rounded w-full overflow-x-hidden shadow-black transtion-color duration-200 ' + (selfSelectList.length > 0 ? 'bg-green-300' : 'bg-gray-200')}
             >
                 <div className={'w-8/12 flex gap-2 flex-wrap justify-between p-2'} onClick={() => {
                     if (selfSelectList.length === 0) {
