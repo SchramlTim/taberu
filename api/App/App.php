@@ -99,6 +99,7 @@ class App
 
             $group->group('/orders', function (RouteCollectorProxyInterface $group) use ($app) {
                 $group->get('/{orderId}[/]', OrderController::class.':getSpecificOrder');
+                $group->get('/{orderId}/items[/]', OrderController::class.':getSpecificOrderItems');
             })->add(new JWTAuthMiddleware());
 
             $group->group('/menus', function (RouteCollectorProxyInterface $group) use ($app) {

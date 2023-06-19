@@ -179,6 +179,14 @@ class OrderItem extends BaseModel
     }
 
     /**
+     * @return int
+     */
+    public function getTotalSum(): int
+    {
+        return ($this->price * $this->count);
+    }
+
+    /**
      * @return string
      */
     public static function getTable(): string
