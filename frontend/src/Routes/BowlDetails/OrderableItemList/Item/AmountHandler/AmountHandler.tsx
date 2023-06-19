@@ -10,12 +10,18 @@ function AmountHandler(props: {item: MenuItemProps}) {
 
     const selfSelectList = basketItems.filter((listItem) => listItem.id === item.id)
     return (
-            <div className={'flex items-center justify-center font-bold gap-1 mr-1 [filter:url(#goo)]'}>
-                <div className={"h-8 w-10 bg-background-secondary flex items-center justify-center rounded-xl z-0 transition-transform duration-300 translate-x-[110%] " + (active ? "!translate-x-0" : '')} onClick={() => reduceItem(item)}>-</div>
+            <div className={'flex items-center justify-center font-bold gap-1 mr-1 w-4/12 flex-end [filter:url(#goo)]'}>
+                <div className={"h-8 w-10 bg-background-secondary flex items-center justify-center rounded-xl z-0 transition-transform duration-300 translate-x-[110%] " + (active ? "!translate-x-0" : '')} onClick={() => {
+                
+                    reduceItem(item)
+                    
+                    if (selfSelectList.length <= 1) {
+                        toggle(false)
+                    }
+                }}>-</div>
                 <span className={'flex items-center justify-center w-12 h-12 bg-background-secondary rounded-full text-center z-10'} onClick={() => {
                     if (!selfSelectList.length) {
                         increaseItem(item)
-                        toggle(false)
                         return;
                     }
                     toggle(!active)
