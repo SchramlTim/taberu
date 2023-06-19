@@ -55,9 +55,14 @@ function PlaceOrder () {
         setOrder(response.data)
     }
 
+    const totalsum = basketItems.reduce((sum, item) => sum += item.price, 0)
+
     return (
         <>
-            <Button variant="primary" onClick={() => basketItems.length && setDisplayState(!display)} type={'button'} text={'Check Order'} />
+            <div className="text-2xl">
+                <span>{`${items.length}x items`}</span>
+            </div>
+            <Button variant="primary" onClick={() => basketItems.length && setDisplayState(!display)} type={'button'} text={`Finalize Order (${totalsum}€)`} />
             <Popup display={display} toggle={toggleMenu}>
                 <div className={'pl-5 pr-5 w-full'}>
                     <h2 className={'text-2xl font-extrabold mt-5'}>Summary</h2>

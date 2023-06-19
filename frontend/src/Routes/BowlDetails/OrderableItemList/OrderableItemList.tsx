@@ -13,10 +13,6 @@ function OrderableItemList(props : { items : MenuItemProps[] }) {
                         <Item key={item.id} item={item} />
                     ))}
             </div>
-            {items && items.length &&
-            <div className={'w-full mt-3'}>
-              <PlaceOrder/>
-            </div>}
         </>
     )
 }
