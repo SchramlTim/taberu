@@ -42,7 +42,7 @@ function OrderDetail(props: {order: OrderProps}) {
             <span className={'w-1/4 break-all text-right ' + (order?.paymentStatus === 'PAID' ? 'text-green-400' : 'text-red-500')}>{order?.finalPrice.toFixed(2)} €</span>
             <span className={'w-1/4 break-all text-gray-600 text-center'}>{order?.paymentStatus}</span>
             <ul className={"flex flex-col gap-5 w-full ml-2"}>
-                {orderItems.map((item) => <li className={"flex flex-col"}>
+                {orderItems && orderItems.map((item, index) => <li key={index} className={"flex flex-col"}>
                     <div className={"grid grid-cols-[10%,20%,60%] w-full "}>
                         <span>{item?.count}x</span>
                         <span>{item?.name}</span>
