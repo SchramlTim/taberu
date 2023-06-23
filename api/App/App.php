@@ -13,6 +13,7 @@ use Taberu\Controller\DepartmentController;
 use Taberu\Controller\MenuController;
 use Taberu\Controller\OrderController;
 use Taberu\Controller\RestaurantController;
+use Taberu\Controller\NotificationController;
 use Taberu\Middleware\Cors;
 use Taberu\Middleware\CorsMiddleware;
 use Taberu\Middleware\JsonResponseMiddleware;
@@ -129,6 +130,11 @@ class App
                 $group->get('/{restaurantId}[/]', RestaurantController::class.':getSpecificRestaurant');
                 $group->patch('/{restaurantId}[/]', RestaurantController::class.':updateRestaurant');
             })->add(new JWTAuthMiddleware());
+            
+            $group->group('/notification', function (RouteCollectorProxyInterface $group) use ($app) {
+                $group->get('/token[/]', NotificationController::class.':getPublicToken');
+                $group->post('/subscription[/]', NotificationController::class.':createSubscription');
+            });
         });
 
         $this->app = $app;
