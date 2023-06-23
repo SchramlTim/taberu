@@ -134,7 +134,7 @@ class App
             $group->group('/notification', function (RouteCollectorProxyInterface $group) use ($app) {
                 $group->get('/token[/]', NotificationController::class.':getPublicToken');
                 $group->post('/subscription[/]', NotificationController::class.':createSubscription');
-            });
+            })->add(new JWTAuthMiddleware());
         });
 
         $this->app = $app;
