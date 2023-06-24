@@ -36,7 +36,7 @@ function App() {
 			return serviceWorker.pushManager
 				.subscribe({
 					userVisibleOnly: true,
-					applicationServerKey: urlBase64ToUint8Array(pushServerPublicKey)
+					applicationServerKey: pushServerPublicKey
 				})
 				.then(function(pushSubscription) {
 					var subJSObject = JSON.parse(JSON.stringify(pushSubscription));
