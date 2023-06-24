@@ -54,7 +54,7 @@ function App() {
   Notification.requestPermission(function(status) {
       
     if (status == 'granted') {
-      get('/v1/notification/token').then((response) => {
+      get(process.env.REACT_APP_API_ENDPOINT + '/v1/notification/token').then((response) => {
         createNotificationSubscription(response.data.token)
         .then(function(subscription) {
             // Alle Werte ausgeben
