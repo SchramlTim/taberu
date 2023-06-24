@@ -11,7 +11,7 @@ import BowlCreate from "./Routes/BowlCreate/BowlCreate";
 import Menus from "./Routes/Menus/Menus";
 import MenuDetails from "./Routes/MenuDetails/MenuDetails";
 import MenuCreate from "./Routes/MenuCreate/MenuCreate";
-import { get } from './Utils/Request';
+import { get, post } from './Utils/Request';
 
 function App() {
 
@@ -57,8 +57,13 @@ function App() {
       get(process.env.REACT_APP_API_ENDPOINT + '/v1/notification/token').then((response) => {
         createNotificationSubscription(response.data.token)
         .then(function(subscription) {
-            // Alle Werte ausgeben
-                  console.log(subscription);
+            post(process.env.REACT_APP_API_ENDPOINT + '/v1/notification/subscription',{
+              endpointUrl: subscription.endpoint,
+              publicKey: subscription.publicKey,
+              authToken: subscription.authToken,
+            }).then((response) => {
+              console.log(response)
+            })
         });
       })
     }
