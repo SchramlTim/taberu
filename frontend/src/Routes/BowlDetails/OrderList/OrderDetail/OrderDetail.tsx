@@ -11,7 +11,6 @@ function OrderDetail(props: {order: OrderProps}) {
     const [orderItems, setOrderItems] = useState<any[]>([]);
     const { user } = useContext(UserContext);
     const { bowl } = useContext(BowlContext);
-    console.log(orderItems)
 
     const togglePaymentStatus = () => {
         if (user?.id === bowl?.creatorId) {

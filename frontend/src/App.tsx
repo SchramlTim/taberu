@@ -11,8 +11,60 @@ import BowlCreate from "./Routes/BowlCreate/BowlCreate";
 import Menus from "./Routes/Menus/Menus";
 import MenuDetails from "./Routes/MenuDetails/MenuDetails";
 import MenuCreate from "./Routes/MenuCreate/MenuCreate";
+import { get } from './Utils/Request';
 
 function App() {
+
+  const urlBase64ToUint8Array = (base64String: string) => {
+		const padding = '='.repeat((4 - base64String.length % 4) % 4);
+		const base64 = (base64String + padding)
+			.replace(/-/g, '+')
+			.replace(/_/g, '/');
+
+		const rawData = window.atob(base64);
+		const outputArray = new Uint8Array(rawData.length);
+
+		for (let i = 0; i < rawData.length; ++i) {
+			outputArray[i] = rawData.charCodeAt(i);
+		}
+		return outputArray;
+	}
+	
+	const createNotificationSubscription = (pushServerPublicKey: string) => {
+		return navigator.serviceWorker.ready.then(function(serviceWorker) {
+      console.log('dasdasdd')
+			return serviceWorker.pushManager
+				.subscribe({
+					userVisibleOnly: true,
+					applicationServerKey: urlBase64ToUint8Array(pushServerPublicKey)
+				})
+				.then(function(pushSubscription) {
+					var subJSObject = JSON.parse(JSON.stringify(pushSubscription));
+					var subscription = {
+						'endpoint': subJSObject.endpoint,
+						'authToken': subJSObject.keys.auth,
+						'publicKey': subJSObject.keys.p256dh
+					}
+
+					return subscription;
+				});
+		});
+	}
+
+  Notification.requestPermission(function(status) {
+      
+    if (status == 'granted') {
+      get('/v1/notification/token').then((response) => {
+        createNotificationSubscription(response.data.token)
+        .then(function(subscription) {
+            // Alle Werte ausgeben
+                  console.log(subscription);
+        });
+      })
+    }
+  });
+
+
   return (    
     <div className={"text-text-primary"}>
       <UserProvider>
