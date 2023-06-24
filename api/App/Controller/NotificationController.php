@@ -8,6 +8,7 @@ use Taberu\Model\User;
 use Taberu\Transformer\RestaurantList;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Taberu\Exception\AlreadyExistException;
 
 class NotificationController 
 {
@@ -30,7 +31,17 @@ class NotificationController
         try {
             $user = User::findFirstOrFail([
                 [User::ID, '=', $queryParameter['sub']]
-            ]);  
+            ]);
+            $existingSubscriptions = Subscription::all([
+                [Subscription::USER_ID, '=', $queryParameter['sub']],
+                [Subscription::ENDPOINT_URL, '=', $parsedBody['endpointUrl']],
+                [Subscription::PUBLIC_KEY, '=', $parsedBody['publicKey']],
+                [Subscription::AUTH_TOKEN, '=', $parsedBody['authToken']],
+            ]);
+
+            if (count($existingSubscriptions)) {
+              throw new AlreadyExistException();
+            }
 
             $subscription = new Subscription();
             $subscription->setUserId($user->getId())
@@ -46,8 +57,6 @@ class NotificationController
             $response->getBody()->write(json_encode((object) []));
         } catch (\Taberu\Exception\AlreadyExistException $e) {
             throw new ResponseException(409, $e->getMessage());
-        } catch (\Taberu\Exception\NotFoundException $e) {
-            throw new ResponseException(404, $e->getMessage());
         }
 
         return $response;
