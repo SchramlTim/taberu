@@ -14,7 +14,7 @@ class NotificationController
     public function getPublicToken(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         try {
-            $response->getBody()->write(json_encode(['data' => ['token' => getenv('NOTIFICATION_PUBLIC_KEY') ?: $_ENV]]));
+            $response->getBody()->write(json_encode(['data' => ['token' => getenv('NOTIFICATION_PUBLIC_KEY') ?: 'no_token']]));
         } catch (\Taberu\Exception\NotFoundException $e) {
             throw new ResponseException(404, $e->getMessage());
         }
