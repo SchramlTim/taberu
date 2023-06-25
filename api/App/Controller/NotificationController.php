@@ -9,6 +9,7 @@ use Taberu\Transformer\RestaurantList;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Taberu\Exception\AlreadyExistException;
+use Taberu\Utils\NotificationManager;
 
 class NotificationController 
 {
@@ -46,6 +47,7 @@ class NotificationController
 
             $response->getBody()->write(json_encode((object) []));
         } catch (\Taberu\Exception\AlreadyExistException $e) {
+            NotificationManager::send($queryParameter['sub'], 'Already sub');
             throw new ResponseException(409, $e->getMessage());
         }
 
