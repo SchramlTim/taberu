@@ -32,16 +32,6 @@ class NotificationController
             $user = User::findFirstOrFail([
                 [User::ID, '=', $queryParameter['sub']]
             ]);
-            $existingSubscriptions = Subscription::all([
-                [Subscription::USER_ID, '=', $queryParameter['sub']],
-                [Subscription::ENDPOINT_URL, '=', $parsedBody['endpointUrl']],
-                [Subscription::PUBLIC_KEY, '=', $parsedBody['publicKey']],
-                [Subscription::AUTH_TOKEN, '=', $parsedBody['authToken']],
-            ]);
-
-            if (count($existingSubscriptions)) {
-              throw new AlreadyExistException();
-            }
 
             $subscription = new Subscription();
             $subscription->setUserId($user->getId())

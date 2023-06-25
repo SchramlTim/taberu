@@ -14,7 +14,7 @@ trait ORMTrait
         $tables = array_map(function ($v) {
             return strpos($v[0], '.') !== false ? strtok($v[0], '.') : null; 
         }, $whereParams);
-        return array_filter($tables, fn($v) => (bool) $v);
+        return array_unique(array_filter($tables, fn($v) => (bool) $v));
     }
 
     /**

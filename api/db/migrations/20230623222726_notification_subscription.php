@@ -20,12 +20,12 @@ final class NotificationSubscription extends AbstractMigration
     {
         $subscription = $this->table('subscription');
         $subscription
-            ->addColumn('user_id', 'string', ['limit' => 50])
+            ->addColumn('user_id', 'integer', ['limit' => 50])
             ->addColumn('endpoint_url', 'string', ['limit' => 200])
             ->addColumn('public_key', 'string', ['limit' => 100])
             ->addColumn('auth_token', 'string', ['limit' => 100])
             ->addColumn('created', 'datetime', ['timezone' => true, 'default' => \Phinx\Util\Literal::from('now()')])
-            ->addIndex(['user_id'])
+            ->addIndex(['user_id', 'endpoint_url', 'public_key', 'auth_token'], ['unique' => true])
             ->create();
     }
 }
