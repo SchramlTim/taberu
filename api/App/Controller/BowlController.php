@@ -242,7 +242,11 @@ class BowlController
             $order->update();
 
             if ($order->getPaymentStatus() === 'PAID') {
-              NotificationManager::send($order->getUserId(), 'Already sub');
+              NotificationManager::send($order->getUserId(), [
+                'title' => 'Order marked as paid',
+                'icon' => '/logo_192x192.png', 
+                'badge' => '/transparent_icon_192x192.png',
+              ]);
             }
 
             $transformer = new \Taberu\Transformer\Order($order);

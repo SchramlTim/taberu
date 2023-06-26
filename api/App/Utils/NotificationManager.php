@@ -8,7 +8,7 @@ use Taberu\Model\Subscription;
 
 class NotificationManager {
 
-  public static function send(int $userId, string $message): bool
+  public static function send(int $userId, array $payload): bool
   {
     try {
       /** Subscription $subscription **/
@@ -34,21 +34,6 @@ class NotificationManager {
         'privateKey' => getenv('NOTIFICATION_PRIVAT_KEY'), // (recommended) in fact the secret multiplier of the private key encoded in Base64-URL
       ]
     ]; 
-
-
-    $payload = [
-      'title' => $message,
-      'icon' => '/logo_192x192.png', 
-      'badge' => '/logo_192x192.png',
-      'body' => 'Test Body', 
-      'actions' => [
-        [
-          'title' => 'Show Bowls',
-          'action' => 'https://www.google.de'
-        ]
-      ]
-    ];
-    
 
     $webpush = new WebPush($auth);
 
