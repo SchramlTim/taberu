@@ -88,7 +88,7 @@ self.addEventListener('message', (event) => {
 });
 
 self.addEventListener('push', (event: PushEvent) => {
-    self.registration.showNotification({...event.data});
+    self.registration.showNotification({...event?.data?.json()});
 });
 
 
