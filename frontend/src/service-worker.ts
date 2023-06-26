@@ -88,7 +88,10 @@ self.addEventListener('message', (event) => {
 });
 
 self.addEventListener('push', (event: PushEvent) => {
-    self.registration.showNotification({...event?.data?.json()});
+    console.log(event, event.data, event.data?.json())
+
+    const data = event.data?.json()
+    self.registration.showNotification(data.title, data);
 });
 
 
