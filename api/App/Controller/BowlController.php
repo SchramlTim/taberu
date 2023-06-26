@@ -14,6 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use DateTime;
 use Taberu\Model\Menu;
+use Taberu\Utils\NotificationManager;
 
 class BowlController
 {
@@ -240,10 +241,13 @@ class BowlController
 
             $order->update();
 
+            if ($order->getPaymentStatus() === 'PAID') {
+              NotificationManager::send($order->getUserId(), 'Already sub');
+            }
+
             $transformer = new \Taberu\Transformer\Order($order);
             $response->getBody()->write($transformer->getJson());
         } catch (\Taberu\Exception\NotFoundException $e) {
-            var_dump($e);
             throw new ResponseException(404, $e->getMessage());
         }
 

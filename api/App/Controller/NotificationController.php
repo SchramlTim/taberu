@@ -47,7 +47,6 @@ class NotificationController
 
             $response->getBody()->write(json_encode((object) []));
         } catch (\Taberu\Exception\AlreadyExistException $e) {
-            NotificationManager::send($queryParameter['sub'], 'Already sub');
             throw new ResponseException(409, $e->getMessage());
         }
 
