@@ -46,6 +46,7 @@ final class DatabaseSetup extends AbstractMigration
             ->addColumn('order_deadline', 'datetime')
             ->addColumn('arrive_date', 'datetime')
             ->addColumn('menu_id', 'integer')
+            ->addColumn('status', 'string')
             ->addColumn('created', 'datetime', ['timezone' => true, 'default' => \Phinx\Util\Literal::from('now()')])
             ->addColumn('updated', 'datetime', ['null' => true])
             ->create();

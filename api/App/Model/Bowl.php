@@ -15,6 +15,7 @@ class Bowl extends BaseModel
     const ORDER_DEADLINE = 'bowls.order_deadline';
     const ARRIVE_DATE = 'bowls.arrive_date';
     const MENU_ID = 'bowls.menu_id';
+    const STATUS = 'bowls.status';
 
     private static array $_loadedFields = [
         self::ID,
@@ -24,6 +25,7 @@ class Bowl extends BaseModel
         self::ORDER_DEADLINE,
         self::ARRIVE_DATE,
         self::MENU_ID,
+        self::STATUS,
     ];
 
     public static string $_table = 'bowls';
@@ -34,6 +36,7 @@ class Bowl extends BaseModel
     private DateTime $orderDeadline;
     private DateTime $arriveDate;
     private int $menuId;
+    private string $status;
 
 
     /**
@@ -57,7 +60,8 @@ class Bowl extends BaseModel
             ->setDescription($data[self::DESCRIPTION])
             ->setOrderDeadline(new DateTime($data[self::ORDER_DEADLINE]))
             ->setArriveDate(new DateTime($data[self::ARRIVE_DATE]))
-            ->setMenuId($data[self::MENU_ID]);
+            ->setMenuId($data[self::MENU_ID])
+            ->setStatus($data[self::STATUS]);
 
         return $object;
     }
@@ -76,6 +80,7 @@ class Bowl extends BaseModel
                 self::ORDER_DEADLINE => $this->getOrderDeadline()->format('Y-m-d H:i:s'),
                 self::ARRIVE_DATE => $this->getArriveDate()->format('Y-m-d H:i:s'),
                 self::MENU_ID => $this->getMenuId(),
+                self::STATUS => $this->getStatus(),
             ];
         }
 
@@ -96,6 +101,7 @@ class Bowl extends BaseModel
                 self::ORDER_DEADLINE => $this->getOrderDeadline()->format('Y-m-d H:i:s'),
                 self::ARRIVE_DATE => $this->getArriveDate()->format('Y-m-d H:i:s'),
                 self::MENU_ID => $this->getMenuId(),
+                self::STATUS => $this->getStatus(),
             ];
         }
 
@@ -207,6 +213,24 @@ class Bowl extends BaseModel
     public function setMenuId(int $menuId): self
     {
         $this->menuId = $menuId;
+        return $this;
+    }
+    
+    /**
+     * @return string 
+     */
+    public function getStatus(): string 
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     * @return $this
+     */
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
         return $this;
     }
 
