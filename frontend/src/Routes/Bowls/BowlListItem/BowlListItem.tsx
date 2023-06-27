@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import {BowlProps, MenuItemProps, OrderProps} from "../../../Utils/Types";
 import {get} from "../../../Utils/Request";
-import Spinner from "../../../Components/Spinner/Spinner";
 
 function BowlListItem(bowl: BowlProps) {
 
@@ -19,8 +18,6 @@ function BowlListItem(bowl: BowlProps) {
                 setMenuCategories(response.data ?? [])
             });
     }, [bowl.id]);
-
-    console.log(bowl.name, orders, categories);
 
     return (
         <Link

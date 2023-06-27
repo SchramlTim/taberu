@@ -32,7 +32,6 @@ function App() {
 	
 	const createNotificationSubscription = (pushServerPublicKey: string) => {
 		return navigator.serviceWorker.ready.then(function(serviceWorker) {
-      console.log('dasdasdd')
 			return serviceWorker.pushManager
 				.subscribe({
 					userVisibleOnly: true,
@@ -61,9 +60,7 @@ function App() {
               endpointUrl: subscription.endpoint,
               publicKey: subscription.publicKey,
               authToken: subscription.authToken,
-            }).then((response) => {
-              console.log(response)
-            })
+            }).catch(() => console.log('already subscribed'))
         });
       })
     }

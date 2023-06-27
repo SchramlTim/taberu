@@ -25,8 +25,6 @@ function Form(props: {
     const sendRequest = async (e: any) => {
         e.preventDefault()
 
-        console.log(state.fieldErrors)
-
         if (state.fieldErrors.length) {
             addGlobalError(new Error('Please fix all input errors'))
             return;

@@ -1,3 +1,5 @@
+import Cookies from "js-cookie"
+
 export const get = async (url = '', data = {}) => {
     // Default options are marked with *
     const response = await fetch(url, {
@@ -8,7 +10,7 @@ export const get = async (url = '', data = {}) => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'x-token': sessionStorage.getItem('token') ?? ''
+            'x-token': Cookies.get('token') ?? ''
         },
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
@@ -23,7 +25,7 @@ export const post = async (url = '', data = {}) => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'x-token': sessionStorage.getItem('token') ?? ''
+            'x-token': Cookies.get('token') ?? ''
         },
         redirect: 'follow',
         body: JSON.stringify(data)
@@ -42,7 +44,7 @@ export const patch = async (url = '', data = {}) => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'x-token': sessionStorage.getItem('token') ?? ''
+            'x-token': Cookies.get('token') ?? ''
         },
         redirect: 'follow',
         body: JSON.stringify(data)
