@@ -55,14 +55,15 @@ function PlaceOrder () {
         setOrder(response.data)
     }
 
-    const totalsum = basketItems.reduce((sum, item) => sum += item.price, 0)
+    const totalsum = basketItems.reduce((sum, item) => sum += item.price, 0).toFixed(2)
 
     return (
         <>
-            <div className="text-2xl">
-                <span>{`${items.length}x items`}</span>
+            <div className="flex justify-between text-2xl">
+                <span>Total</span>
+                <span>{`${totalsum} €`}</span>
             </div>
-            <Button variant="primary" onClick={() => basketItems.length && setDisplayState(!display)} type={'button'} text={`Finalize Order (${totalsum}€)`} />
+            <Button variant="primary" onClick={() => basketItems.length && setDisplayState(!display)} type={'button'} text={`Finalize Order`} />
             <Popup display={display} toggle={toggleMenu}>
                 <div className={'pl-5 pr-5 w-full'}>
                     <h2 className={'text-2xl font-extrabold mt-5'}>Summary</h2>
@@ -85,7 +86,7 @@ function PlaceOrder () {
                         </label>
                     </div>)}
                 </div>
-                    <Button variant="primary" onClick={() => basketItems.length && placeOrder()} type={'button'} text={!order ? 'Place Order' : 'Order is Placed'} />
+                    <Button variant="primary" onClick={() => basketItems.length && placeOrder()} type={'button'} text={!order ? 'Order now' : 'Order is Placed'} />
                 </div>
             </Popup>
         </>

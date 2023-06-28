@@ -60,9 +60,9 @@ function BowlDetails() {
                         <h2 className={'text-2xl'}>Menu</h2>
                             {!menuItems ? <LoadingOrderableItemList/> : <OrderableItemList items={menuItems} />}
                     </div>
-                    <div className={'flex flex-col w-11/12 lg:w-3/4 m-10'}>
+                    {bowl?.creatorId === user?.id && <div className={'flex flex-col w-11/12 lg:w-3/4 m-10'}>
                         {!orders ? <LoadingOrderList/> : <OrderList orders={orders}/>}
-                    </div>
+                    </div>}
                     <div className={'sticky bottom-0 p-2 shadow-inner bg-background-primary w-full'}>
                       <PlaceOrder/>
                     </div>

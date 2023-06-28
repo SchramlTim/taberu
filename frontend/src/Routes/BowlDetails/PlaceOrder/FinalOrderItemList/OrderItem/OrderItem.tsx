@@ -1,8 +1,6 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {useState, useContext, useRef} from 'react';
 import {OrderItemProp} from "../../../../../Utils/Types";
 import {BasketContext} from "../../../../../Context/BasketContext";
-import Form from '../../../../../Components/Form/Form';
-import Input from '../../../../../Components/Input/Input';
 import Button from '../../../../../Components/Button/Button';
 
 export type OrderItemInBasketContext = OrderItemProp & {basketIndex: number[]};
@@ -11,7 +9,6 @@ function OrderItem(props: {item: OrderItemInBasketContext}) {
     const inputElement = useRef<HTMLTextAreaElement | null>(null)
     const {addInformationToBasketItem} = useContext(BasketContext)
     const [editMode, setEditMode] = useState<boolean>(false)
-    const xx = () => addInformationToBasketItem(props.item.basketIndex[0], (Math.random() * 0xffffff).toString(16))
 
     return (
         <>
@@ -39,7 +36,11 @@ function OrderItem(props: {item: OrderItemInBasketContext}) {
                   <span className={'w-full break-all italic'}>{props.item.additionalInformation}</span>
                 </div>}
                 {editMode && <div className='w-full px-3 pb-2'>
-                <textarea defaultValue={props.item.additionalInformation} rows={2} className={"shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:shadow-outline"} ref={inputElement}></textarea>
+                <textarea onFocus={(event) => {
+                    const value = event.target.value
+                    event.target.value = ''
+                    event.target.value = value 
+                }} autoFocus defaultValue={props.item.additionalInformation} rows={2} className={"shadow appearance-none border rounded w-full py-2 px-3 text-text-primary leading-tight focus:outline-none focus:shadow-outline"} ref={inputElement}></textarea>
                 <Button variant='primary' text='Add additional information' type='button' onClick={() => {
                   addInformationToBasketItem(props.item.basketIndex[0], inputElement.current?.value ?? '')
                   setEditMode(false);
