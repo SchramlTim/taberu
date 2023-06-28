@@ -50,7 +50,8 @@ class BowlController
                 ->setDescription($parsedBody['description'])
                 ->setOrderDeadline(new DateTime($parsedBody['orderDeadline']))
                 ->setArriveDate(new DateTime($parsedBody['arriveDate']))
-                ->setMenuId($parsedBody['menuId']);
+                ->setMenuId($parsedBody['menuId'])
+                ->setStatus('OPEN');
             $bowl->create();
 
             $bowl = Bowl::findFirstOrFail([
