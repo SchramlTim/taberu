@@ -5,16 +5,16 @@
 body {
     overflow: scroll;
     overflow-x: hidden;
-    background-color: #F6F6F6;
+    background-color: #f6f6f6;
 }
 
 ::-webkit-scrollbar {
-    width: 0;  /* Remove scrollbar space */
-    background: transparent;  /* Optional: just make scrollbar invisible */
+    width: 0; /* Remove scrollbar space */
+    background: transparent; /* Optional: just make scrollbar invisible */
 }
 /* Optional: show position indicator in red */
 ::-webkit-scrollbar-thumb {
-    background: #FF0000;
+    background: #ff0000;
 }
 /*
 input:checked + label div {

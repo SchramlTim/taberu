@@ -1,33 +1,36 @@
-import React, {useContext} from "react";
-import {FormContext, FormProvider} from "../../Context/FormContext";
+import React, { useContext } from 'react'
+import { FormContext, FormProvider } from '../../Context/FormContext'
 
 type MethodTypes = 'GET' | 'POST' | 'DELETE' | 'PUT' | undefined
 
 function ErrorBox(props: { error: Error }) {
     return (
-        <div className={'text-sm text-red-500 bg-red-300 border-2 border-red-700 rounded w-full mb-4 p-2'}>
+        <div
+            className={
+                'text-sm text-red-500 bg-red-300 border-2 border-red-700 rounded w-full mb-4 p-2'
+            }
+        >
             <span>{props.error.message}</span>
         </div>
-    );
+    )
 }
 
 function Form(props: {
-    name: string,
-    method: MethodTypes,
-    action: string,
-    afterSubmit?: (response: Response) => any,
+    name: string
+    method: MethodTypes
+    action: string
+    afterSubmit?: (response: Response) => any
     children?: React.ReactNode
     className: string
 }) {
-
-    const { state, addGlobalError } = useContext(FormContext);
+    const { state, addGlobalError } = useContext(FormContext)
 
     const sendRequest = async (e: any) => {
         e.preventDefault()
 
         if (state.fieldErrors.length) {
             addGlobalError(new Error('Please fix all input errors'))
-            return;
+            return
         }
 
         const elements = [...e.target.elements]
@@ -37,8 +40,10 @@ function Form(props: {
         })
 
         if (emptyInput.length) {
-            addGlobalError(new Error('Please fill the input field before submit'))
-            return;
+            addGlobalError(
+                new Error('Please fill the input field before submit')
+            )
+            return
         }
 
         const data = elements.reduce((acc, elem) => {
@@ -57,35 +62,37 @@ function Form(props: {
             method: props.method,
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'x-token': sessionStorage.getItem('token') ?? ''
+                Accept: 'application/json',
+                'x-token': sessionStorage.getItem('token') ?? '',
             },
             redirect: 'follow',
-            body: JSON.stringify(data)
-        });
+            body: JSON.stringify(data),
+        })
 
         if (response.status !== 200) {
-            const body = await response.json();
+            const body = await response.json()
             addGlobalError(new Error(body?.error?.message || 'Technical error'))
-            return;
+            return
         }
 
         if (props.afterSubmit) {
-            props.afterSubmit(response);
+            props.afterSubmit(response)
         }
     }
 
-    const errors = state.globalErrors.map((error, index) => <ErrorBox key={index} error={error}/>)
+    const errors = state.globalErrors.map((error, index) => (
+        <ErrorBox key={index} error={error} />
+    ))
     return (
-            <form
-                name={props.name}
-                className={props.className}
-                onSubmit={sendRequest}
-            >
-                {errors}
-                {props.children}
-            </form>
-    );
+        <form
+            name={props.name}
+            className={props.className}
+            onSubmit={sendRequest}
+        >
+            {errors}
+            {props.children}
+        </form>
+    )
 }
 
 export default Form

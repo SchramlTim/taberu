@@ -1,8 +1,8 @@
-import React, {createContext} from "react";
-import { BowlProps } from "../Utils/Types";
+import React, { createContext } from 'react'
+import { BowlProps } from '../Utils/Types'
 
 export const BowlContext = createContext({
-    bowl: {} as BowlProps | undefined
+    bowl: {} as BowlProps | undefined,
 })
 
-export const BowlProvider = BowlContext.Provider 
+export const BowlProvider = BowlContext.Provider

@@ -1,15 +1,15 @@
-import React, {createContext, FC, useState} from "react";
+import React, { createContext, FC, useState } from 'react'
 
 export const EditContext = createContext({
     isEditMode: false,
     startEditMode: () => {},
     endEditMode: () => {},
-    toggleEditMode: () => {}
+    toggleEditMode: () => {},
 })
 
 export const EditProvider: FC = ({ children }) => {
-    const [isEditMode, setEditMode] = useState<boolean>(false);
-    
+    const [isEditMode, setEditMode] = useState<boolean>(false)
+
     const startEditMode = () => {
         setEditMode(true)
     }
@@ -22,8 +22,10 @@ export const EditProvider: FC = ({ children }) => {
         setEditMode(!isEditMode)
     }
     return (
-        <EditContext.Provider value={{ isEditMode, startEditMode, endEditMode, toggleEditMode }}>
+        <EditContext.Provider
+            value={{ isEditMode, startEditMode, endEditMode, toggleEditMode }}
+        >
             {children}
         </EditContext.Provider>
-    );
+    )
 }

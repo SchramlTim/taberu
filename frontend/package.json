@@ -67,6 +67,7 @@
         ]
     },
     "devDependencies": {
-        "@fortawesome/free-brands-svg-icons": "^6.4.0"
+        "@fortawesome/free-brands-svg-icons": "^6.4.0",
+        "prettier": "2.8.8"
     }
 }
