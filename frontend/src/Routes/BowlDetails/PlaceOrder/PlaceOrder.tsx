@@ -7,11 +7,20 @@ import Popup from "../../../Components/Popup/Popup";
 import FinalOrderItemList from "./FinalOrderItemList/FinalOrderItemList";
 import HorizontalSlide from "../../../Components/HorizontalSlide/HorizontalSlide";
 import { BowlContext } from "../../../Context/BowlContext";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPaypal } from '@fortawesome/free-brands-svg-icons'
+import { faWallet } from '@fortawesome/free-solid-svg-icons'
 
 function PlaceOrder () {
 
-    const offeredPaymentMethods = ['cash', 'paypal']
+    const offeredPaymentMethods = [{
+      method: 'cash',
+      icon: faWallet 
+    }, {
+      method: 'paypal',
+      icon: faPaypal 
+    }]
+
     const {basketItems, paymentMethod, setPaymentMethod} = useContext(BasketContext)
     const [display, setDisplayState] = useState(false);
     const [order, setOrder] = useState<OrderProps|undefined>(undefined);
@@ -54,7 +63,6 @@ function PlaceOrder () {
         })
         setOrder(response.data)
     }
-
     const totalsum = basketItems.reduce((sum, item) => sum += item.price, 0).toFixed(2)
 
     return (
@@ -70,18 +78,25 @@ function PlaceOrder () {
                     <FinalOrderItemList items={items} />
                     <h2 className={'text-2xl font-extrabold mt-5'}>Payment</h2>
                     <div className={'flex flex-col gap-2'}>
-                    {offeredPaymentMethods.map((method, index) => <div key={method}>
+                    {offeredPaymentMethods.map((payment, index) => <div key={payment.method}>
                         <input
                             className={'hidden'}
                             name={'paymentMethod'}
-                            id={method}
+                            id={payment.method}
                             type={'radio'}
                             defaultChecked={index === 0}
                             onClick={(e) => setPaymentMethod(e.currentTarget.id)}
                         />
-                        <label htmlFor={method}>
-                            <div className={'flex justify-center items-center h-[6rem] bg-gray-300 w-full border-2 border-transparent rounded'}>
-                                <h3 className={'font-extrabold'}>{method.toUpperCase()}</h3>
+                        <label htmlFor={payment.method}>
+                            <div className={'flex justify-between items-center gap-3 px-3 h-[6rem] bg-gray-300 w-full border-2 border-transparent rounded'}>
+                                <div className={'flex justify-center items-center rounded-full w-10 h-10 bg-white'}>
+                                  <div className={'rounded-full bg-button-primary transition-all duration-200 ' + (payment.method === paymentMethod ? 'w-5 h-5' : 'w-0 h-0')}></div>
+                                </div>
+                                <div className={'flex justify-center items-center gap-3'}>
+                                  <FontAwesomeIcon icon={payment.icon} />
+                                  <h3 className={'font-extrabold'}>{payment.method.toUpperCase()}</h3>
+                                </div>
+                                <div></div>
                             </div>
                         </label>
                     </div>)}
