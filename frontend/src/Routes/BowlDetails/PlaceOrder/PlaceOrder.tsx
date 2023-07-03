@@ -21,6 +21,7 @@ function PlaceOrder () {
       icon: faPaypal 
     }]
 
+    const [clickEffect, setClickEffect] = useState<"none"|"scale">("none")
     const {basketItems, paymentMethod, setPaymentMethod} = useContext(BasketContext)
     const [display, setDisplayState] = useState(false);
     const [order, setOrder] = useState<OrderProps|undefined>(undefined);
@@ -88,7 +89,7 @@ function PlaceOrder () {
                             onClick={(e) => setPaymentMethod(e.currentTarget.id)}
                         />
                         <label htmlFor={payment.method}>
-                            <div className={'flex justify-between items-center gap-3 px-3 h-[6rem] bg-gray-300 w-full border-2 border-transparent rounded'}>
+                            <div className={'flex justify-between items-center gap-3 px-3 h-[6rem] bg-gray-200 w-full border-2 rounded ' + (payment.method === paymentMethod ? 'border-button-primary' : 'border-transparent') }>
                                 <div className={'flex justify-center items-center rounded-full w-10 h-10 bg-white'}>
                                   <div className={'rounded-full bg-button-primary transition-all duration-200 ' + (payment.method === paymentMethod ? 'w-5 h-5' : 'w-0 h-0')}></div>
                                 </div>
