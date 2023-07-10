@@ -1,7 +1,5 @@
-import React from 'react'
 import Item from './Item/Item'
 import { MenuItemProps } from '../../../Utils/Types'
-import PlaceOrder from '../PlaceOrder/PlaceOrder'
 
 function OrderableItemList(props: { items: MenuItemProps[] }) {
     const items = props.items

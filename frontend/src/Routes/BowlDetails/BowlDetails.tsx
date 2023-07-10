@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router'
 import { get } from '../../Utils/Request'
 import Timer from '../../Components/Timer/Timer'
-import PlaceOrder from './PlaceOrder/PlaceOrder'
+import Checkout from './Checkout/Checkout'
 import { BowlProps, MenuItemProps, OrderProps } from '../../Utils/Types'
 import OrderList, { LoadingOrderList } from './OrderList/OrderList'
 import OrderableItemList, {
@@ -39,8 +39,8 @@ function BowlDetails() {
     }, [])
 
     return (
-        <BowlProvider value={{ bowl }}>
-            <BasketProvider>
+        <BowlProvider value={bowl}>
+            <BasketProvider bowl={bowl}>
                 <div
                     className={
                         'flex flex-col w-full justify-center items-center'
@@ -111,7 +111,7 @@ function BowlDetails() {
                             'sticky bottom-0 p-2 shadow-inner bg-background-primary w-full'
                         }
                     >
-                        <PlaceOrder />
+                        <Checkout />
                     </div>
                 </div>
             </BasketProvider>

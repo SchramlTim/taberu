@@ -9,7 +9,7 @@ function OrderDetail(props: { order: OrderProps }) {
     const [orderUser, setUser] = useState<any>()
     const [orderItems, setOrderItems] = useState<any[]>([])
     const { user } = useContext(UserContext)
-    const { bowl } = useContext(BowlContext)
+    const bowl = useContext(BowlContext)
 
     const togglePaymentStatus = () => {
         if (user?.id === bowl?.creatorId) {

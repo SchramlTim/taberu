@@ -1,8 +1,11 @@
-import React, { createContext, FC, useState } from 'react'
-import { MenuItemProps, OrderItemProp } from '../Utils/Types'
+import { createContext, FC, useState } from 'react'
+import { OrderItemInBasketContext } from '../Routes/BowlDetails/Checkout/FinalOrderItemList/OrderItem/OrderItem'
+import { post } from '../Utils/Request'
+import { BowlProps, MenuItemProps, OrderItemProp, OrderProps } from '../Utils/Types'
 
 type BasketProviderState = {
-    basketItems: OrderItemProp[]
+    basketItems: OrderItemInBasketContext[]
+    uniqueItems: OrderItemProp[]
     paymentMethod: string
     increaseItem(item: MenuItemProps): void
     reduceItem(item: MenuItemProps): void
@@ -11,10 +14,13 @@ type BasketProviderState = {
         index: number,
         additionalInformation: string
     ): void
+    placeOrder(): void,
+    order: OrderProps | undefined
 }
 
 export const BasketContext = createContext({
     basketItems: [],
+    uniqueItems: [],
     paymentMethod: '',
     increaseItem: (item) => {},
     reduceItem: (item) => {},
@@ -23,10 +29,13 @@ export const BasketContext = createContext({
         index: number,
         additionalInformation: string
     ) => {},
+    placeOrder: () => {},
+    order: undefined
 } as BasketProviderState)
 
-export const BasketProvider: FC = ({ children }) => {
+export const BasketProvider: FC<{bowl?: BowlProps}> = ({ bowl, children }) => {
     const [items, setSelectedItems] = useState<OrderItemProp[]>([])
+    const [order, setOrder] = useState<OrderProps | undefined>(undefined)
     const [paymentMethod, setPaymentMethod] = useState<string>('cash')
 
     const increaseItem = (item: MenuItemProps) => {
@@ -50,15 +59,70 @@ export const BasketProvider: FC = ({ children }) => {
         setSelectedItems([...items])
     }
 
+    const uniqueItems = items.reduce((unique, testItem) => {
+        let updated = unique
+        if (
+            !updated.some(
+                (obj) =>
+                    obj.id === testItem.id &&
+                    obj.additionalInformation === testItem.additionalInformation
+            )
+        ) {
+            updated.push(testItem)
+        } else {
+            updated = unique.map((obj) => {
+                return obj.id === testItem.id &&
+                    obj.additionalInformation === testItem.additionalInformation
+                    ? { ...obj, count: obj.count + 1 }
+                    : obj
+            })
+        }
+        return updated
+    }, [] as Array<OrderItemProp>)
+
+    const indexOfAll = (arr: OrderItemProp[], val: OrderItemProp) => {
+        return arr.reduce(
+            (acc: Array<number>, el: OrderItemProp, currentIndex) => {
+                return el.id === val.id &&
+                    el.additionalInformation === val.additionalInformation
+                    ? [...acc, currentIndex]
+                    : [...acc]
+            },
+            []
+        )
+    }
+    const basketItems = uniqueItems.map((item) => {
+        return { ...item, basketIndex: indexOfAll(items, item) }
+    })
+
+    const placeOrder = async () => {
+        if (!bowl) {
+            return
+        }
+        const response = await post(
+            process.env.REACT_APP_API_ENDPOINT +
+                '/v1/bowls/' +
+                bowl.id +
+                '/orders',
+            {
+                paymentMethod: paymentMethod,
+                items: items,
+            }
+        )
+        setOrder(response.data)
+    }
     return (
         <BasketContext.Provider
             value={{
-                basketItems: items,
+                basketItems,
+                uniqueItems,
                 paymentMethod,
                 increaseItem,
                 reduceItem,
                 setPaymentMethod,
                 addInformationToBasketItem,
+                placeOrder,
+                order
             }}
         >
             {children}
