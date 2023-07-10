@@ -4,11 +4,6 @@ import { BasketContext } from '../../../Context/BasketContext'
 import { post } from '../../../Utils/Request'
 import { OrderItemProp, OrderProps } from '../../../Utils/Types'
 import Popup from '../../../Components/Popup/Popup'
-import FinalOrderItemList from './FinalOrderItemList/FinalOrderItemList'
-import { BowlContext } from '../../../Context/BowlContext'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaypal } from '@fortawesome/free-brands-svg-icons'
-import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import FinalizeOrder from './FinalizeOrder/FinalizeOrder'
 
 function Checkout() {
@@ -22,7 +17,7 @@ function Checkout() {
     }, [display])
 
     const totalsum = basketItems
-        .reduce((sum, item) => (sum += item.price), 0)
+        .reduce((sum, item) => (sum += (item.price * item.count)), 0)
         .toFixed(2)
 
     return (

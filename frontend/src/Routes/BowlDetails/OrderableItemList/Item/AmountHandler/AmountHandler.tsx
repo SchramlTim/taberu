@@ -15,9 +15,10 @@ function AmountHandler(props: { item: MenuItemProps }) {
         return () => clearTimeout(timeoutId)
     }, [active, interactionCount])
 
-    const selfSelectList = basketItems.filter(
+    const basketItem = basketItems.find(
         (listItem) => listItem.id === item.id
     )
+
     return (
         <div
             className={
@@ -33,7 +34,7 @@ function AmountHandler(props: { item: MenuItemProps }) {
                 onClick={() => {
                     reduceItem(item)
                     setInteractionCount(interactionCount + 1)
-                    if (selfSelectList.length <= 1) {
+                    if (basketItem && basketItem.count <= 1) {
                         toggle(false)
                     }
                 }}
@@ -45,14 +46,14 @@ function AmountHandler(props: { item: MenuItemProps }) {
                     'flex items-center justify-center w-12 h-12 bg-background-secondary rounded-full text-center z-10'
                 }
                 onClick={() => {
-                    if (!selfSelectList.length) {
+                    if (!basketItem) {
                         increaseItem(item)
                         return
                     }
                     toggle(!active)
                 }}
             >
-                {selfSelectList.length > 0 ? selfSelectList.length : '+'}
+                {basketItem ? basketItem.count : '+'}
             </span>
             <div
                 className={

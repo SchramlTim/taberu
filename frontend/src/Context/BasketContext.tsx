@@ -37,7 +37,6 @@ export const BasketProvider: FC<{bowl?: BowlProps}> = ({ bowl, children }) => {
     const [items, setSelectedItems] = useState<OrderItemProp[]>([])
     const [order, setOrder] = useState<OrderProps | undefined>(undefined)
     const [paymentMethod, setPaymentMethod] = useState<string>('cash')
-
     const increaseItem = (item: MenuItemProps) => {
         const changedList = [...items]
         changedList.push({ ...item, count: 1, additionalInformation: '' })
