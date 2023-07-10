@@ -15,6 +15,7 @@ type BasketProviderState = {
         additionalInformation: string
     ): void
     placeOrder(): void,
+    reset(): void,
     order: OrderProps | undefined
 }
 
@@ -30,6 +31,7 @@ export const BasketContext = createContext({
         additionalInformation: string
     ) => {},
     placeOrder: () => {},
+    reset: () => {},
     order: undefined
 } as BasketProviderState)
 
@@ -37,11 +39,13 @@ export const BasketProvider: FC<{bowl?: BowlProps}> = ({ bowl, children }) => {
     const [items, setSelectedItems] = useState<OrderItemProp[]>([])
     const [order, setOrder] = useState<OrderProps | undefined>(undefined)
     const [paymentMethod, setPaymentMethod] = useState<string>('cash')
+
     const increaseItem = (item: MenuItemProps) => {
         const changedList = [...items]
         changedList.push({ ...item, count: 1, additionalInformation: '' })
         setSelectedItems(changedList)
     }
+
     const reduceItem = (item: MenuItemProps) => {
         const index = items.findIndex((listItem) => listItem.id === item.id)
         items.splice(index, 1)
@@ -110,6 +114,13 @@ export const BasketProvider: FC<{bowl?: BowlProps}> = ({ bowl, children }) => {
         )
         setOrder(response.data)
     }
+
+    const reset = async () => {
+        setOrder(undefined)
+        setSelectedItems([])
+        setPaymentMethod('')
+    }
+
     return (
         <BasketContext.Provider
             value={{
@@ -121,7 +132,8 @@ export const BasketProvider: FC<{bowl?: BowlProps}> = ({ bowl, children }) => {
                 setPaymentMethod,
                 addInformationToBasketItem,
                 placeOrder,
-                order
+                order,
+                reset
             }}
         >
             {children}

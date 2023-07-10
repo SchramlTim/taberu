@@ -11,10 +11,8 @@ import Button from '../../../../Components/Button/Button'
 
 function FinalizeOrder() {
   
-    const { basketItems, paymentMethod, setPaymentMethod, placeOrder, uniqueItems } =
+    const { basketItems, paymentMethod, setPaymentMethod, placeOrder, order } =
         useContext(BasketContext)
-    const [order, setOrder] = useState<OrderProps | undefined>(undefined)
-    const bowl = useContext(BowlContext)
 
     const offeredPaymentMethods = [
         {

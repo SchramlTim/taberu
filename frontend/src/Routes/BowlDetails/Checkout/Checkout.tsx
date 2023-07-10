@@ -5,20 +5,27 @@ import { post } from '../../../Utils/Request'
 import { OrderItemProp, OrderProps } from '../../../Utils/Types'
 import Popup from '../../../Components/Popup/Popup'
 import FinalizeOrder from './FinalizeOrder/FinalizeOrder'
+import ThankYou from './ThankYou/ThankYou'
 
 function Checkout() {
 
-    const { basketItems, paymentMethod, setPaymentMethod } =
+    const { basketItems, order, reset } =
         useContext(BasketContext)
     const [display, setDisplayState] = useState(false)
 
     const toggleMenu = useCallback(async () => {
         setDisplayState(!display)
-    }, [display])
+        if (display && order) {
+          reset() 
+        }
+    }, [display, order])
 
     const totalsum = basketItems
         .reduce((sum, item) => (sum += (item.price * item.count)), 0)
         .toFixed(2)
+
+    console.log(order)
+
 
     return (
         <>
@@ -33,7 +40,7 @@ function Checkout() {
                 text={`Finalize Order`}
             />
             <Popup display={display} toggle={toggleMenu}>
-              <FinalizeOrder />
+              { !order ? <FinalizeOrder /> : <ThankYou /> }
             </Popup>
         </>
     )
