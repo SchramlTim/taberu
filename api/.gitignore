@@ -1,3 +1,4 @@
 vendor
 .vercel
 vercel.json
+spec/generate/

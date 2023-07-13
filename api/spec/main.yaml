@@ -1,0 +1,27 @@
+openapi: 3.0.0
+info:
+  title: Taberu API 
+  description: Food ordering organization tool
+  version: 1.0.0
+components:
+  securitySchemes:
+    tokenAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security: []
+
+paths:
+  /v1/users/{userId}:
+    $ref: './paths/users/userId.yaml'
+  #/v1/users/register:
+    #$ref: './paths/users/register.yaml'
+  #/v1/users/login:
+    #$ref: './paths/users/login.yaml'
+  #/v1/users:
+    #$ref: './paths/users/all.yaml'
+  #/v1/users/{userId}/orders:
+    #$ref: './paths/users/orders.yaml'
+  #/v1/users/{userId}/menus:
+    #$ref: './paths/users/menus.yaml'

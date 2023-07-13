@@ -1,0 +1,14 @@
+components:
+  schemas:
+    UpdateableUser:
+      type: object
+      properties:
+        firstName:
+          type: string 
+        lastName:
+          type: string 
+        phoneNumber:
+          type: string
+        paypalUsername:
+          type: string
+
