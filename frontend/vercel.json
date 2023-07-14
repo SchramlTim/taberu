@@ -1,0 +1,5 @@
+{
+  "rewrites":  [
+    {"source": "/v1/:match*", "destination": "https://taberu-api.vercel.app/v1/:match*"}
+  ]
+}
