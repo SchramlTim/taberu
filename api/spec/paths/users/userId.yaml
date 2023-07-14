@@ -45,3 +45,43 @@ patch:
         application/json:
           schema:
             $ref: '../../schemas/failure.yaml'
+get:
+  summary: Fetch user object
+  description: Fetch user object
+  operationId: getSpecificUser 
+  security:
+    - tokenAuth: []
+  tags:
+    - "users"
+  parameters:
+    - in: path
+      name: userId
+      schema:
+        type: integer 
+      required: true
+      description: Unique user id given from system 
+  responses:
+    '200':
+      description: A JSON success object
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/failure.yaml'
+    '404':
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/failure.yaml'
+    '400':
+      description: Not Authorized 
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/failure.yaml'
+    '500':
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/failure.yaml'
