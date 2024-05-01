@@ -9,10 +9,9 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "cypress": "^8.2.0"
-  },
   "devDependencies": {
-    "@cypress/snapshot": "^2.1.7"
+    "@cypress/snapshot": "^2.1.7",
+    "cypress": "^12.17.3",
+    "lambdatest-cypress-cli": "^3.0.17"
   }
 }
